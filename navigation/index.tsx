@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,12 +12,15 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import DownloadScreen from '../screens/DownloadScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import HomeScreen from '../screens/HomeScreen';
+import SearchScreen from '../screens/SearchScreen';
+import ComingSoonScreen from '../screens/ComingSoonScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -56,43 +59,136 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
+  // return (
+  //   <BottomTab.Navigator
+  //     initialRouteName="TabOne"
+  //     screenOptions={{
+  //       tabBarActiveTintColor: Colors[colorScheme].tint,
+  //     }}>
+  //     <BottomTab.Screen
+  //       name="TabOne"
+  //       component={TabOneScreen}
+  //       options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+  //         title: 'Tab One',
+  //         tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+  //         headerRight: () => (
+  //           <Pressable
+  //             onPress={() => navigation.navigate('Modal')}
+  //             style={({ pressed }) => ({
+  //               opacity: pressed ? 0.5 : 1,
+  //             })}>
+  //             <FontAwesome
+  //               name="info-circle"
+  //               size={25}
+  //               color={Colors[colorScheme].text}
+  //               style={{ marginRight: 15 }}
+  //             />
+  //           </Pressable>
+  //         ),
+  //       })}
+  //     />
+  //     <BottomTab.Screen
+  //       name="TabTwo"
+  //       component={TabTwoScreen}
+  //       options={{
+  //         title: 'Tab Two',
+  //         tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+  //       }}
+  //     />
+  //   </BottomTab.Navigator>
+  // );
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{
+        tabBarStyle: { margin: 5 },
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        name="Home"
+        component={HomeScreen}
+        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
+          title: 'Home Screen',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => navigation.navigate('Home')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
+
+            </Pressable>
+          ),
+        })}
+      /><BottomTab.Screen
+        name="ComingSoon"
+        component={ComingSoonScreen}
+        options={({ navigation }: RootTabScreenProps<'ComingSoon'>) => ({
+          title: 'Coming Soon ',
+          tabBarIcon: ({ color }) => <MaterialIcons name="video-library" color={color} size={24} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('ComingSoon')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              {/* <FontAwesome
+              name="info-circle"
+              size={25}
+              color={Colors[colorScheme].text}
+              style={{ marginRight: 15 }}
+            /> */}
             </Pressable>
           ),
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
+        name="Search"
+        component={SearchScreen}
+        options={({ navigation }: RootTabScreenProps<'Search'>) => ({
+          title: 'Search ',
+          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Search')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              {/* <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              /> */}
+            </Pressable>
+          ),
+        })}
       />
+      <BottomTab.Screen
+        name="Download"
+        component={DownloadScreen}
+        options={({ navigation }: RootTabScreenProps<'Download'>) => ({
+          title: 'Downloads',
+          tabBarIcon: ({ color }) => <AntDesign name="download" color={color} size={24} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Download')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              {/* <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              /> */}
+            </Pressable>
+          ),
+        })}
+      />
+
     </BottomTab.Navigator>
+
   );
 }
 
