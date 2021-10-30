@@ -5,26 +5,21 @@ import { View, Text } from './../components/Themed';
 import Navigation from '../navigation/index';
 import { useNavigation } from '@react-navigation/native';
 import movie from '../data/movie';
+import { Episode } from '../types';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { AntDesign } from '@expo/vector-icons';
 // const episod = movie.seasons.items[0].episodes.items[0];
 
 interface EpisodesItem {
-    episode: {
-        id: string,
-        title: string,
-        poster: string,
-        duration: string,
-        plot: string,
-        video: string,
-
-    }
+    episode: Episode;
+    onPress: (episode: Episode)=>{};
 };
 function EpisodeItems(props: EpisodesItem,) {
-    const { episode } = props;
+    const { episode, onPress } = props;
 
     return (
-        <View style={{ flex: 1, padding: 8, }}>
+        <Pressable onPress={()=> onPress}
+         style={{ flex: 1, padding: 8, }}>
             <View style={styles.container}>
 
                 <Image
@@ -37,7 +32,7 @@ function EpisodeItems(props: EpisodesItem,) {
                 <AntDesign name="download" size={24} color="#FFF" />
             </View>
             <Text style={{ marginHorizontal: 10, marginBottom: 10, }}> {episode.plot} </Text>
-        </View>
+        </Pressable>
 
     );
 }
