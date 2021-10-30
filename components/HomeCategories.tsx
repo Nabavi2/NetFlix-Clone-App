@@ -37,10 +37,10 @@ function HomeCategories(props: HomeCategoryScreen,) {
                     <FlatList
                         data={category.movies}
                         renderItem={({ item }) => (
-                            // <Pressable onPress={() => navigation.navigate('MovieDetailScreen')}>
-                            //     </Pressable>
+                            <Pressable onPress={() => navigation.navigate('MovieDetailScreen')}>
+                                
                             <Image style={styles.image} source={{ uri: item.poster }} />
-
+                            </Pressable>
                         )
                         }
                         horizontal
