@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, FlatList } from 'react-native';
+import { ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { Image, StyleSheet } from 'react-native'
@@ -40,14 +40,14 @@ function MovieDetailScreen() {
                             <Text style={styles.text2}>{movie.seasons.items[0].id}</Text>
                             <MaterialIcons name="hd" size={24} color="white" />
                         </View>
-                        <View style={styles.playIcon}>
+                        <TouchableOpacity style={styles.playIcon}>
                             <Ionicons name="play-sharp" size={24} color="black" />
                             <Text style={{ color: 'black', marginLeft: 5 }}>Play</Text>
-                        </View>
-                        <View style={styles.downloadIcon}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.downloadIcon}>
                             <AntDesign name="download" size={24} color="black" />
                             <Text style={{ color: '#FFF', marginLeft: 5 }}>DownLoad</Text>
-                        </View>
+                        </TouchableOpacity>
                         <Text style={{ margin: 15, alignItems: 'center' }}> {movie.plot} </Text>
                         <Text style={{ marginHorizontal: 10, color: '#4e5450' }}  > Cast: {movie.cast} </Text>
                         <Text style={{ marginHorizontal: 10, color: '#4e5450' }}  > Creator: {movie.creator} </Text>
