@@ -14,6 +14,8 @@ function MovieDetailScreen() {
     const seasons = movie.seasons.items.map(season => (season.name));
     const [currentSeasone, setCurrentSeasone] = useState(firstSeasone)
     const [currentEpisode, setCurrentEpisode] = useState(firstSeasone.episodes.items[0])
+    
+    
     return (
         <View style={{ flex: 1, }}>
 

@@ -9,7 +9,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
-
+import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import DownloadScreen from '../screens/DownloadScreen';
@@ -18,9 +18,10 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ComingSoonScreen from '../screens/ComingSoonScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -33,6 +34,22 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
+const Stack1 = createStackNavigator<HomeParamList>();
+const StackNavigator = () => {
+  return (
+    <Stack1.Navigator initialRouteName="LoginScreen">
+      <Stack1.Screen
+        name="Home"
+        component={HomeScreen}
+
+      />
+      <Stack1.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+      />
+    </Stack1.Navigator>
+  )
+}
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
@@ -41,13 +58,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="LoginScreen">
 
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name ="MovieDetailScreen" component={MovieDetailScreen} options={{title:''}}/>
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="MovieDetailScreen" component={MovieDetailScreen} options={{ title: '' }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: "HomeScreen" }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="Modal" component={BottomTabNavigator} />
       </Stack.Group>
     </Stack.Navigator>
   );

@@ -38,8 +38,8 @@ function HomeCategories(props: HomeCategoryScreen,) {
                         data={category.movies}
                         renderItem={({ item }) => (
                             <Pressable onPress={() => navigation.navigate('MovieDetailScreen')}>
-                                
-                            <Image style={styles.image} source={{ uri: item.poster }} />
+
+                                <Image style={styles.image} source={{ uri: item.poster }} />
                             </Pressable>
                         )
                         }
