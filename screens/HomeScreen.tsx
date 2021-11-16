@@ -1,26 +1,38 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { StyleSheet, Image, FlatList } from 'react-native';
-import categories from '../data/categories';
 import movie from '../data/movie';
 import { View, Text } from './../components/Themed';
 import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import HomeCategories from '../components/HomeCategories';
-function HomeScreen() {
+import * as movieActions from '../store/actions/movie';
+import { useDispatch, useSelector } from 'react-redux';
+import Movie from './../models/Movie';
 
+function HomeScreen() {
+    const data = useSelector((state) => state.movies.availableMovies);
+    console.log("this is selector dataKKKKKKKKKK", data);
+    const dispatch = useDispatch()
+    // const getMovie = useCallback(async () => {
+    //     try {
+    //         await dispatch(movieActions.fetchMovies());
+
+    //     } catch (err: any) {
+    //         alert(err.message);
+    //     }
+
+    // }, [dispatch])
+    // useEffect(() => {
+    //     getMovie();
+    // }, [dispatch, getMovie])
     return (
         <View style={styles.container}>
 
             <FlatList
-                data={categories.items}
+                data={data}
                 renderItem={({ item }) => (
                     <HomeCategories category={item} />
                 )}
             />
-            <Text>this is home Screen</Text>
-
-
-
-
         </View>
 
     );

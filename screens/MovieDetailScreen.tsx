@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import { Ionicons, AntDesign, MaterialIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
@@ -8,14 +8,33 @@ import movie from '../data/movie'
 import Colors from '../constants/Colors';
 import EpisodeItems from '../components/EpisodeItems';
 import VideoPlayBack from '../components/VideoPlayBack';
+import { useDispatch, useSelector } from 'react-redux';
+import * as movieActions from '../store/actions/movie';
 function MovieDetailScreen() {
+    //const videos = useSelector((state) => state.movies.availableMovies);
+    const dispatch = useDispatch();
     const firstEpisode = movie.seasons.items[0].episodes.items[0];
     const firstSeasone = movie.seasons.items[0];
     const seasons = movie.seasons.items.map(season => (season.name));
     const [currentSeasone, setCurrentSeasone] = useState(firstSeasone)
     const [currentEpisode, setCurrentEpisode] = useState(firstSeasone.episodes.items[0])
-    
-    
+
+    // const getMovie = async () => {
+    //     try {
+    //         await dispatch(movieActions.fetchMovies());
+    //         console.log("Movies fetched");
+    //     } catch (err: any) {
+    //         alert(err.message);
+    //     }
+
+    // }
+
+    // useEffect(() => {
+    //     getMovie();
+    // })
+
+
+
     return (
         <View style={{ flex: 1, }}>
 
@@ -88,6 +107,25 @@ function MovieDetailScreen() {
                     </View>
                 )}
             />
+
+            {/* <TouchableOpacity
+                style={{
+                    backgroundColor: '#633f59',
+                    width: '90%',
+                    height: 40,
+                    borderRadius: 25,
+                    marginBottom: 20,
+                    marginTop: 7,
+                    alignItems: 'center', justifyContent: 'center',
+                }}
+                onPress={async () => {
+                    console.log("Videos form reducer1 : ", videos)
+
+                    console.log("Videos form reducer2 : ", videos)
+                }}
+            >
+                <Text> fetch movie</Text>
+            </TouchableOpacity> */}
 
         </View>
     );
