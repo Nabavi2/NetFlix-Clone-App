@@ -27,7 +27,7 @@ function HomeCategories(props: any,) {
     console.log(" 999999 ", category.categoryId.title);
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* <View>
+            <View>
                 <Text style={{ margin: 10, color: '#000' }}>
                     {category.categoryId.title}
                 </Text>
@@ -37,7 +37,7 @@ function HomeCategories(props: any,) {
                 <Pressable onPress={() => navigation.navigate('MovieDetailScreen')}>
                     <Image style={styles.image} source={{ uri: category.poster }} />
                 </Pressable>
-            </View> */}
+            </View>
         </ScrollView>
     );
 }

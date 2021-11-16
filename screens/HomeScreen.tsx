@@ -12,18 +12,18 @@ function HomeScreen() {
     const data = useSelector((state) => state.movies.availableMovies);
     console.log("this is selector dataKKKKKKKKKK", data);
     const dispatch = useDispatch()
-    // const getMovie = useCallback(async () => {
-    //     try {
-    //         await dispatch(movieActions.fetchMovies());
+    const getMovie = useCallback(async () => {
+        try {
+            await dispatch(movieActions.fetchMovies());
 
-    //     } catch (err: any) {
-    //         alert(err.message);
-    //     }
+        } catch (err: any) {
+            alert(err.message);
+        }
 
-    // }, [dispatch])
-    // useEffect(() => {
-    //     getMovie();
-    // }, [dispatch, getMovie])
+    }, [dispatch])
+    useEffect(() => {
+        getMovie();
+    }, [dispatch, getMovie])
     return (
         <View style={styles.container}>
 
