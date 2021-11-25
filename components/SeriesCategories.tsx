@@ -7,10 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import movie from '../data/movie';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { useSelector } from 'react-redux';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
-function HomeCategories(props: any) {
+function SeriesCategories(props: any) {
     const { category } = props;
 
     const navigation = useNavigation();
@@ -20,16 +19,15 @@ function HomeCategories(props: any) {
     return (
         <View style={styles.container}>
             <ScrollView
-
                 horizontal={true}
             >
-                <View style={{ backgroundColor: '#000', width: '100%' }}>
+                <View style={{ backgroundColor: '#000', width: '100%' }} >
                     <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
-                        {category.category_id.title}
+                        {category.title}
                     </Text>
                     <Pressable onPress={() => {
-                        navigation.setParams('MovieDetailScreen', { movieId: category.id });
-                        navigation.navigate('MovieDetailScreen', { movieId: category.id })
+                        navigation.setParams('MovieDetailScreen', { seriesId: category.id });
+                        navigation.navigate('MovieDetailScreen', { seriesId: category.id })
                     }}>
                         <Image style={styles.image} source={{ uri: category.poster }} />
 
@@ -68,10 +66,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#000',
-        width: '100%',
+
+        marginBottom: 20,
+
     },
     image: {
-        width: '100%',
+        width: '96%',
         height: 200,
         borderRadius: 7,
         margin: 8,
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
 
     }
 })
-export default HomeCategories;
+export default SeriesCategories;

@@ -1,62 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { Button } from "react-native-elements/dist/buttons/Button";
-import { useDispatch, useSelector } from "react-redux";
-import DownloadItem from "../components/DownloadItem";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text } from '../components/Themed';
+import * as movieActions from '../store/actions/movie';
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
-import { fetchDownloads } from "../store/actions/DownloadActions";
-import { RootTabScreenProps } from "../types";
+function DownloadScreen() {
+    const videos = useSelector((state) => state.movies.availableMovies);
 
-export default function DownloadScreen() {
-
-  const dispatch = useDispatch();
-
-  
-  const downloads: [] = useSelector((state) => state.download.downloadList);
-  console.log(downloads);
-  const [isInit, setIsInit] = useState(true);
-  const fetch = async () => {
-    await dispatch(fetchDownloads())
-  }  
-  useEffect(() => {
-    
-    if(isInit){
-      setIsInit(false);
-      fetch();
-    }
-  },[dispatch,fetch]);
-
-  return (
-    // <View>
-    //   <View ><Button title="fetch" onPress={fetch} /></View>
-    <FlatList
-    
-    data={downloads}
-    keyExtractor={(item: any) => item.downloadId}
-    renderItem={({ item }) => 
-    // <View style={{paddingLeft: 40}}><Text>{item.downloadId}</Text></View>
-    <DownloadItem downloadItem={item} />
-  }
-    />
-    // </View>
-  );
+    return (
+        <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+            <TouchableOpacity
+                onPress={async () => {
+                    await movieActions.fetchMovies();
+                    console.log("Videos form reducer : ", videos)
+                }}
+            />
+        </View>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+export default DownloadScreen;
