@@ -1,12 +1,10 @@
 import React from 'react';
+import { View } from '../components/Themed';
 
-import { View, Text } from '../components/Themed';
 function ComingSoonScreen() {
     return (
         <View>
-            <Text>
-                this is my comming soon screen
-            </Text>
+            
         </View>
     );
 }

@@ -3,179 +3,110 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { ColorSchemeName, Pressable } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import DownloadScreen from '../screens/DownloadScreen';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import ComingSoonScreen from '../screens/ComingSoonScreen';
-import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
+import LoginPage from '../screens/LoginScreen';
+import ModalScreen from '../screens/ModalScreen';
+import MovieDetialScreen from '../screens/MovieDetailScreen';
+import NotFoundScreen from '../screens/NotFoundScreen';
+import TabOneScreen from '../screens/DownloadScreen';
+import ComingSoon from '../screens/ComingSoonScreen';
+import TabTwoScreen from '../screens/TabTwoScreen';
+import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import MovieDetailScreen from '../screens/MovieDetailScreen';
-import LoginScreen from '../screens/LoginScreen';
-
+import DownloadScreen from '../screens/DownloadScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <StackNavigator />
-      {/* <RootNavigator /> */}
-
+      <RootNavigator />
     </NavigationContainer>
   );
 }
 
-const Stack1 = createStackNavigator<HomeParamList>();
-const StackNavigator = () => {
-  return (
-    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }} >
-      <Stack1.Screen name="Home"
-        component={BottomTabNavigator}
-      />
-      <Stack1.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <Stack1.Screen
-        name="MovieDetailScreen"
-        component={MovieDetailScreen}
-        options={{ headerShown: true }}
-      />
-    </Stack1.Navigator>
-  )
-}
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-// const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-// function RootNavigator() {
-//   return (
-//     <Stack.Navigator initialRouteName="Home">
-
-//       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-//       {/* <Stack.Screen name="MovieDetailScreen" component={MovieDetailScreen} options={{ title: '' }} /> */}
-//       <Stack.Screen name="Home" component={HomeScreen} options={{ title: "HomeScreen" }} />
-//       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-//         <Stack.Screen name="Home" component={BottomTabNavigator} />
-//       </Stack.Group>
-//     </Stack.Navigator>
-//   );
-// }
+function RootNavigator() {
+  return (
+    <Stack.Navigator>
+      {/* <Stack.Screen name="Loging" component={LoginPage} options={{headerShown: false}} /> */}
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name="Modal" component={ModalScreen} />
+      </Stack.Group>
+      <Stack.Screen name="MovieDetail" component={MovieDetialScreen} />
+    </Stack.Navigator>
+  );
+}
 
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
+
+const HomeStack = createNativeStackNavigator
+
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarStyle: { margin: 5, position: 'absolute' },
         tabBarActiveTintColor: Colors[colorScheme].tint,
-
       }}>
+        {/* <BottomTab.Screen name="" /> */}
       <BottomTab.Screen
         name="Home"
         component={HomeScreen}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home Screen',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Home')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-
-            </Pressable>
-          ),
-        })}
-      /><BottomTab.Screen
-        name="ComingSoon"
-        component={ComingSoonScreen}
-        options={({ navigation }: RootTabScreenProps<'ComingSoon'>) => ({
-          title: 'Coming Soon ',
-          tabBarIcon: ({ color }) => <MaterialIcons name="video-library" color={color} size={24} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('ComingSoon')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              {/* <FontAwesome
-              name="info-circle"
-              size={25}
-              color={Colors[colorScheme].text}
-              style={{ marginRight: 15 }}
-            /> */}
-            </Pressable>
-          ),
+          title: 'Home',
+          tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
+          HeaderShown: false,
         })}
       />
       <BottomTab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={({ navigation }: RootTabScreenProps<'Search'>) => ({
-          title: 'Search ',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Search')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
-            </Pressable>
-          ),
-        })}
+        name="ComingSoon"
+        component={ComingSoon}
+        options={{
+          title: 'Coming Soon',
+          tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={24} color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabTwo"
+        component={TabTwoScreen}
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color}  />,
+        }}
       />
       <BottomTab.Screen
         name="Download"
         component={DownloadScreen}
-        options={({ navigation }: RootTabScreenProps<'Download'>) => ({
+        options={{
           title: 'Downloads',
-          tabBarIcon: ({ color }) => <AntDesign name="download" color={color} size={24} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Download')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
-            </Pressable>
-          ),
-        })}
+          tabBarIcon: ({ color }) => <AntDesign name="download" size={24} color={color} />,
+        }}
       />
-
     </BottomTab.Navigator>
-
   );
 }
 

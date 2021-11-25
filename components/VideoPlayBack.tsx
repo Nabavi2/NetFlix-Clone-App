@@ -1,75 +1,67 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
-import { Episode } from '../types';
-import { Video, AVPlaybackStatus } from 'expo-av'
+import { Video } from 'expo-av';
 import { Playback } from 'expo-av/build/AV';
-import { Ionicons } from '@expo/vector-icons';
-// interface VideoPlayBackItems {
-//     episode: Episode
-// }
-function VideoPlayBack(props: any) {
-    const { episode } = props;
+import React, { useEffect, useRef, useState } from 'react';
+import { Episode } from '../types';
+import { Text, View } from './Themed';
+import { StyleSheet } from 'react-native';
 
-    // const [episodes, setEpisodes] = useState(episode);
+
+interface VideoPlayerProps {
+    episode: Episode,
+}
+
+function VideoPlayer(props: VideoPlayerProps) {
+
+    const { episode} = props;
+    const videoRef = useRef<Playback>(null);
     const [status, setStatus] = useState({});
-    const video = useRef<Playback>(null);
-
-    console.log(" thsi si videos play back 000000000  ", episode.plot)
-    useEffect(() => {
-        if (!video) {
+    
+    useEffect( () => {
+        if(!videoRef){
             return;
         }
-        (async () => {
-            await video?.current?.unloadAsync();
-            await video?.current?.loadAsync(
-                { uri: episode.video },
-                {},
-                false
-            )
-        })()
-    }, [episode])
-    return (
-        <View>
-            <Video
-                ref={video}
-                style={styles.video}
-                source={{ uri: episode.video }}
-                posterSource={{ uri: episode.poster }}
-                useNativeControls
-                usePoster={true}
-                isLooping={true}
-                posterStyle={{ resizeMode: 'cover' }}
-                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-                resizeMode="contain"
-            />
-            {!status.isPlaying &&
-                <Ionicons
-                    onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-                    }
-                    style={{ position: 'absolute', zIndex: 100, top: 70, left: 170, }}
-                    name="play" size={100} color="#FFF" />}
+       const playNext =  ( async () => {
+           console.log("hellloooo");
+           
+            await videoRef?.current?.unloadAsync();
+            await videoRef?.current?.loadAsync({uri: episode.video}, {},false);
+            
+        });
 
-            {/* <View style={styles.buttons}>
-                <Button
-                    title={status.isPlaying ? 'Pause' : 'Play'}
-                    onPress={() =>
-                        status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-                    }
-                />
-            </View> */}
-        </View>
+        playNext();
+
+    }, [episode])
+
+
+    return (
+     <View>
+
+
+
+
+
+         
+          <Video
+        
+        ref={videoRef}
+        style={styles.video}
+        source={{uri: episode.video}}
+        resizeMode="contain"
+        posterSource={{uri: episode.poster}}
+         usePoster
+        posterStyle={{resizeMode: "cover"}}
+        useNativeControls
+        onPlaybackStatusUpdate={ (status) => setStatus( () => status) }
+      />
+     </View>
     );
 }
+
 const styles = StyleSheet.create({
     video: {
-        aspectRatio: 16 / 9,
-        width: '100%',
-    },
-    buttons: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
+        width: "100%",
+        aspectRatio: 16/9,
+    }
 })
-export default VideoPlayBack;
+
+export default VideoPlayer;

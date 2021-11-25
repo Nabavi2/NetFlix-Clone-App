@@ -1,69 +1,54 @@
-import React from 'react';
-import { StyleSheet, Image, FlatList, Pressable, TouchableOpacity } from 'react-native';
-import { View, Text } from './../components/Themed';
-import Navigation from '../navigation/index';
-import { useNavigation } from '@react-navigation/native';
-import movie from '../data/movie';
-import { Episode } from '../types';
-import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { AntDesign } from '@expo/vector-icons';
-// const episod = movie.seasons.items[0].episodes.items[0];
+import React from 'react';
+import { Image, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Episode } from '../types';
+import { Text, View} from "./Themed"
 
-interface EpisodesItem {
-    episode: Episode;
-    onPress: (episode: Episode) => {};
-};
-function EpisodeItems(props: EpisodesItem) {
-    const { episode, onPress } = props;
+interface EpisodeItemPorps{
+    item: Episode,
+    onPress: any,
+}
 
+function EpisodeItem(props: EpisodeItemPorps) {
+
+    const {item, onPress} = props;
     return (
+        <Pressable style={styles.container} onPress={ () => onPress(item)} >
 
-        <Pressable onPress={() => onPress}
-            style={{ flex: 1, padding: 8, backgroundColor: '#000' }}>
-            <View style={styles.container}>
-                <Image
-                    style={styles.imageView}
-                    source={{ uri: episode.poster }} />
-                <View style={styles.rowContainer}>
-                    <Text style={{ fontSize: 12, color: '#FFF' }}>{episode.title} part 1 and 2  </Text>
-                    <Text style={{ fontSize: 10, color: '#968d8c' }}> {episode.duration} </Text>
-                </View>
-                <AntDesign name="download" size={24} color="#FFF" />
-            </View>
-            <Text style={{ marginHorizontal: 10, marginBottom: 10, color: '#FFF' }}> The Professor enjoys the spoils of his latest trick.
-                Río is disturbed by news he sees on the television. {episode.plot}Mónica's condition worsens.
-            </Text>
+           <View style={styles.subContainer}>
+               <View style={{flexDirection:"row", alignItems: "center"}}>
+               <Image source={{uri: item.poster}} style={styles.image} />
+               <View style={{marginLeft: 10}}>
+                   <Text style={{fontSize: 16}} >{item.title}</Text>
+                   <Text style={{color: "darkgrey"}}>{item.duration}</Text>
+               </View>
+               
+               </View>
+               <AntDesign name="download" size={24} color="white" />
+           </View>
+           <Text>{item.plot}</Text> 
         </Pressable>
-
     );
 }
+
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        marginHorizontal: 10,
+        width: "100%",
+        paddingHorizontal: 10,
+        marginVertical: 10,
+    },
+    subContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
         marginBottom: 5,
-        alignItems: 'center',
-        backgroundColor: '#000',
-
 
     },
-    rowContainer: {
-        width: 150,
-        height: 100,
-        justifyContent: 'center',
-        backgroundColor: '#000',
-        marginHorizontal: 8,
-
-    }
-    ,
-    imageView: {
-        width: 130,
-        aspectRatio: 16 / 9,
-        resizeMode: 'cover',
-        borderRadius: 7,
-        alignItems: 'center',
-        marginRight: 10,
-
+    image: {
+    height: 75,
+    aspectRatio: 16/9,
+    borderRadius: 3,
+    
     }
 })
-export default EpisodeItems;
+export default EpisodeItem;

@@ -1,195 +1,151 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, KeyboardAvoidingView, StyleSheet, TouchableNativeFeedback } from 'react-native';
+import { Text, View } from '../components/Themed';
+import { MaterialIcons } from '@expo/vector-icons';
+import StyledButton from '../components/StyledButton';
+import { Avatar, Button, Input} from 'react-native-elements';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { Formik, useFormik } from 'formik';
-import { Alert, TextInput, StyleSheet, View, Image, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
-import { Text } from '../components/Themed';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import * as authActions from "../store/actions/Auth";
-import * as movieActions from '../store/actions/movie';
-import { loginUser } from '../store/actions/Auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { string } from 'yup/lib/locale';
+import { ScrollView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../store/actions/UserActions';
 
+
+
+const validationSchema = Yup.object().shape({
+    email: Yup.string().required().email().label("Email"),
+    password: Yup.string().required().min(6).label("password"),
+});
 
 function LoginScreen() {
-
-    const [error, setError] = useState(null);
+    const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
-    // const [userToken, setUserToken] = useState();
+    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
 
-
-
-    // const getMovie = async () => {
-    //     try {
-    //         await dispatch(movieActions.fetchMovies());
-    //         console.log("Movies fetched");
-    //     } catch (err: any) {
-    //         alert(err.message);
-    //     }
-
-    // }
-    // useEffect(() => {
-    //     getMovie();
-    // })
-
-    const dispatch = useDispatch()
-    const login = async (email: string, password: string) => {
+    const handleLogin = async (values: any) => {
         setError(null);
         setIsLoading(true);
-
-
-
-        try {
-            // props.navigation.navigate("Auth");
-            await dispatch(authActions.loginUser(email, password))
-
-        } catch (error: any) {
-            setIsLoading(false)
-            setError(error)
-            alert(error.message);
+        try{
+          await dispatch(loginUser(values.email, values.password));
+          console.log("login worked!");
+          navigation.navigate("Root");
+          setIsLoading(false);
+        }catch(err: any){
+          Alert.alert(err.message, "Your email or password is not correct!", [
+              {
+                  text: "Okay",
+                  
+              },
+          ],);
+          console.log("helllooooo"+ err);
         }
-    }
+        setIsLoading(false);
 
-    let validate = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5r,}$/;
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().required('Email is Required').email('Invalid email format, your email must have (@) and (.com)').label("Email"),
-        password: Yup.string().trim().min(5, `your password should be atlest ${5} character`).required('Please Enter your password'),
-    });
-    const navigation = useNavigation();
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator
-                    size="large"
-                    color="#c75a5f"
-                />
-            </View>
-        )
     }
+    
     return (
-        <ScrollView style={{ backgroundColor: '#000' }}>
-            <View style={styles.screen}>
-                <Image
-                    style={{ width: '75%', height: 100, marginTop: '17%', marginBottom: "6%", }}
-                    source={require('../assets/images/nt.png')}
-                />
-                <Ionicons
-                    style={{ marginBottom: 30, width: 120, alignSelf: 'center' }}
-                    name="ios-person-outline" size={114} color="#c75a5f" />
-                <Formik
-                    validationSchema={validationSchema}
-                    initialValues={{ email: '', password: '' }}
-                    onSubmit={() => console.log('this is my submit form methode')}
-                    validateOnMount={true}
-                >
-                    {({ values, errors, handleBlur, touched, handleChange }) => {
-                        const { email, password } = values;
-                        console.log('My values object', values)
-                        return (
-                            <>
-                                <View style={styles.cart}>
-                                    <View style={styles.container}>
-                                        <View style={styles.input}>
-                                            <MaterialCommunityIcons
-                                                style={{ padding: 10, }}
-                                                name="email" size={28} color="#000" />
-                                            <TextInput
-                                                placeholder="Email"
-                                                keyboardType="email-address"
-                                                onBlur={handleBlur('email')}
-                                                value={values.email}
-                                                onChangeText={handleChange('email')}
-                                            />
-                                        </View>
-                                        {errors ? <Text style={{ color: 'red' }}> {touched.email && errors.email} </Text> : null}
-                                        <View style={styles.input}>
-                                            <MaterialCommunityIcons
-                                                style={{ padding: 10, }}
-                                                name="lock" size={26} color="#000" />
-                                            <TextInput
-                                                placeholder="Password"
-                                                secureTextEntry={true}
-                                                keyboardType="default"
-                                                onBlur={handleBlur('password')}
-                                                textContentType="password"
-                                                value={values.password}
-                                                onChangeText={handleChange('password')}
-                                            />
-                                        </View>
-                                        {errors ? <Text style={{ color: 'red' }}> {touched.password && errors.password} </Text> : null}
-                                        <TouchableOpacity
-                                            style={styles.button}
-                                            onPress={async () => {
-                                                const token = await AsyncStorage.getItem("userData");
-                                                console.log('TTTTTOOOOOKKKKKEEEEENNNN  ', token);
-                                                if (!values.email || !values.password) {
-                                                    Alert.alert('Sorry!', 'your email or password field is empty or you did not authenticate ', [{ text: 'Ok' }]);
-
-                                                } else {
-                                                    await login(values.email, values.password);
-                                                    navigation.navigate('Home');
-                                                }
-
-                                            }}>
-                                            <Text style={{ color: "#FFF" }}> Login</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </>
-                        )
-                    }}
-                </Formik>
-
-            </View>
-
+        <ScrollView>
+            <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={20} >
+           <View style={styles.container}>
+            <Formik 
+               initialValues={{ email: "", password: ""}}
+               onSubmit={ handleLogin}
+               validationSchema={validationSchema} >
+                   { ({setFieldTouched, touched, errors, handleChange, handleSubmit, submitForm}) => <>{
+                       <View style={styles.inputContainer}>
+                       <Text style={styles.title}>NETFLIX</Text>
+                       <Avatar 
+                           rounded size="large"  
+                           icon={{name: 'person', type: 'MaterialIcons'}} 
+                           overlayContainerStyle={{backgroundColor: '#E50914'}}
+                           containerStyle={styles.avatar} />
+                        <Input
+                        errorMessage={ touched["email"] ? errors["email"] : ""}
+                        leftIcon={{name: "email", type: "MaterialIcons", color: "white"}}
+                        placeholder="Email Address" 
+                        placeholderTextColor="grey" 
+                        keyboardType="email-address"
+                        inputStyle={{color: "white", marginLeft: 5,}}
+                        onBlur={() =>setFieldTouched("email")} 
+                        onChangeText={ handleChange("email")} />
+                     
+                        <Input 
+                        errorMessage={ touched["password"] ? errors["password"] : ""}
+                        leftIcon={{name: "lock", type: "MaterialIcons", color: "white"}}
+                        placeholder="Password" 
+                        placeholderTextColor="grey" 
+                        secureTextEntry={true}
+                        inputStyle={{color: "white", marginLeft: 5,}}
+                        onBlur={() =>setFieldTouched("password")} 
+                        onChangeText={ handleChange("password")}  />
+                       
+                        
+                        <View style={styles.buttonContainer} >
+                        <Button 
+                         loading={isLoading}
+                         title="Login" 
+                           type="solid" 
+                           buttonStyle={styles.button}
+                           titleStyle={{width: "100%"}} 
+                           onPress={ () => handleSubmit()}
+                            />
+                        </View>
+                    </View>
+                   }</> }
+         </Formik>
+        </View>    
+         </KeyboardAvoidingView>
         </ScrollView>
-
+        
     );
 }
-const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000'
 
+const styles = StyleSheet.create({
+    title: {
+        color: "#E50914",
+        fontSize: 38,
+        fontWeight: "600",
+    },
+    avatar: {
+        marginVertical: 20,
     },
     container: {
-        flexDirection: 'column',
-        width: '98%',
-        height: 250,
-        borderRadius: 25,
-        marginTop: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: 200,
+        flex: 1,
+        justifyContent:"center",
+        alignItems: "center",
+        backgroundColor: "black"
     },
-    input: {
-        flexDirection: 'row',
-        backgroundColor: '#c75a5f',
-        width: '90%',
-        height: 50,
-        borderRadius: 25,
-        marginVertical: 5,
+    inputContainer: {
+        alignItems: "center",
+        width: "80%",
+        
+        justifyContent: "space-around",
+        backgroundColor: "black",
+
     },
-    button: {
-        backgroundColor: '#633f59',
-        width: '90%',
-        height: 40,
-        borderRadius: 25,
-        marginBottom: 20,
-        marginTop: 7,
-        alignItems: 'center',
-        justifyContent: 'center',
+    button:{
+        // alignSelf: "center",
+        backgroundColor: "#E50914",
+        // borderRadius: 25,
+        width: "100%",
+        overflow: "hidden",
     },
-    cart: {
-        backgroundColor: '#000',
-        width: '85%',
-        height: 270,
-        borderRadius: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
+    buttonContainer: {
+        overflow: "hidden",
+        alignSelf: "center",
+        width: "90%",
+        borderRadius: 25,
+        marginVertical: 10,
+        backgroundColor: "black"
+    },
+    temp: {
+        height: 300,
+        width: 200,
+        backgroundColor: "blue",
     }
 })
+
 export default LoginScreen;
