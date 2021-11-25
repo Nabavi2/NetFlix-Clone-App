@@ -9,7 +9,7 @@ import { Text, View } from "../components/Themed";
 import { fetchDownloads } from "../store/actions/DownloadActions";
 import { RootTabScreenProps } from "../types";
 
-export default function TabOneScreen() {
+export default function DownloadScreen() {
 
   const dispatch = useDispatch();
 

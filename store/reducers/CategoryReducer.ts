@@ -1,4 +1,0 @@
-const CInitialState = {
-    movies: {},
-    series: {  }
-}

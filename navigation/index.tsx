@@ -13,15 +13,16 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
-import LoginPage from '../screens/LoginPage';
+import LoginPage from '../screens/LoginScreen';
 import ModalScreen from '../screens/ModalScreen';
-import MovieDetialScreen from '../screens/MovieDetialScreen';
+import MovieDetialScreen from '../screens/MovieDetailScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import ComingSoon from '../screens/ComingSoon';
+import TabOneScreen from '../screens/DownloadScreen';
+import ComingSoon from '../screens/ComingSoonScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import CommingSoonScreen from '../screens/ComingSoonScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -83,7 +84,7 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="ComingSoon"
-        component={ComingSoon}
+        component={CommingSoonScreen}
         options={{
           title: 'Coming Soon',
           tabBarIcon: ({ color }) => <MaterialIcons name="video-library" size={24} color={color} />,

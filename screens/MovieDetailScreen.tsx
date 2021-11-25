@@ -5,9 +5,9 @@ import movie from '../data/movie';
 import { ScrollView} from "react-native";
 import { AntDesign, Feather, MaterialIcons } from '@expo/vector-icons';
 import StyledButton from '../components/StyledButton';
-import EpisodeItem from '../components/EpisodeItem';
+import EpisodeItem from '../components/EpisodeItems';
 import { Picker } from '@react-native-picker/picker';
-import VideoPlayer from '../components/VideoPlayer';
+import VideoPlayer from '../components/VideoPlayBack';
 import * as FileSystem from 'expo-file-system';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import RNBackgroundDownloader from 'react-native-background-downloader';
@@ -15,10 +15,10 @@ import LinearProgress from 'react-native-elements/dist/linearProgress/LinearProg
 import DownloadItem from '../components/DownloadItem';
 import { addDownload } from '../store/actions/DownloadActions';
 import { useDispatch } from 'react-redux';
-const firstSeason = movie.seasons.items[0];
+    const firstSeason = movie.seasons.items[0];
     const poster = firstSeason.episodes.items[0].poster
  
-function MovieDetialScreen() {
+function MovieDetailScreen() {
     
     const [currentSeason, setCurrentSeason] = useState(firstSeason);
     const [currentEpisode, setCurrentEpisode] = useState(firstSeason.episodes.items[0])

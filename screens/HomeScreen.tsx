@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, Image, ListRenderItemInfo, StyleSheet } from 'react-native';
-import CategoryItem from '../components/CategoryItem';
+import CategoryItem from '../components/HomeCategories';
 import { Text, View } from '../components/Themed';
 import categories from '../data/categories';
 

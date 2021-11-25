@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from '../components/Themed';
 
-function CommingSoon() {
+function ComingSoonScreen() {
     return (
         <View>
             
@@ -9,4 +9,4 @@ function CommingSoon() {
     );
 }
 
-export default CommingSoon;
+export default ComingSoonScreen;

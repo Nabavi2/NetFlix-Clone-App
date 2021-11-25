@@ -39,8 +39,15 @@ build/Release
 
 # Dependency directories
 node_modules/
+android/
+android/*
+android/**/*
 jspm_packages/
-
+.vs/
+*.log
+.expo/
+.expo-shared/
+.vscode
 
 # TypeScript v1 declaration files
 typings/
