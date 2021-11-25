@@ -33,8 +33,9 @@ function HomeScreen() {
             setIsLoading(false);
         } catch (err: any) {
             setError(err.message)
-            setIsLoading(false);
+            
             alert(err.message);
+            setIsLoading(false);r
         }
 
     }, [dispatch])

@@ -11,35 +11,12 @@ function SearchScreen() {
     const movies = useSelector((state) => state.movies.availableMovies);
     const series = useSelector((state) => state.series.availableSeries);
 
-
     const [filterData, setFilterData] = useState(movies);
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
 
-    // const dispatch = useDispatch()
-    // const movieAndSeriesHandler = useCallback(async () => {
-    //     try {
-    //         setError(null)
-    //         setIsLoading(true);
-    //         await dispatch(movieActions.fetchMovies());
-    //         await dispatch(seriesActions.fetchSeries());
-    //         setIsLoading(false);
-    //     } catch (err: any) {
-    //         setError(err.message)
-    //         setIsLoading(false);
-    //         alert(err.message);
-    //     }
-
-    // }, [dispatch])
-    // useEffect(() => {
-    //     movieAndSeriesHandler();
-    // }, [dispatch, movieAndSeriesHandler]);
-
-
-    // setFilterData(movies);
-    // setMasterData(movies);
     const searchFilterFunction = (text: any) => {
         if (text) {
             const newData = filterData.filter((item: any) => {
@@ -57,33 +34,28 @@ function SearchScreen() {
     };
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row-reverse', width: '100%', }}>
-                <TextInput
-                    style={{ borderColor: 'black', width: 200 }}
-                    placeholder="Type Here"
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    autoCorrect={true}
-                    value={search}
-
-                />
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={searchFilterFunction}
-                >
-                    <Text>Search</Text>
-                </TouchableOpacity>
-
-            </View>
+            <SearchBar
+                placeholder="Search..."
+                onChangeText={(text) => searchFilterFunction(text)}
+                autoCorrect={true}
+                value={search}
+            />
+            {/* <View style={{ flexDirection: 'row-reverse', width: '100%', marginTop: 20, marginLeft: 10, marginRight: 10, }}>
+            </View> */}
             <FlatList
-                data={movies}
-                key={movies.id}
+                data={filterData}
+                key={filterData.id}
                 renderItem={({ item }) => {
                     return (
-                        <Image
-                            style={styles.image}
-                            source={{ uri: item.poster }} />
+                        <View style={{ flexDirection: 'row-reverse', width: "90%", marginTop: 20, }}>
+                            <Image
+                                style={styles.image}
+                                source={{ uri: item.poster }} />
+                            <Text style={{ color: '#000', fontSize: 24, padding: 10, }}>{item.title}</Text>
+                        </View>
                     )
                 }}
+                style={{ marginLeft: 120, }}
             />
         </View>
     );
@@ -91,22 +63,17 @@ function SearchScreen() {
 const styles = StyleSheet.create({
     image: {
         marginLeft: 10,
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        marginBottom: 10,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
         borderColor: '#c75a5f',
         resizeMode: 'cover',
     },
-    button: {
-        backgroundColor: '#633f59',
-        width: 80,
-        height: 40,
-        borderRadius: 25,
-        marginBottom: 20,
-        marginTop: 7,
-        marginLeft: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
+    input: {
+        borderColor: 'grey',
+        width: '96%',
+        borderWidth: 1,
     }
 })
 export default SearchScreen;

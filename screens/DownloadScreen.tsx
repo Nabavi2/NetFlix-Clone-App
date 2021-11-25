@@ -6,39 +6,39 @@ import DownloadItem from "../components/DownloadItem";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
-import { fetchDownloads } from "../store/actions/DownloadActions";
+import { fetchDownloads } from "../store/actions/download";
 import { RootTabScreenProps } from "../types";
 
 export default function DownloadScreen() {
 
   const dispatch = useDispatch();
 
-  
+
   const downloads: [] = useSelector((state) => state.download.downloadList);
   console.log(downloads);
   const [isInit, setIsInit] = useState(true);
   const fetch = async () => {
     await dispatch(fetchDownloads())
-  }  
+  }
   useEffect(() => {
-    
-    if(isInit){
+
+    if (isInit) {
       setIsInit(false);
       fetch();
     }
-  },[dispatch,fetch]);
+  }, [dispatch, fetch]);
 
   return (
     // <View>
     //   <View ><Button title="fetch" onPress={fetch} /></View>
     <FlatList
-    
-    data={downloads}
-    keyExtractor={(item: any) => item.downloadId}
-    renderItem={({ item }) => 
-    // <View style={{paddingLeft: 40}}><Text>{item.downloadId}</Text></View>
-    <DownloadItem downloadItem={item} />
-  }
+
+      data={downloads}
+      keyExtractor={(item: any) => item.downloadId}
+      renderItem={({ item }) =>
+        // <View style={{paddingLeft: 40}}><Text>{item.downloadId}</Text></View>
+        <DownloadItem downloadItem={item} />
+      }
     />
     // </View>
   );

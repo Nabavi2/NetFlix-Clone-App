@@ -6,7 +6,7 @@ import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
 import { useDispatch } from "react-redux";
-import { updateDownload } from "../store/actions/DownloadActions";
+import { updateDownload } from "../store/actions/download";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
