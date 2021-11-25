@@ -37,7 +37,7 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
             item.downloaded,
           )
       );
-      return { downloadList: dList};
+      return { downloadList: [...state.downloadList, ...dList] };
     case UPDATE_DOWNLOAD: 
        const doList: never[] = state.downloadList;
        doList.forEach((element: any) => {

@@ -9,7 +9,7 @@ class Season {
         name: string,
     ) {
         this.id = id;
-        this.seriesId = series_id;
+        this.series_id = series_id;
         this.name = name;
     }
 }

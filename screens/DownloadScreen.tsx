@@ -15,32 +15,34 @@ export default function DownloadScreen() {
 
   
   const downloads: [] = useSelector((state) => state.download.downloadList);
-  console.log(downloads);
-  const [isInit, setIsInit] = useState(true);
+  console.log("this is the download list: ");
+  
+  console.log(downloads.length);
+  // const [isInit, setIsInit] = useState(true);
   const fetch = async () => {
     await dispatch(fetchDownloads())
   }  
   useEffect(() => {
     
-    if(isInit){
-      setIsInit(false);
+    if(downloads.length === 0){
       fetch();
+    }
+
+    return () => {
+
     }
   },[dispatch,fetch]);
 
   return (
-    // <View>
-    //   <View ><Button title="fetch" onPress={fetch} /></View>
     <FlatList
     
     data={downloads}
     keyExtractor={(item: any) => item.downloadId}
     renderItem={({ item }) => 
-    // <View style={{paddingLeft: 40}}><Text>{item.downloadId}</Text></View>
     <DownloadItem downloadItem={item} />
   }
     />
-    // </View>
+
   );
 }
 

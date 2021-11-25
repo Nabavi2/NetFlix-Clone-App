@@ -22,15 +22,9 @@ function DownloadItem(props: any) {
       downloadProgress.totalBytesWritten /
       downloadProgress.totalBytesExpectedToWrite;
     console.log("progress: ", progress);
-    if (progress > 0) {
-      setIsLoading(false);
-    }
     setProgress(progress);
   };
 
-  // if(downloadItem.downloaded === true){
-  //   setProgress(1);
-  // }
 
   const downloadData = downloadItem.download;
   //creating downloadResumable.
@@ -87,7 +81,7 @@ function DownloadItem(props: any) {
         await dispatch(updateDownload(downloadItem.downloadId));
       update();
     }
-  }, [startDownload,]);
+  }, [startDownload, dispatch, updateDownload]);
 
   const pauseOrResume = isPaused ? (
     <MaterialCommunityIcons name="play" size={24} color="lightgrey" />
@@ -130,7 +124,6 @@ function DownloadItem(props: any) {
           </View>
           <View style={{ ...styles.button, marginLeft: 5 }}>
             <Button
-              // buttonStyle={{marginLeft: 30}}
               buttonStyle={styles.button}
               icon={
                 <MaterialCommunityIcons
