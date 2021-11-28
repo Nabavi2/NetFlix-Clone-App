@@ -1,8 +1,8 @@
 import { SET_EPISODE, SET_SEASON, SET_SERIES } from '../actions/series';
 const initialState = {
-    availableSeries: {},
-    availableSeason: {},
-    availableEpisode: {},
+    availableSeries: [],
+    availableSeason: [],
+    availableEpisode: [],
 };
 
 export default (state = initialState, action: any) => {

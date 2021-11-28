@@ -6,14 +6,14 @@ import DownloadItem from "../components/DownloadItem";
 
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
-import { fetchDownloads } from "../store/actions/DownloadActions";
+import { fetchDownloads } from "../store/actions/download";
 import { RootTabScreenProps } from "../types";
 
 export default function DownloadScreen() {
 
   const dispatch = useDispatch();
 
-  
+
   const downloads: [] = useSelector((state) => state.download.downloadList);
   console.log("this is the download list: ");
   
@@ -21,7 +21,7 @@ export default function DownloadScreen() {
   // const [isInit, setIsInit] = useState(true);
   const fetch = async () => {
     await dispatch(fetchDownloads())
-  }  
+  }
   useEffect(() => {
     
     if(downloads.length === 0){
