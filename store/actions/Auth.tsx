@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const SIGNUP = "SIGNUP";
 import { baseURL } from './../reducers/Auth';
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT"
 
 export const loginUser = (email: string, password: string) => {
     return async (dispatch: any) => {
@@ -81,6 +82,12 @@ export const signupUser = (email: string, password: string) => {
         saveUserData(resData.jwt,);
     };
 };
+
+export const logout = () => {
+    AsyncStorage.removeItem("userData");
+    return { type: LOGOUT };
+}
+
 
 const saveUserData = async (userToken: string,) => {
     const response = await AsyncStorage.setItem(

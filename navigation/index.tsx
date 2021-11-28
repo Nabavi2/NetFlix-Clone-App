@@ -8,6 +8,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
+import {
+  createDrawerNavigator,
+  DrawerItemList,
+} from "@react-navigation/drawer";
+import { View, SafeAreaView, Button, Platform } from 'react-native';
 import { ColorSchemeName, Pressable } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
@@ -20,6 +25,8 @@ import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps
 import LinkingConfiguration from './LinkingConfiguration';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import LoginScreen from '../screens/LoginScreen';
+import { useDispatch } from 'react-redux';
+import * as authActions from '../store/actions/Auth';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -51,30 +58,7 @@ const StackNavigator = () => {
     </Stack1.Navigator>
   )
 }
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
-// const Stack = createNativeStackNavigator<RootStackParamList>();
 
-// function RootNavigator() {
-//   return (
-//     <Stack.Navigator initialRouteName="Home">
-
-//       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-//       {/* <Stack.Screen name="MovieDetailScreen" component={MovieDetailScreen} options={{ title: '' }} /> */}
-//       <Stack.Screen name="Home" component={HomeScreen} options={{ title: "HomeScreen" }} />
-//       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-//         <Stack.Screen name="Home" component={BottomTabNavigator} />
-//       </Stack.Group>
-//     </Stack.Navigator>
-//   );
-// }
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
@@ -115,12 +99,7 @@ function BottomTabNavigator() {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              {/* <FontAwesome
-              name="info-circle"
-              size={25}
-              color={Colors[colorScheme].text}
-              style={{ marginRight: 15 }}
-            /> */}
+
             </Pressable>
           ),
         })}
@@ -137,12 +116,7 @@ function BottomTabNavigator() {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
+
             </Pressable>
           ),
         })}
@@ -184,3 +158,75 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+//Drawer Stack Navigator
+const DrawerNavigator = createDrawerNavigator();
+
+export const ShopNavigator = () => {
+  const dispatch = useDispatch();
+  return (
+    <DrawerNavigator.Navigator
+      drawerContent={(props: any) => {
+        return (
+          <View style={{ flex: 1, paddingTop: 20 }}>
+            <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
+              <DrawerItemList {...props} />
+              <Button
+                title="Logout"
+                color={Colors.primary}
+                onPress={() => {
+                  dispatch(authActions.logout());
+                  props.navigation.navigate("LoginScreen");
+                }}
+              />
+            </SafeAreaView>
+          </View>
+        );
+      }}
+      defaultScreenOptions={{ drawerActiveTintColor: Colors.primary }}
+    // drawerContentOptions={{
+    //   activeTintColor: Colors.primary,
+    // }}
+    >
+      <DrawerNavigator.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          drawerIcon: (props: any) => (
+            <Ionicons
+              name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+              size={23}
+              color={props.color}
+            />
+          ),
+        }}
+      />
+      <DrawerNavigator.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          drawerIcon: (props: any) => (
+            <Ionicons
+              name={Platform.OS === "android" ? "md-list" : "ios-list"}
+              size={23}
+              color={props.color}
+            />
+          ),
+        }}
+      />
+      <DrawerNavigator.Screen
+        name="DownloadScreen"
+        component={DownloadScreen}
+        options={{
+          drawerIcon: (props: any) => (
+            <Ionicons
+              name={Platform.OS === "android" ? "md-create" : "ios-create"}
+              size={23}
+              color={props.color}
+            />
+          ),
+        }}
+      />
+    </DrawerNavigator.Navigator>
+  );
+};
