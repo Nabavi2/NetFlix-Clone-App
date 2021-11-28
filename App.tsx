@@ -11,14 +11,12 @@ import authReducer from "./store/reducers/Auth";
 import movieReducer from './store/reducers/movie';
 import seriesReducer from './store/reducers/series';
 import downloadReducer from './store/reducers/download';
-import userReducer from './store/reducers/user';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   movies: movieReducer,
   series: seriesReducer,
   download: downloadReducer,
-  user: userReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {

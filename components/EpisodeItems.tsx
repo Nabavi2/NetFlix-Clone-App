@@ -7,7 +7,6 @@ import movie from '../data/movie';
 import { Episode } from '../types';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { AntDesign } from '@expo/vector-icons';
-// const episod = movie.seasons.items[0].episodes.items[0];
 
 interface EpisodesItem {
     episode: Episode;
@@ -17,7 +16,6 @@ function EpisodeItems(props: EpisodesItem) {
     const { episode, onPress } = props;
 
     return (
-
         <Pressable onPress={() => onPress}
             style={{ flex: 1, padding: 8, backgroundColor: '#000' }}>
             <View style={styles.container}>
@@ -44,8 +42,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         alignItems: 'center',
         backgroundColor: '#000',
-
-
     },
     rowContainer: {
         width: 150,
@@ -53,9 +49,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#000',
         marginHorizontal: 8,
-
-    }
-    ,
+    },
     imageView: {
         width: 130,
         aspectRatio: 16 / 9,
@@ -63,7 +57,6 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         alignItems: 'center',
         marginRight: 10,
-
     }
 })
 export default EpisodeItems;

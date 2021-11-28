@@ -14,37 +14,38 @@ import { string } from 'yup/lib/locale';
 
 
 function LoginScreen() {
-
+    const [isSignup, setIsSignup] = useState(false);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    // const [userToken, setUserToken] = useState();
+    const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isPasswordFocused, setIsPasswordFocused] = useState(false)
 
 
-
-    // const getMovie = async () => {
-    //     try {
-    //         await dispatch(movieActions.fetchMovies());
-    //         console.log("Movies fetched");
-    //     } catch (err: any) {
-    //         alert(err.message);
-    //     }
-
-    // }
-    // useEffect(() => {
-    //     getMovie();
-    // })
+    const handlePasswordFocused = () => {
+        setIsPasswordFocused(true)
+    }
+    const handleEmailFocused = () => {
+        setIsEmailFocused(true)
+    }
+    const handlePasswordBlur = () => {
+        setIsPasswordFocused(true)
+    }
+    const handleEmaildBlur = () => {
+        setIsEmailFocused(true)
+    }
 
     const dispatch = useDispatch()
-    const login = async (email: string, password: string) => {
+    const authHandler = async (email: string, password: string) => {
         setError(null);
         setIsLoading(true);
-
-
-
+        let action;
+        if (isSignup) {
+            action = await dispatch(authActions.signupUser(email, password))
+        } else {
+            action = await dispatch(authActions.loginUser(email, password))
+        }
         try {
-            // props.navigation.navigate("Auth");
-            await dispatch(authActions.loginUser(email, password))
-
+            await dispatch(action)
         } catch (error: any) {
             setIsLoading(false)
             setError(error)
@@ -72,12 +73,13 @@ function LoginScreen() {
         <ScrollView style={{ backgroundColor: '#000' }}>
             <View style={styles.screen}>
                 <Image
-                    style={{ width: '75%', height: 100, marginTop: '17%', marginBottom: "6%", }}
+                    style={{ width: '75%', height: 100, marginTop: '17%', marginBottom: "10%", }}
                     source={require('../assets/images/nt.png')}
                 />
-                <Ionicons
+                {/* <Ionicons
                     style={{ marginBottom: 30, width: 120, alignSelf: 'center' }}
-                    name="ios-person-outline" size={114} color="#c75a5f" />
+                    name="ios-person-outline" size={114} color="#E50914" /> */}
+                <Text style={{ color: '#FFF', fontSize: 20, marginBottom: '15%' }}> Start your free three days trial</Text>
                 <Formik
                     validationSchema={validationSchema}
                     initialValues={{ email: '', password: '' }}
@@ -91,12 +93,17 @@ function LoginScreen() {
                             <>
                                 <View style={styles.cart}>
                                     <View style={styles.container}>
-                                        <View style={styles.input}>
+                                        <View style={{ flexDirection: 'row-reverse' }}>
                                             <MaterialCommunityIcons
-                                                style={{ padding: 10, }}
-                                                name="email" size={28} color="#000" />
+                                                style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 5, }}
+                                                name="email" size={28} color="#FFF" />
                                             <TextInput
+                                                style={[styles.input, {
+                                                    borderColor: isEmailFocused ? 'red' : 'grey'
+                                                }]}
+                                                onFocus={handleEmailFocused}
                                                 placeholder="Email"
+                                                placeholderTextColor='#423e3e'
                                                 keyboardType="email-address"
                                                 onBlur={handleBlur('email')}
                                                 value={values.email}
@@ -104,15 +111,20 @@ function LoginScreen() {
                                             />
                                         </View>
                                         {errors ? <Text style={{ color: 'red' }}> {touched.email && errors.email} </Text> : null}
-                                        <View style={styles.input}>
+                                        <View style={{ flexDirection: 'row-reverse' }}>
                                             <MaterialCommunityIcons
-                                                style={{ padding: 10, }}
-                                                name="lock" size={26} color="#000" />
+                                                style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 5, }}
+                                                name="lock" size={26} color="#FFF" />
                                             <TextInput
+                                                style={[styles.input, {
+                                                    borderColor: isPasswordFocused ? 'red' : 'grey'
+                                                }]}
                                                 placeholder="Password"
+                                                placeholderTextColor='#423e3e'
                                                 secureTextEntry={true}
                                                 keyboardType="default"
                                                 onBlur={handleBlur('password')}
+                                                onFocus={handlePasswordFocused}
                                                 textContentType="password"
                                                 value={values.password}
                                                 onChangeText={handleChange('password')}
@@ -128,14 +140,25 @@ function LoginScreen() {
                                                     Alert.alert('Sorry!', 'your email or password field is empty or you did not authenticate ', [{ text: 'Ok' }]);
 
                                                 } else {
-                                                    await login(values.email, values.password);
+                                                    await authHandler(values.email, values.password);
                                                     navigation.navigate('Home');
                                                 }
 
                                             }}>
-                                            <Text style={{ color: "#FFF" }}> Login</Text>
+                                            <Text style={{ color: "#FFF" }}> {isSignup ? 'SignUp' : 'Login'} </Text>
                                         </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{ ...styles.button, borderWidth: 1, borderColor: '#c41a1a', backgroundColor: '#000', }}
+                                            onPress={() => {
+                                                setIsSignup((prevState) => !prevState);
+                                            }}
+                                        >
+                                            <Text style={{ color: "#FFF" }}> {`Switch to ${isSignup ? "Login" : "Sign Up"}`} </Text>
+
+                                        </TouchableOpacity>
+
                                     </View>
+
                                 </View>
                             </>
                         )
@@ -164,25 +187,39 @@ const styles = StyleSheet.create({
         marginTop: 15,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 50,
     },
     input: {
-        flexDirection: 'row',
-        backgroundColor: '#c75a5f',
-        width: '90%',
-        height: 50,
-        borderRadius: 25,
-        marginVertical: 5,
+        flexDirection: 'row-reverse',
+        backgroundColor: '#000',
+        width: '80%',
+        height: 40,
+        borderColor: '#423e3e',
+        borderBottomWidth: 1,
+        color: '#FFF'
     },
     button: {
-        backgroundColor: '#633f59',
+        backgroundColor: '#c41a1a',
         width: '90%',
         height: 40,
         borderRadius: 25,
-        marginBottom: 20,
+        marginBottom: 10,
         marginTop: 7,
         alignItems: 'center',
         justifyContent: 'center',
     },
+    // snignupBotton: {
+    //     backgroundColor: '#000',
+    //     borderColor: '#633f59',
+    //     borderWidth: 1,
+    //     width: '90%',
+    //     height: 40,
+    //     borderRadius: 25,
+    //     marginBottom: 20,
+    //     marginTop: 7,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    // },
     cart: {
         backgroundColor: '#000',
         width: '85%',

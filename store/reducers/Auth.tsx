@@ -1,6 +1,6 @@
 
 export const baseURL = 'http://172.16.1.63:1337';
-import { LOGIN, } from "../actions/Auth";
+import { LOGIN, SIGNUP, } from "../actions/Auth";
 
 const initialState = {
     jwt: null,
@@ -14,6 +14,11 @@ export default (state = initialState, action: any) => {
                 ...state,
                 jwt: action.jwt, userId: action.userId
             };
+        case SIGNUP:
+            return {
+                ...state,
+                jwt: action.jwt, 
+            }
         default:
             return state;
     }

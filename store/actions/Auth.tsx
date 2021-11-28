@@ -1,12 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export const AUTHENTICATE = "AUTHENTICATE";
+export const SIGNUP = "SIGNUP";
 import { baseURL } from './../reducers/Auth';
 export const LOGIN = "LOGIN";
-
-// export const didTryAutoLoginUser = () => {
-//   return { type: DID_TRY_AL };
-// };
-
 
 export const loginUser = (email: string, password: string) => {
     return async (dispatch: any) => {
@@ -27,17 +22,18 @@ export const loginUser = (email: string, password: string) => {
         if (!response.ok) {
 
             const errorResData = await response.json();
-            // const errorId = errorResData.error.message;
+            const errorId = errorResData.error.message;
+
             let message = "Some thing went wrong!";
-            if (errorResData.identifier == !email) {
-                message = "This email is not found!";
-            }
-            else if (errorResData.password == !password) {
-                message = "Your password is not valid!";
+            if (response.status == !200) {
+                message = "This email is or password is  incorrect!";
             }
             console.log('error message  ', message);
+            console.log('responsesssss Errroororor', errorId)
             throw new Error(message);
+
         }
+
         const resData = await response.json();
         console.log('this is my resData ', resData);
         dispatch(
@@ -47,63 +43,47 @@ export const loginUser = (email: string, password: string) => {
     };
 };
 
+// export const authenticate = (userToken: string, undefined: string, password: string) => {
+//     return (dispatch: Function) => {
 
-export const authenticate = (userToken: string, undefined: string, password: string) => {
-    return (dispatch: Function) => {
-
-        dispatch({ type: AUTHENTICATE, userToken, undefined, password });
-    };
-};
-
-
-
-// export const signupUser = (email, password) => {
-//   return async (dispatch) => {
-//     const response = await fetch(
-//       "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCfAFTvangh1IGbyZ4WzZi2xu1RKQMF9Z4",
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-
-//         body: JSON.stringify({
-//           email,
-//           password,
-//           returnSecureToken: true,
-//         }),
-//       }
-//     );
-//     if (!response.ok) {
-//       const errorResData = await response.json();
-//       const errorId = errorResData.error.message;
-//       let message = "Some thing went wrong!";
-//       if (errorId === "EMAIL_EXISTS") {
-//         message = "This email exists already!";
-//       }
-//       throw new Error(message);
-//     }
-//     const resData = await response.json();
-//     console.log(resData);
-//     dispatch(
-//       authenticate(
-//         resData.idToken,
-//         resData.localId,
-//         parseInt(resData.expiresIn) * 1000
-//       )
-//     );
-//     const expirationDate = new Date(
-//       new Date().getTime() + parseInt(resData.expiresIn) * 1000
-//     );
-//     saveUserData(resData.idToken, resData.localId, expirationDate);
-//   };
+//         dispatch({ type: AUTHENTICATE, userToken, undefined, password });
+//     };
 // };
 
+export const signupUser = (email: string, password: string) => {
+    return async (dispatch: Function) => {
+        const response = await fetch(
+            `${baseURL}/auth/local/register`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            }
+        );
+        if (!response.ok) {
+            const errorResData = await response.json();
+            const errorId = errorResData.error.message;
+            let message = "Some thing went wrong!";
+            if (message === "") {
+                message = "This email exists already!";
+            }
+            throw new Error(message);
+        }
+        const resData = await response.json();
+        console.log(resData);
+        dispatch(
+            { type: SIGNUP, jwt: resData['jwt'] });
+        saveUserData(resData.jwt,);
+    };
+};
 
 const saveUserData = async (userToken: string,) => {
     const response = await AsyncStorage.setItem(
         "userData", userToken,
-
     );
-    console.log("response storage ", response)
 };
