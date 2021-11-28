@@ -13,8 +13,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import DownloadScreen from '../screens/DownloadScreen';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ComingSoonScreen from '../screens/ComingSoonScreen';
@@ -30,8 +28,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <StackNavigator />
-      {/* <RootNavigator /> */}
-
     </NavigationContainer>
   );
 }

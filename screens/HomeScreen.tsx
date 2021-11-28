@@ -35,7 +35,7 @@ function HomeScreen() {
             setError(err.message)
             
             alert(err.message);
-            setIsLoading(false);r
+            setIsLoading(false);
         }
 
     }, [dispatch])

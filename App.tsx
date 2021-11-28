@@ -10,8 +10,7 @@ import Navigation from './navigation';
 import authReducer from "./store/reducers/Auth";
 import movieReducer from './store/reducers/movie';
 import seriesReducer from './store/reducers/series';
-import {DownloadReducer }from './store/reducers/download';
-import userReducer from './store/reducers/user';
+import {DownloadReducer} from './store/reducers/download';
 
 const rootReducer = combineReducers({
   auth: authReducer,
