@@ -101,7 +101,6 @@ export const fetchDownloads = () =>{
         
         
         const resData= await response.json();
-        console.log(resData);
         
         dispatch({
           type: FETCH_DOWNLOADS,
