@@ -32,12 +32,16 @@ export type RootTabParamList = {
   Download: undefined;
   ComingSoon: undefined;
   Search: undefined;
+  Drawer: undefined;
 
 };
 export type HomeParamList = {
   Home: undefined;
   LoginScreen: undefined;
   MovieDetailScreen: undefined;
+  Search: undefined;
+  Drawer: undefined;
+  TestScreen: undefined
 }
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,

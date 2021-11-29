@@ -113,6 +113,8 @@ export const fetchEpisode = () => {
                 throw new Error("An error occured in episode");
             }
             const resData = await response.json();
+            console.log("eppppppppppppiiiiiiiiisssssssssssssode");
+
             console.log(resData);
             const loadedEpisode = [];
             for (const key in resData) {

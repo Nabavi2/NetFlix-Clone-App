@@ -5,32 +5,42 @@ import { StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
+import Movie from "../models/Movie";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
   // const displayId = downloadItem.movieId ? downloadItem.movieId : downloadItem.episodeId;
-  // const displayItemList = 
+  // const displayItemList =
   //the two above are for displaying name of download item.
   const [progress, setProgress] = useState(0);
   const [isloading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  // finding display item for rendering of name.
+  const displays: [] = downloadItem.movieId
+    ? useSelector((state) => state.movies.availableMovies)
+    : useSelector((state) => state.series.availableEpisode);
+   
+    
+  const displayId = downloadItem.movieId
+    ? downloadItem.movieId
+    : downloadItem.episodeId;
+  
+  
+  const selectedDisplay: any = displays.find((item, index, obj) => item.id  === displayId)!;
+
+  
+  
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
     const progress =
       downloadProgress.totalBytesWritten /
       downloadProgress.totalBytesExpectedToWrite;
     console.log("progress: ", progress);
-    if (progress > 0) {
-      setIsLoading(false);
-    }
     setProgress(progress);
   };
-
-  // if(downloadItem.downloaded === true){
-  //   setProgress(1);
-  // }
 
   const downloadData = downloadItem.download;
   //creating downloadResumable.
@@ -87,7 +97,7 @@ function DownloadItem(props: any) {
         await dispatch(updateDownload(downloadItem.downloadId));
       update();
     }
-  }, [startDownload,]);
+  }, [startDownload, dispatch, updateDownload]);
 
   const pauseOrResume = isPaused ? (
     <MaterialCommunityIcons name="play" size={24} color="lightgrey" />
@@ -104,7 +114,7 @@ function DownloadItem(props: any) {
   return (
     <View style={containerStyle}>
       <View style={styles.titleCon}>
-        <Text style={styles.title}>Mountain Tigers</Text>
+        <Text style={styles.title}>{selectedDisplay ? selectedDisplay.title : "...."}</Text>
       </View>
       <View style={styles.pCon}>
         <LinearProgress
@@ -130,7 +140,6 @@ function DownloadItem(props: any) {
           </View>
           <View style={{ ...styles.button, marginLeft: 5 }}>
             <Button
-              // buttonStyle={{marginLeft: 30}}
               buttonStyle={styles.button}
               icon={
                 <MaterialCommunityIcons

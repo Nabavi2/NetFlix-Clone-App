@@ -8,10 +8,17 @@ import * as seriesActions from '../store/actions/series';
 function SearchScreen() {
 
 
-    const movies = useSelector((state) => state.movies.availableMovies);
-    const series = useSelector((state) => state.series.availableSeries);
+    // const movies = useSelector((state) => state.movies.availableMovies);
+    const episode: [] = useSelector((state) => state.series.availableEpisode);
+    const movies: [] = useSelector((state) => state.movies.availableMovies);
 
-    const [filterData, setFilterData] = useState(movies);
+    // const data = series.prototype.concat(movies);
+    const data = movies.concat(episode)
+    console.log('CONCAT DATA DADADADAD IN SEARCH SCREAN DATA  ', data)
+
+
+
+    const [filterData, setFilterData] = useState(data);
     const [search, setSearch] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,7 +35,7 @@ function SearchScreen() {
             setSearch(text);
 
         } else {
-            setFilterData(movies);
+            setFilterData(data);
             setSearch(text)
         }
     };
@@ -44,18 +51,18 @@ function SearchScreen() {
             </View> */}
             <FlatList
                 data={filterData}
-                key={filterData.id}
+
                 renderItem={({ item }) => {
                     return (
-                        <View style={{ flexDirection: 'row-reverse', width: "90%", marginTop: 20, }}>
+                        <View style={{ flexDirection: 'row', width: "90%", marginTop: 20, }}>
                             <Image
                                 style={styles.image}
                                 source={{ uri: item.poster }} />
-                            <Text style={{ color: '#000', fontSize: 24, padding: 10, }}>{item.title}</Text>
+                            <Text style={{ color: 'red', fontSize: 24, padding: 10, }}>{item.title}</Text>
                         </View>
                     )
                 }}
-                style={{ marginLeft: 120, }}
+                style={{ marginLeft: 10, }}
             />
         </View>
     );

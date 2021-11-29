@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, AntDesign, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,8 +12,8 @@ import {
   createDrawerNavigator,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { View, SafeAreaView, Button, Platform } from 'react-native';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
+
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -27,6 +27,7 @@ import MovieDetailScreen from '../screens/MovieDetailScreen';
 import LoginScreen from '../screens/LoginScreen';
 import { useDispatch } from 'react-redux';
 import * as authActions from '../store/actions/Auth';
+import TestScreen from '../screens/TestScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -34,6 +35,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      {/* <StackNavigator /> */}
       <StackNavigator />
     </NavigationContainer>
   );
@@ -44,17 +46,24 @@ const StackNavigator = () => {
   return (
     <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }} >
       <Stack1.Screen name="Home"
-        component={BottomTabNavigator}
+        component={AppDrawerNavigator}
       />
+
       <Stack1.Screen
         name="LoginScreen"
         component={LoginScreen}
+
       />
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
         options={{ headerShown: true }}
       />
+      {/* <Stack1.Screen
+        name="Search"
+        component={BottomTabNavigator}
+        options={{ headerShown: true }}
+      /> */}
     </Stack1.Navigator>
   )
 }
@@ -67,7 +76,6 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-
         tabBarActiveTintColor: Colors[colorScheme].tint,
 
       }}>
@@ -83,9 +91,9 @@ function BottomTabNavigator() {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-
             </Pressable>
           ),
+          headerShown: false
         })}
       /><BottomTab.Screen
         name="ComingSoon"
@@ -102,6 +110,7 @@ function BottomTabNavigator() {
 
             </Pressable>
           ),
+          headerShown: false
         })}
       />
       <BottomTab.Screen
@@ -119,6 +128,7 @@ function BottomTabNavigator() {
 
             </Pressable>
           ),
+          headerShown: false
         })}
       />
       <BottomTab.Screen
@@ -141,6 +151,7 @@ function BottomTabNavigator() {
               /> */}
             </Pressable>
           ),
+          headerShown: false
         })}
       />
 
@@ -162,39 +173,55 @@ function TabBarIcon(props: {
 //Drawer Stack Navigator
 const DrawerNavigator = createDrawerNavigator();
 
-export const ShopNavigator = () => {
+export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
   return (
     <DrawerNavigator.Navigator
+
       drawerContent={(props: any) => {
+
         return (
           <View style={{ flex: 1, paddingTop: 20 }}>
             <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
+              <Image
+                style={{ width: 200, height: 200, marginLeft: 30, marginBottom: 20, marginTop: 30 }}
+                source={require('../assets/images/netflix.jpg')} />
               <DrawerItemList {...props} />
-              <Button
-                title="Logout"
-                color={Colors.primary}
+              <Pressable
+                style={{ width: '55%', height: 35, flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }}
                 onPress={() => {
                   dispatch(authActions.logout());
                   props.navigation.navigate("LoginScreen");
                 }}
-              />
+              >
+                <SimpleLineIcons name="logout" size={24} color="#FFF" />
+                <Text style={{ color: '#c1c9c5', fontSize: 20, fontWeight: '500', marginLeft: 30 }}>Logout</Text>
+              </Pressable>
             </SafeAreaView>
           </View>
         );
       }}
-      defaultScreenOptions={{ drawerActiveTintColor: Colors.primary }}
-    // drawerContentOptions={{
-    //   activeTintColor: Colors.primary,
-    // }}
+      screenOptions={{
+        drawerPosition: 'left',
+
+        drawerIcon: ({ focused, size }) => (
+          <Ionicons
+            name="menu"
+            size={size}
+            color={focused ? '#7cc' : '#ccc'}
+          />
+        ),
+      }}
+    //defaultScreenOptions={{ drawerActiveTintColor: Colors.primary, headerShown: false }}
+
     >
       <DrawerNavigator.Screen
-        name="Home"
-        component={HomeScreen}
+        name="NetFlix"
+        component={BottomTabNavigator}
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+              name={Platform.OS === "android" ? "home" : "home"}
               size={23}
               color={props.color}
             />
@@ -202,12 +229,12 @@ export const ShopNavigator = () => {
         }}
       />
       <DrawerNavigator.Screen
-        name="Home"
-        component={HomeScreen}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "md-list" : "ios-list"}
+              name={Platform.OS === "android" ? "search" : "search"}
               size={23}
               color={props.color}
             />
@@ -215,12 +242,25 @@ export const ShopNavigator = () => {
         }}
       />
       <DrawerNavigator.Screen
-        name="DownloadScreen"
-        component={DownloadScreen}
+        name="ComingSoonScreen"
+        component={ComingSoonScreen}
+        options={{
+          drawerIcon: (props: any) => (
+            <MaterialIcons
+              name={Platform.OS === "android" ? "video-library" : "video-library"}
+              size={23}
+              color={props.color}
+            />
+          ),
+        }}
+      />
+      <DrawerNavigator.Screen
+        name="TestScreen"
+        component={TestScreen}
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "md-create" : "ios-create"}
+              name={Platform.OS === "android" ? "download" : "download"}
               size={23}
               color={props.color}
             />

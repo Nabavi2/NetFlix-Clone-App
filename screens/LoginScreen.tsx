@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from "react-redux";
 import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
-import { Alert, TextInput, StyleSheet, View, Image, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
+import { Alert, TextInput, StyleSheet, View, Image, ActivityIndicator, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { Text } from '../components/Themed';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,8 @@ import * as movieActions from '../store/actions/movie';
 import { loginUser } from '../store/actions/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { string } from 'yup/lib/locale';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import HeaderButton from '../components/HeaderButton';
 
 
 function LoginScreen() {
@@ -93,7 +95,7 @@ function LoginScreen() {
                             <>
                                 <View style={styles.cart}>
                                     <View style={styles.container}>
-                                        <View style={{ flexDirection: 'row-reverse' }}>
+                                        <View style={{ flexDirection: 'row' }}>
                                             <MaterialCommunityIcons
                                                 style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 5, }}
                                                 name="email" size={28} color="#FFF" />
@@ -111,7 +113,7 @@ function LoginScreen() {
                                             />
                                         </View>
                                         {errors ? <Text style={{ color: 'red' }}> {touched.email && errors.email} </Text> : null}
-                                        <View style={{ flexDirection: 'row-reverse' }}>
+                                        <View style={{ flexDirection: 'row' }}>
                                             <MaterialCommunityIcons
                                                 style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 5, }}
                                                 name="lock" size={26} color="#FFF" />
@@ -171,6 +173,7 @@ function LoginScreen() {
 
     );
 }
+
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
         marginBottom: 50,
     },
     input: {
-        flexDirection: 'row-reverse',
+        flexDirection: 'row',
         backgroundColor: '#000',
         width: '80%',
         height: 40,

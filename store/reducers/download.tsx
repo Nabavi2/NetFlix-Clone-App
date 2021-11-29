@@ -6,7 +6,7 @@ const DInitialState = {
   downloadList: [],
 };
 
-export default  (state = DInitialState, action: any) => {
+export const DownloadReducer = (state = DInitialState, action: any) => {
   switch (action.type) {
     case ADD_DOWNLOAD:
       const downloadItem = new Download(
@@ -37,7 +37,7 @@ export default  (state = DInitialState, action: any) => {
             item.downloaded,
           )
       );
-      return { downloadList: dList};
+      return { downloadList: [...state.downloadList, ...dList] };
     case UPDATE_DOWNLOAD: 
        const doList: never[] = state.downloadList;
        doList.forEach((element: any) => {

@@ -47,9 +47,10 @@ function MovieDetailScreen(props: any) {
 
     const episode = useSelector((state) => state.series.availableEpisode);
     const season = useSelector((state) => state.series.availableSeason);
-    const movieById = useSelector((state) => state.movies.availableMovieById);
+    const movieById: any = useSelector((state) => state.movies.availableMovieById);
     const series = useSelector((state) => state.series.availableSeries);
-    const seasons = season.map((seasonName: any) => seasonName.name);
+    const seasons = season.map((seasonN: any) => seasonN.name);
+
     const firstEpisode = episode;
     const firstSeasone = season;
     const [currentSeasone, setCurrentSeasone] = useState(firstSeasone);
@@ -77,14 +78,7 @@ function MovieDetailScreen(props: any) {
     useEffect(() => {
         episodeAndSeasonHandler();
     }, [dispatch, episodeAndSeasonHandler]);
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <ActivityIndicator size="large" color="#c75a5f" />
-            </View>
-        );
-    }
-
+    //   if (isLoading) {
     return (
         <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
             <View>
@@ -145,7 +139,7 @@ function MovieDetailScreen(props: any) {
                                                 addDownload(
                                                     resumableDownload.current.savable(),
                                                     movieById.id,
-                                                    episode.id,
+                                                    episode,
                                                     false
                                                 )
                                             );
@@ -241,7 +235,7 @@ function MovieDetailScreen(props: any) {
                                     {seriesId ? (
                                         <Picker
                                             style={{
-                                                width: 150,
+                                                width: 220,
                                                 color: "#FFF",
                                                 backgroundColor: "#FFF",
                                             }}
@@ -277,6 +271,7 @@ function MovieDetailScreen(props: any) {
         </View>
     );
 }
+// }
 const styles = StyleSheet.create({
     image: {
         width: "100%",
