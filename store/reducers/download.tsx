@@ -3,7 +3,7 @@ import * as fileSystem from "expo-file-system";
 import { useState } from "react";
 import { Download } from "../../models/Download";
 const DInitialState = {
-  downloadList: [],
+  downloadList: null,
 };
 
 export const DownloadReducer = (state = DInitialState, action: any) => {
@@ -16,7 +16,7 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
         action.episodeId,
         false
       );
-      const newList = [...state.downloadList, downloadItem];
+      const newList = [...state.downloadList!, downloadItem];
       return { downloadList: newList };
     case FETCH_DOWNLOADS:
       const resumableDownload = fileSystem.createDownloadResumable(
@@ -37,9 +37,9 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
             item.downloaded,
           )
       );
-      return { downloadList: [...state.downloadList, ...dList] };
+      return { downloadList: [...dList] };
     case UPDATE_DOWNLOAD: 
-       const doList: never[] = state.downloadList;
+       const doList: never[] = state.downloadList!;
        doList.forEach((element: any) => {
            if(element.downloadId === action.downloadId){
                element.downloaded = true;
