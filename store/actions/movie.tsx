@@ -3,13 +3,10 @@ export const SET_MOVIES = 'SET_MOVIES';
 export const SET_MOVIE_BY_ID = 'SET_MOVIE_BY_ID';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AnyObject } from 'yup/lib/object';
+import { url } from '../../constants/links';
 import Movie from '../../models/Movie';
-import { baseURL } from '../reducers/Auth';
 
 
-// export const addMovie = (movies: any) => {
-//     return { type: SET_MOVIES, movies: movies };
-// };
 
 
 export const fetchMovies = () => {
@@ -18,7 +15,7 @@ export const fetchMovies = () => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/movies`,
+                `${url}/movies`,
                 {
                     method: "GET",
                     headers: {
@@ -65,9 +62,8 @@ export const fetchMovieById = (id: any) => {
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/movies/${id}`,
+                `${url}/movies/${id}`,
                 {
                     method: "GET",
                     headers: {

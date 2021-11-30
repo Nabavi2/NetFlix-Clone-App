@@ -19,10 +19,6 @@ function HomeScreen() {
   const series = useSelector((state) => state.series.availableSeries);
   const episode = useSelector((state) => state.series.availableEpisode);
 
-  console.log(" thisis si  MMMOOOVVVIIIEE ", movie);
-  console.log(" thisis si  EEEPPPPSIISOSOSd ", episode);
-
-
   const dispatch = useDispatch()
   const movieAndSeriesHandler = useCallback(async () => {
     try {
@@ -36,7 +32,8 @@ function HomeScreen() {
     } catch (err: any) {
       setError(err.message)
 
-      alert(err.message);
+      console.log(err.message);
+      console.warn(err.message);
       setIsLoading(false);
     }
 

@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "../../constants/links";
 export const SIGNUP = "SIGNUP";
-import { baseURL } from './../reducers/Auth';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT"
 
 export const loginUser = (email: string, password: string) => {
     return async (dispatch: any) => {
         const response = await fetch(
-            `${baseURL}/auth/local`,
+            `${url}/auth/local`,
             {
                 method: "POST",
                 headers: {
@@ -19,14 +19,13 @@ export const loginUser = (email: string, password: string) => {
                 }),
             }
         );
-        console.log('this is my response data  ', response)
         if (!response.ok) {
 
             const errorResData = await response.json();
             const errorId = errorResData.error.message;
 
             let message = "Some thing went wrong!";
-            if (response.status == !200) {
+            if (response.status !== 200) {
                 message = "This email is or password is  incorrect!";
             }
             console.log('error message  ', message);
@@ -44,17 +43,10 @@ export const loginUser = (email: string, password: string) => {
     };
 };
 
-// export const authenticate = (userToken: string, undefined: string, password: string) => {
-//     return (dispatch: Function) => {
-
-//         dispatch({ type: AUTHENTICATE, userToken, undefined, password });
-//     };
-// };
-
 export const signupUser = (email: string, password: string) => {
     return async (dispatch: Function) => {
         const response = await fetch(
-            `${baseURL}/auth/local/register`,
+            `${url}/auth/local/register`,
             {
                 method: "POST",
                 headers: {
@@ -85,7 +77,10 @@ export const signupUser = (email: string, password: string) => {
 
 export const logout = () => {
     AsyncStorage.removeItem("userData");
-    return { type: LOGOUT };
+    return async (dispatch: any) => {
+
+        dispatch({ type: LOGOUT, nothing: "" });
+    };
 }
 
 

@@ -6,9 +6,9 @@ import { Alert, TextInput, StyleSheet, View, Image, ActivityIndicator, Touchable
 import { Text } from '../components/Themed';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import * as authActions from "../store/actions/Auth";
+import * as authActions from "../store/actions/AuthAction";
 import * as movieActions from '../store/actions/movie';
-import { loginUser } from '../store/actions/Auth';
+import { loginUser } from '../store/actions/AuthAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { string } from 'yup/lib/locale';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -40,14 +40,14 @@ function LoginScreen() {
     const authHandler = async (email: string, password: string) => {
         setError(null);
         setIsLoading(true);
-        let action;
+        let action: Function;
         if (isSignup) {
-            action = await dispatch(authActions.signupUser(email, password))
+          action =  await dispatch(authActions.signupUser(email, password))
         } else {
             action = await dispatch(authActions.loginUser(email, password))
         }
         try {
-            await dispatch(action)
+            action;
         } catch (error: any) {
             setIsLoading(false)
             setError(error)

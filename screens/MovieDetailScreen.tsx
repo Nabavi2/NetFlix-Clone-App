@@ -72,7 +72,7 @@ function MovieDetailScreen(props: any) {
         } catch (err: any) {
             setError(err.message);
             setIsLoading(false);
-            alert(err.message);
+            console.log(err.message);
         }
     }, [dispatch]);
     useEffect(() => {

@@ -26,7 +26,7 @@ import LinkingConfiguration from './LinkingConfiguration';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import LoginScreen from '../screens/LoginScreen';
 import { useDispatch } from 'react-redux';
-import * as authActions from '../store/actions/Auth';
+import * as authActions from '../store/actions/AuthAction';
 import TestScreen from '../screens/TestScreen';
 
 
@@ -211,12 +211,13 @@ export const AppDrawerNavigator = () => {
             color={focused ? '#7cc' : '#ccc'}
           />
         ),
+        headerTitleStyle: {color: "#c41a1a"}
       }}
     //defaultScreenOptions={{ drawerActiveTintColor: Colors.primary, headerShown: false }}
 
     >
       <DrawerNavigator.Screen
-        name="NetFlix"
+        name="NETFLIX"
         component={BottomTabNavigator}
         options={{
           drawerIcon: (props: any) => (

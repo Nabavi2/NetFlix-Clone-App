@@ -2,11 +2,12 @@ export const SET_SERIES = 'SET_SERIES';
 export const SET_SEASON = 'SET_SEASON';
 export const SET_EPISODE = 'SET_EPISODE';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { url } from '../../constants/links';
 import Episode from '../../models/Episde';
 import Movie from '../../models/Movie';
 import Season from '../../models/Season';
 import Series from '../../models/Series';
-import { baseURL } from '../reducers/Auth';
+
 
 export const fetchSeries = () => {
     try {
@@ -14,7 +15,7 @@ export const fetchSeries = () => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/serieses`,
+                `${url}/serieses`,
                 {
                     method: "GET",
                     headers: {
@@ -58,7 +59,7 @@ export const fetchSeason = () => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/seasons`,
+                `${url}/seasons`,
                 {
                     method: "GET",
                     headers: {
@@ -100,7 +101,7 @@ export const fetchEpisode = () => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/episodes`,
+                `${url}/episodes`,
                 {
                     method: "GET",
                     headers: {
