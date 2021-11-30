@@ -11,7 +11,10 @@ import * as React from 'react';
 import {
   createDrawerNavigator,
   DrawerItemList,
+  DrawerToggleButton,
+  
 } from "@react-navigation/drawer";
+
 import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -44,7 +47,7 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
-    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false }} >
+    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false,  }} >
       <Stack1.Screen name="Home"
         component={AppDrawerNavigator}
       />
@@ -76,7 +79,12 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        
+        tabBarActiveTintColor: "#eee",
+        tabBarStyle: {backgroundColor: "black", overflow: "hidden"},
+        headerShown: false,
+        headerStyle: { backgroundColor: "#222"}
+      
 
       }}>
       <BottomTab.Screen
@@ -172,7 +180,6 @@ function TabBarIcon(props: {
 
 //Drawer Stack Navigator
 const DrawerNavigator = createDrawerNavigator();
-
 export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
   return (
@@ -181,14 +188,14 @@ export const AppDrawerNavigator = () => {
       drawerContent={(props: any) => {
 
         return (
-          <View style={{ flex: 1, paddingTop: 20 }}>
+          <View style={{ flex: 1, paddingTop: 20, backgroundColor: "#222" }}>
             <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
               <Image
-                style={{ width: 200, height: 200, marginLeft: 30, marginBottom: 20, marginTop: 30 }}
+                style={{ width: 200, height: 200, marginLeft: 30, marginBottom: 20, marginTop: 30, borderRadius: 100, }}
                 source={require('../assets/images/netflix.jpg')} />
               <DrawerItemList {...props} />
               <Pressable
-                style={{ width: '55%', height: 35, flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }}
+                style={{ width: '55%', height: 35, flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center' }}
                 onPress={() => {
                   dispatch(authActions.logout());
                   props.navigation.navigate("LoginScreen");
@@ -202,16 +209,11 @@ export const AppDrawerNavigator = () => {
         );
       }}
       screenOptions={{
-        drawerPosition: 'left',
-
-        drawerIcon: ({ focused, size }) => (
-          <Ionicons
-            name="menu"
-            size={size}
-            color={focused ? '#7cc' : '#ccc'}
-          />
-        ),
-        headerTitleStyle: {color: "#c41a1a"}
+        drawerActiveTintColor: "red",
+        headerStyle: {backgroundColor: "#222"},
+        headerTintColor: "white",
+        headerShadowVisible: true,
+        drawerInactiveTintColor: "#ddd"
       }}
     //defaultScreenOptions={{ drawerActiveTintColor: Colors.primary, headerShown: false }}
 
@@ -227,6 +229,7 @@ export const AppDrawerNavigator = () => {
               color={props.color}
             />
           ),
+          headerTitleStyle: {color:"red"}
         }}
       />
       <DrawerNavigator.Screen

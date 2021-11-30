@@ -40,7 +40,7 @@ function SearchScreen() {
         }
     };
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: "black", }}>
             <SearchBar
                 placeholder="Search..."
                 onChangeText={(text) => searchFilterFunction(text)}

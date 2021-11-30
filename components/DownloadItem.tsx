@@ -166,6 +166,7 @@ function DownloadItem(props: any) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "transparent",
     alignSelf: "center",
     justifyContent: "center",
     flexDirection: "row",
@@ -176,6 +177,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   title: {
+    color: "white",
     fontSize: 14,
     fontWeight: "600",
   },
@@ -189,6 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
+    
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
@@ -201,6 +204,7 @@ const styles = StyleSheet.create({
   checkIcon: {
     alignItems: "center",
     width: 85,
+    backgroundColor: "transparent",
   },
 });
 export default DownloadItem;

@@ -45,10 +45,10 @@ function ComingSoonScreen() {
   }, [dispatch, loadComingSoon]);
   console.log("commmmmming");
   console.log(comSonList);
-
+  const na = useNavigation();
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center",backgroundColor: "black", }}>
         <ActivityIndicator size="large" color="red" />
       </View>
     );
@@ -56,7 +56,7 @@ function ComingSoonScreen() {
 
   return (
     <FlatList
-     
+     style={{backgroundColor: "black"}}
       refreshControl={
         <RefreshControl
         onRefresh={loadComingSoon}
