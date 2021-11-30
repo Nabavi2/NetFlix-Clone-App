@@ -9,8 +9,8 @@ function SearchScreen() {
 
 
     // const movies = useSelector((state) => state.movies.availableMovies);
-    const episode: [] = useSelector((state) => state.series.availableEpisode);
-    const movies: [] = useSelector((state) => state.movies.availableMovies);
+    const episode = useSelector((state) => state.series.availableEpisode);
+    const movies = useSelector((state) => state.movies.availableMovies);
 
     // const data = series.prototype.concat(movies);
     const data = movies.concat(episode)
@@ -40,7 +40,7 @@ function SearchScreen() {
         }
     };
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: "black", }}>
             <SearchBar
                 placeholder="Search..."
                 onChangeText={(text) => searchFilterFunction(text)}

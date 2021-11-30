@@ -51,7 +51,7 @@ export default function DownloadScreen() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "black" }}>
         <ActivityIndicator color="red" size="large" />
       </View>
     );
@@ -59,6 +59,7 @@ export default function DownloadScreen() {
 
   return (
     <FlatList
+    style={{ backgroundColor: "black"}}
       data={downloads}
       keyExtractor={(item: any) => item.downloadId}
       renderItem={({ item }) => <DownloadItem downloadItem={item} />}

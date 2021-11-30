@@ -3,7 +3,7 @@
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Category from '../../models/Category';
-import { baseURL } from '../reducers/Auth';
+import { url } from "../../constants/links";
 
 
 
@@ -14,7 +14,7 @@ export const fetchCategories = () => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${baseURL}/categories`,
+                `${url}/categories`,
                 {
                     method: "GET",
                     headers: {
@@ -35,6 +35,7 @@ export const fetchCategories = () => {
                     new Category(
                         resData[key].id,
                         resData[key].title,
+
                     )
                 );
             }
