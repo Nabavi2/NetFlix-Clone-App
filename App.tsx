@@ -7,7 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import authReducer from "./store/reducers/Auth";
+import AuthReducer from "./store/reducers/AuthReducer";
 import movieReducer from './store/reducers/movie';
 import seriesReducer from './store/reducers/series';
 import { DownloadReducer } from './store/reducers/download';
@@ -15,14 +15,14 @@ import ComingSoonReducer from "./store/reducers/ComingSoon";
 import CategoryReducer from './store/reducers/category';
 
 const rootReducer = combineReducers({
-  auth: authReducer,
+  auth: AuthReducer,
   movies: movieReducer,
   series: seriesReducer,
   download: DownloadReducer,
   comingSoon: ComingSoonReducer,
   category: CategoryReducer,
 });
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer,applyMiddleware(thunk));
 export default function App() {
 
 

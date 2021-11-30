@@ -19,25 +19,6 @@ function HomeCategories(props: any) {
 
     let i = 0;
     return (
-        // <View style={styles.container}>
-        //     <ScrollView
-        //         horizontal={true}
-        //     >
-        //         <View style={{ backgroundColor: '#000', width: '100%' }}>
-        //             <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
-        //                 {category.category_id.title}
-        //             </Text>
-        //             <Pressable onPress={() => {
-        //                 navigation.setParams('MovieDetailScreen', { movieId: category.id });
-        //                 navigation.navigate('MovieDetailScreen', { movieId: category.id })
-        //             }}>
-        //                 <Image style={styles.image} source={{ uri: category.poster }} />
-
-        //             </Pressable>
-        //         </View>
-
-        //     </ScrollView >
-        // </View >
         <View style={styles.container}>
             <Text style={{ marginVertical: 10, marginLeft: 10, color: '#FFF', fontSize: 20, }}>
                 {category.title}
