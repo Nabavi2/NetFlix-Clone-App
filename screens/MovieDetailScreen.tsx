@@ -40,10 +40,10 @@ function MovieDetailScreen(props: any) {
     );
     const navigation = useNavigation();
     const id = props.route.params.movieId;
-    const id2 = props.route.params.seriesId;
+    const id2 = props.route.params.episodeId;
 
     let movieId = id;
-    let seriesId = id2;
+    let episodeId = id2;
 
     const episode = useSelector((state) => state.series.availableEpisode);
     const season = useSelector((state) => state.series.availableSeason);
@@ -219,7 +219,7 @@ function MovieDetailScreen(props: any) {
                                             backgroundColor: "#000"
                                         }}
                                     >
-                                        {seriesId ? (
+                                        {episodeId ? (
                                             <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
                                                 {" "}
                                                 EPISODES{" "}
@@ -232,7 +232,7 @@ function MovieDetailScreen(props: any) {
                                         )}
                                         <Text style={{ color: "#8e96a3" }}>MORE LIKE THIS</Text>
                                     </View>
-                                    {seriesId ? (
+                                    {episodeId ? (
                                         <Picker
                                             style={{
                                                 width: 220,
@@ -256,7 +256,7 @@ function MovieDetailScreen(props: any) {
                     />
                 </View>
                 <View>
-                    {seriesId ? (
+                    {episodeId ? (
                         <FlatList
                             data={movieId ? movie : episode}
                             renderItem={({ item }) => {

@@ -9,62 +9,63 @@ import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { useSelector } from 'react-redux';
 
 
+
 function SeriesCategories(props: any) {
     const { category } = props;
+    const series = useSelector((state) => state.series.availableSeries);
+    const episode = useSelector((state) => state.series.availableEpisode);
 
     const navigation = useNavigation();
-    console.log("MMMMOOOOVVVVIE IINNNNN HOOOMMEECART  ", category)
 
     let i = 0;
     return (
-        <View style={styles.container}>
-            <ScrollView
-                horizontal={true}
-            >
-                <View style={{ backgroundColor: '#000', width: '100%' }} >
-                    <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
-                        {category.title}
-                    </Text>
-                    <Pressable onPress={() => {
-                        navigation.setParams('MovieDetailScreen', { seriesId: category.id });
-                        navigation.navigate('MovieDetailScreen', { seriesId: category.id })
-                    }}>
-                        <Image style={styles.image} source={{ uri: category.poster }} />
-
-                    </Pressable>
-                </View>
-
-            </ScrollView >
-        </View >
         // <View style={styles.container}>
-        //     <Text style={{ margin: 10, color: '#000' }}>
-        //         {category.title}
-        //     </Text>
-        //     <FlatList
-        //         data={category}
-        //         key={category.id}
-        //         renderItem={({ item }) => {
-        //             return (
-        //                 <Pressable onPress={() => {
-        //                     navigation.setParams('MovieDetailScreen', { movieId: category.id });
-        //                     navigation.navigate('MovieDetailScreen', { movieId: category.id })
-        //                 }}>
-        //                     <Image style={styles.image} source={{ uri: item.poster }} />
-        //                 </Pressable>
-        //             )
-        //         }}
-        //         horizontal
-        //     />
+        //     <ScrollView
+        //         horizontal={true}
+        //     >
+        //         <View style={{ backgroundColor: '#000', width: '100%' }} >
+        //             <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
+        //                 {category.title}
+        //             </Text>
+        //             <Pressable onPress={() => {
+        //                 navigation.setParams('MovieDetailScreen', { seriesId: category.id });
+        //                 navigation.navigate('MovieDetailScreen', { seriesId: category.id })
+        //             }}>
+        //                 <Image style={styles.image} source={{ uri: category.poster }} />
 
-        // </View>
+        //             </Pressable>
+        //         </View>
+
+        //     </ScrollView >
+        // </View >
+        <View style={styles.container}>
+            <Text style={{ margin: 10, color: '#FFF', fontSize: 20 }}>
+                {category.title}
+            </Text>
+            <FlatList
+                data={episode}
+                key={episode.id}
+                renderItem={({ item }) => {
+                    return (
+                        <Pressable onPress={() => {
+                            navigation.setParams('MovieDetailScreen', { episodeId: item.id });
+                            navigation.navigate('MovieDetailScreen', { episodeId: item.id })
+                        }}>
+                            <Image style={styles.image} source={{ uri: item.poster }} />
+                        </Pressable>
+                    )
+                }}
+                horizontal
+            />
+
+        </View>
 
     );
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+
         backgroundColor: '#000',
 
         marginBottom: 20,

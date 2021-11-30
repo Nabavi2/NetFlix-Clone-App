@@ -4,69 +4,69 @@ import { StyleSheet, Image, FlatList, Pressable, TouchableOpacity, ScrollView, L
 import { View, Text } from './../components/Themed';
 import Navigation from '../navigation/index';
 import { useNavigation } from '@react-navigation/native';
-import movie from '../data/movie';
-import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { useSelector } from 'react-redux';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
 function HomeCategories(props: any) {
     const { category } = props;
 
+    console.log('CAAAAAAAAAAAAAAAAAAAAA ', category)
+    const movie = useSelector((state) => state.movies.availableMovies);
+
+
     const navigation = useNavigation();
-    console.log("MMMMOOOOVVVVIE IINNNNN HOOOMMEECART  ", category)
+
 
     let i = 0;
     return (
-        <View style={styles.container}>
-            <ScrollView
-
-                horizontal={true}
-            >
-                <View style={{ backgroundColor: '#000', width: '100%' }}>
-                    <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
-                        {category.category_id.title}
-                    </Text>
-                    <Pressable onPress={() => {
-                        navigation.setParams('MovieDetailScreen', { movieId: category.id });
-                        navigation.navigate('MovieDetailScreen', { movieId: category.id })
-                    }}>
-                        <Image style={styles.image} source={{ uri: category.poster }} />
-
-                    </Pressable>
-                </View>
-
-            </ScrollView >
-        </View >
         // <View style={styles.container}>
-        //     <Text style={{ margin: 10, color: '#000' }}>
-        //         {category.title}
-        //     </Text>
-        //     <FlatList
-        //         data={category}
-        //         key={category.id}
-        //         renderItem={({ item }) => {
-        //             return (
-        //                 <Pressable onPress={() => {
-        //                     navigation.setParams('MovieDetailScreen', { movieId: category.id });
-        //                     navigation.navigate('MovieDetailScreen', { movieId: category.id })
-        //                 }}>
-        //                     <Image style={styles.image} source={{ uri: item.poster }} />
-        //                 </Pressable>
-        //             )
-        //         }}
-        //         horizontal
-        //     />
+        //     <ScrollView
+        //         horizontal={true}
+        //     >
+        //         <View style={{ backgroundColor: '#000', width: '100%' }}>
+        //             <Text style={{ margin: 10, color: '#FFF', fontSize: 24, }}>
+        //                 {category.category_id.title}
+        //             </Text>
+        //             <Pressable onPress={() => {
+        //                 navigation.setParams('MovieDetailScreen', { movieId: category.id });
+        //                 navigation.navigate('MovieDetailScreen', { movieId: category.id })
+        //             }}>
+        //                 <Image style={styles.image} source={{ uri: category.poster }} />
 
-        // </View>
+        //             </Pressable>
+        //         </View>
+
+        //     </ScrollView >
+        // </View >
+        <View style={styles.container}>
+            <Text style={{ marginVertical: 10, marginLeft: 10, color: '#FFF', fontSize: 20, }}>
+                {category.title}
+            </Text>
+            <FlatList
+                data={movie}
+                key={movie.id}
+                renderItem={({ item }) => {
+                    return (
+                        <Pressable onPress={() => {
+                            navigation.setParams('MovieDetailScreen', { movieId: item.id });
+                            navigation.navigate('MovieDetailScreen', { movieId: item.id })
+                        }}>
+                            <Image style={styles.image} source={{ uri: item.poster }} />
+                        </Pressable>
+                    )
+                }}
+                horizontal
+            />
+
+        </View >
 
     );
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // alignItems: 'center',
+        // justifyContent: 'center',
         backgroundColor: '#000',
         width: '100%',
     },

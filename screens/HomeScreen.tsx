@@ -2,15 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Image, FlatList, ActivityIndicator, ScrollView, Platform } from 'react-native';
 import movie from '../data/movie';
 import { View, Text } from './../components/Themed';
-import { AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import HomeCategories from '../components/HomeCategories';
 import * as movieActions from '../store/actions/movie';
 import * as seriesActions from '../store/actions/series';
+import * as categoryActions from '../store/actions/category';
 import { useDispatch, useSelector } from 'react-redux';
 import Movie from './../models/Movie';
 import SeriesCategories from '../components/SeriesCategories';
-import HeaderButton from '../components/HeaderButton';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 function HomeScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +16,9 @@ function HomeScreen() {
   const movie = useSelector((state) => state.movies.availableMovies);
   const series = useSelector((state) => state.series.availableSeries);
   const episode = useSelector((state) => state.series.availableEpisode);
+  const category = useSelector((state) => state.category.availableCategories);
 
-  console.log(" thisis si  MMMOOOVVVIIIEE ", movie);
-  console.log(" thisis si  EEEPPPPSIISOSOSd ", episode);
+  console.log(" thisis si   CAATEGOOOORRRRRY yyyyyyyyyyyyyyyy  ", category);
 
 
   const dispatch = useDispatch()
@@ -28,6 +26,7 @@ function HomeScreen() {
     try {
       setError(null)
       setIsLoading(true);
+      await dispatch(categoryActions.fetchCategories());
       await dispatch(movieActions.fetchMovies());
       await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
@@ -56,16 +55,17 @@ function HomeScreen() {
 
     <View style={styles.container}>
       <FlatList
-        data={movie}
+        data={category}
         renderItem={({ item }) => (
           <HomeCategories category={item} />
         )}
-      />
-      <View style={{ width: 250, backgroundColor: '#000', height: 30, marginVertical: 7, marginHorizontal: 10, }}>
-        <Text style={{ fontSize: 20, color: '#c75a5f' }}> These are NetFlix Series </Text>
-      </View>
 
-      <FlatList
+      />
+      {/* <View style={{ width: 250, backgroundColor: '#000', height: 30, marginVertical: 7, marginHorizontal: 10, }}>
+        <Text style={{ fontSize: 20, color: '#c75a5f' }}> These are NetFlix Series </Text>
+      </View> */}
+
+      {/* <FlatList
         data={episode}
         renderItem={({ item }) =>
         (
@@ -73,7 +73,7 @@ function HomeScreen() {
         )
         }
 
-      />
+      /> */}
 
     </View>
 
@@ -81,34 +81,6 @@ function HomeScreen() {
   );
 }
 
-
-export const screenOverViewOption = (navData: any) => {
-  return {
-    headerTitle: "All Products",
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          title="Home"
-          iconName={Platform.OS === "android" ? "home" : "home"}
-          onPress={() => {
-            navData.navigation.navigate("Home");
-          }}
-        />
-      </HeaderButtons>
-    ),
-  };
-};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

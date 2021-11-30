@@ -12,8 +12,8 @@ import {
   createDrawerNavigator,
   DrawerItemList,
 } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
-
 import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -28,6 +28,9 @@ import LoginScreen from '../screens/LoginScreen';
 import { useDispatch } from 'react-redux';
 import * as authActions from '../store/actions/Auth';
 import TestScreen from '../screens/TestScreen';
+import { Tabs } from './TopTab';
+import MovieScreen from '../screens/MovieScreen';
+import SeriesScreen from '../screens/SeriesScreen';
 
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -37,9 +40,52 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       {/* <StackNavigator /> */}
       <StackNavigator />
+      {/* <TopTabNavigator /> */}
     </NavigationContainer>
   );
 }
+// top tab list vies
+const Tab = createMaterialTopTabNavigator();
+
+const TopTabNavigator = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Movies"
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: '#717a73',
+        },
+        tabBarPressOpacity: 1,
+      }}
+    // style={{ backgroundColor: '#717a73' }}
+
+    >
+      <Tab.Screen
+        name="Movies" component={MovieScreen}
+        options={{
+          tabBarLabelStyle: {
+            color: '#FFF'
+          }
+        }}
+      />
+      <Tab.Screen
+        name="Series" component={SeriesScreen}
+        options={{
+
+          tabBarLabelStyle: { color: '#FFF' }
+        }}
+
+      />
+
+    </Tab.Navigator>
+
+  )
+}
+
+
+
+
+
 
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
@@ -52,6 +98,17 @@ const StackNavigator = () => {
       <Stack1.Screen
         name="LoginScreen"
         component={LoginScreen}
+
+      />
+
+      <Stack1.Screen
+        name="Movies"
+        component={MovieScreen}
+
+      />
+      <Stack1.Screen
+        name="Series"
+        component={SeriesScreen}
 
       />
       <Stack1.Screen
@@ -81,7 +138,7 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={TopTabNavigator}
         options={({ navigation }: RootTabScreenProps<'Home'>) => ({
           title: 'Home Screen',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
@@ -188,14 +245,14 @@ export const AppDrawerNavigator = () => {
                 source={require('../assets/images/netflix.jpg')} />
               <DrawerItemList {...props} />
               <Pressable
-                style={{ width: '55%', height: 35, flexDirection: 'row', backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }}
+                style={{ width: '70%', height: 35, flexDirection: 'row', backgroundColor: '#000', }}
                 onPress={() => {
                   dispatch(authActions.logout());
                   props.navigation.navigate("LoginScreen");
                 }}
               >
-                <SimpleLineIcons name="logout" size={24} color="#FFF" />
-                <Text style={{ color: '#c1c9c5', fontSize: 20, fontWeight: '500', marginLeft: 30 }}>Logout</Text>
+                <SimpleLineIcons name="logout" size={24} color="#c4c7cc" style={{ marginLeft: 15, marginRight: 10, }} />
+                <Text style={{ color: '#c4c7cc', fontSize: 20, fontWeight: '500', marginLeft: 25 }}>Logout</Text>
               </Pressable>
             </SafeAreaView>
           </View>
@@ -203,6 +260,9 @@ export const AppDrawerNavigator = () => {
       }}
       screenOptions={{
         drawerPosition: 'left',
+        drawerStyle: { backgroundColor: '#000' },
+        drawerActiveTintColor: '#FFF',
+        drawerInactiveTintColor: '#c4c7cc',
 
         drawerIcon: ({ focused, size }) => (
           <Ionicons
@@ -241,6 +301,7 @@ export const AppDrawerNavigator = () => {
           ),
         }}
       />
+
       <DrawerNavigator.Screen
         name="ComingSoonScreen"
         component={ComingSoonScreen}

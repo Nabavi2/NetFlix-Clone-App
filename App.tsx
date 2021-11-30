@@ -10,8 +10,9 @@ import Navigation from './navigation';
 import authReducer from "./store/reducers/Auth";
 import movieReducer from './store/reducers/movie';
 import seriesReducer from './store/reducers/series';
-import {DownloadReducer} from './store/reducers/download';
+import { DownloadReducer } from './store/reducers/download';
 import ComingSoonReducer from "./store/reducers/ComingSoon";
+import CategoryReducer from './store/reducers/category';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   series: seriesReducer,
   download: DownloadReducer,
   comingSoon: ComingSoonReducer,
+  category: CategoryReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {
