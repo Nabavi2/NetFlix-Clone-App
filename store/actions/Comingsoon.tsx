@@ -1,5 +1,5 @@
 export const FETCH_COMINGSOONS = "FETCH_COMINGSOONS";
-
+export const UPDATE_SELECTED_COMINGSOON = "UPATE_SELECTED_COMINGSOON";
 export const fetchComingSoons = () => {
   return async (dispatch: any) => {
     const token =
@@ -19,10 +19,16 @@ export const fetchComingSoons = () => {
     }
     const resData = await response.json();
     console.log("resssssss", resData);
-    
+
     dispatch({
       type: FETCH_COMINGSOONS,
       comingSoonList: resData,
     });
+  };
+};
+
+export const updateSelectedComingSoon = (comingSoon: any) => {
+  return async (dispatch: any) => {
+    dispatch({ type: UPDATE_SELECTED_COMINGSOON, comingSoon });
   };
 };

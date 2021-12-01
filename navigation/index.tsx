@@ -3,43 +3,69 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome, AntDesign, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
+import {
+  FontAwesome,
+  AntDesign,
+  Ionicons,
+  MaterialIcons,
+  SimpleLineIcons,
+} from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as React from "react";
 import {
   createDrawerNavigator,
   DrawerItemList,
   DrawerToggleButton,
-  
 } from "@react-navigation/drawer";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import DownloadScreen from '../screens/DownloadScreen';
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import ComingSoonScreen from '../screens/ComingSoonScreen';
-import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
-import MovieDetailScreen from '../screens/MovieDetailScreen';
-import LoginScreen from '../screens/LoginScreen';
-import { useDispatch } from 'react-redux';
-import * as authActions from '../store/actions/AuthAction';
-import TestScreen from '../screens/TestScreen';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  Platform,
+  Image,
+  Pressable,
+  ColorSchemeName,
+} from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
+import DownloadScreen from "../screens/DownloadScreen";
+import HomeScreen from "../screens/HomeScreen";
+import SearchScreen from "../screens/SearchScreen";
+import ComingSoonScreen from "../screens/ComingSoonScreen";
+import {
+  HomeParamList,
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from "../types";
+import LinkingConfiguration from "./LinkingConfiguration";
+import MovieDetailScreen from "../screens/MovieDetailScreen";
+import LoginScreen from "../screens/LoginScreen";
+import { useDispatch } from "react-redux";
+import * as authActions from "../store/actions/AuthAction";
+import TestScreen from "../screens/TestScreen";
 
-import MovieScreen from '../screens/MovieScreen';
-import SeriesScreen from '../screens/SeriesScreen';
+import MovieScreen from "../screens/MovieScreen";
+import SeriesScreen from "../screens/SeriesScreen";
 
-
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    >
       {/* <StackNavigator /> */}
       <StackNavigator />
       {/* <TopTabNavigator /> */}
@@ -55,64 +81,45 @@ const TopTabNavigator = () => {
       initialRouteName="Movies"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#717a73',
+          backgroundColor: "#717a73",
         },
         tabBarPressOpacity: 1,
       }}
-    // style={{ backgroundColor: '#717a73' }}
-
+      // style={{ backgroundColor: '#717a73' }}
     >
       <Tab.Screen
-        name="Movies" component={MovieScreen}
+        name="Movies"
+        component={MovieScreen}
         options={{
           tabBarLabelStyle: {
-            color: '#FFF'
-          }
+            color: "#FFF",
+          },
         }}
       />
       <Tab.Screen
-        name="Series" component={SeriesScreen}
+        name="Series"
+        component={SeriesScreen}
         options={{
-
-          tabBarLabelStyle: { color: '#FFF' }
+          tabBarLabelStyle: { color: "#FFF" },
         }}
-
       />
-
     </Tab.Navigator>
-
-  )
-}
-
-
-
-
-
+  );
+};
 
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
-    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false,  }} >
-      <Stack1.Screen name="Home"
-        component={AppDrawerNavigator}
-      />
+    <Stack1.Navigator
+      initialRouteName="LoginScreen"
+      screenOptions={{ headerShown: false }}
+    >
+      <Stack1.Screen name="Home" component={AppDrawerNavigator} />
 
-      <Stack1.Screen
-        name="LoginScreen"
-        component={LoginScreen}
+      <Stack1.Screen name="LoginScreen" component={LoginScreen} />
 
-      />
-
-      <Stack1.Screen
-        name="Movies"
-        component={MovieScreen}
-
-      />
-      <Stack1.Screen
-        name="Series"
-        component={SeriesScreen}
-
-      />
+      <Stack1.Screen name="Movies" component={MovieScreen} />
+      <Stack1.Screen name="Series" component={SeriesScreen} />
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
@@ -124,8 +131,8 @@ const StackNavigator = () => {
         options={{ headerShown: true }}
       /> */}
     </Stack1.Navigator>
-  )
-}
+  );
+};
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -135,78 +142,82 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        
         tabBarActiveTintColor: "#eee",
-        tabBarStyle: {backgroundColor: "black", overflow: "hidden"},
+        tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
         headerShown: false,
-        headerStyle: { backgroundColor: "#222"}
-      
-
-      }}>
+        headerStyle: { backgroundColor: "#222" },
+      }}
+    >
       <BottomTab.Screen
         name="Home"
         component={TopTabNavigator}
-        options={({ navigation }: RootTabScreenProps<'Home'>) => ({
-          title: 'Home Screen',
+        options={({ navigation }: RootTabScreenProps<"Home">) => ({
+          title: "Home Screen",
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => navigation.navigate("Home")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-              })}>
-            </Pressable>
+              })}
+            ></Pressable>
           ),
-          headerShown: false
+          headerShown: false,
         })}
-      /><BottomTab.Screen
+      />
+      <BottomTab.Screen
         name="ComingSoon"
         component={ComingSoonScreen}
-        options={({ navigation }: RootTabScreenProps<'ComingSoon'>) => ({
-          title: 'Coming Soon ',
-          tabBarIcon: ({ color }) => <MaterialIcons name="video-library" color={color} size={24} />,
+        options={({ navigation }: RootTabScreenProps<"ComingSoon">) => ({
+          title: "Coming Soon ",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="video-library" color={color} size={24} />
+          ),
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('ComingSoon')}
+              onPress={() => navigation.navigate("ComingSoon")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-              })}>
-
-            </Pressable>
+              })}
+            ></Pressable>
           ),
-          headerShown: false
+          headerShown: false,
         })}
       />
       <BottomTab.Screen
         name="Search"
         component={SearchScreen}
-        options={({ navigation }: RootTabScreenProps<'Search'>) => ({
-          title: 'Search ',
-          tabBarIcon: ({ color }) => <Ionicons name="search" size={24} color={color} />,
+        options={({ navigation }: RootTabScreenProps<"Search">) => ({
+          title: "Search ",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="search" size={24} color={color} />
+          ),
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Search')}
+              onPress={() => navigation.navigate("Search")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-              })}>
-
-            </Pressable>
+              })}
+            ></Pressable>
           ),
-          headerShown: false
+          headerShown: false,
         })}
       />
       <BottomTab.Screen
         name="Download"
         component={DownloadScreen}
-        options={({ navigation }: RootTabScreenProps<'Download'>) => ({
-          title: 'Downloads',
-          tabBarIcon: ({ color }) => <AntDesign name="download" color={color} size={24} />,
+        options={({ navigation }: RootTabScreenProps<"Download">) => ({
+          title: "Downloads",
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="download" color={color} size={24} />
+          ),
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Download')}
+              onPress={() => navigation.navigate("Download")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-              })}>
+              })}
+            >
               {/* <FontAwesome
                 name="info-circle"
                 size={25}
@@ -215,12 +226,10 @@ function BottomTabNavigator() {
               /> */}
             </Pressable>
           ),
-          headerShown: false
+          headerShown: false,
         })}
       />
-
     </BottomTab.Navigator>
-
   );
 }
 
@@ -228,7 +237,7 @@ function BottomTabNavigator() {
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
@@ -240,25 +249,52 @@ export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
   return (
     <DrawerNavigator.Navigator
-
       drawerContent={(props: any) => {
-
         return (
           <View style={{ flex: 1, paddingTop: 20, backgroundColor: "#222" }}>
             <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
               <Image
-                style={{ width: 200, height: 200, marginLeft: 30, marginBottom: 20, marginTop: 30, borderRadius: 100, }}
-                source={require('../assets/images/netflix.jpg')} />
+                style={{
+                  width: 200,
+                  height: 200,
+                  marginLeft: 30,
+                  marginBottom: 20,
+                  marginTop: 30,
+                  borderRadius: 100,
+                }}
+                source={require("../assets/images/netflix.jpg")}
+              />
               <DrawerItemList {...props} />
               <Pressable
-                style={{ width: '55%', height: 35, flexDirection: 'row', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center' }}
+                style={{
+                  width: "55%",
+                  height: 35,
+                  flexDirection: "row",
+                  backgroundColor: "transparent",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
                 onPress={() => {
                   dispatch(authActions.logout());
                   props.navigation.navigate("LoginScreen");
                 }}
               >
-                <SimpleLineIcons name="logout" size={24} color="#c4c7cc" style={{ marginLeft: 15, marginRight: 10, }} />
-                <Text style={{ color: '#c4c7cc', fontSize: 20, fontWeight: '500', marginLeft: 25 }}>Logout</Text>
+                <SimpleLineIcons
+                  name="logout"
+                  size={24}
+                  color="#c4c7cc"
+                  style={{ marginLeft: 15, marginRight: 10 }}
+                />
+                <Text
+                  style={{
+                    color: "#c4c7cc",
+                    fontSize: 20,
+                    fontWeight: "500",
+                    marginLeft: 25,
+                  }}
+                >
+                  Logout
+                </Text>
               </Pressable>
             </SafeAreaView>
           </View>
@@ -266,13 +302,10 @@ export const AppDrawerNavigator = () => {
       }}
       screenOptions={{
         drawerActiveTintColor: "red",
-        headerStyle: {backgroundColor: "#222"},
+        headerStyle: { backgroundColor: "black" },
         headerTintColor: "white",
-        headerShadowVisible: true,
-        drawerInactiveTintColor: "#ddd"
+        drawerInactiveTintColor: "#ddd",
       }}
-    //defaultScreenOptions={{ drawerActiveTintColor: Colors.primary, headerShown: false }}
-
     >
       <DrawerNavigator.Screen
         name="NETFLIX"
@@ -285,7 +318,7 @@ export const AppDrawerNavigator = () => {
               color={props.color}
             />
           ),
-          headerTitleStyle: {color:"red"}
+          headerTitleStyle: { color: "red" },
         }}
       />
       <DrawerNavigator.Screen
@@ -308,7 +341,9 @@ export const AppDrawerNavigator = () => {
         options={{
           drawerIcon: (props: any) => (
             <MaterialIcons
-              name={Platform.OS === "android" ? "video-library" : "video-library"}
+              name={
+                Platform.OS === "android" ? "video-library" : "video-library"
+              }
               size={23}
               color={props.color}
             />
