@@ -11,19 +11,26 @@ import {
 import { Image } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import ComingSoonItem from "../components/ComingSoonItem";
+import HomeCategories from "../components/HomeCategories";
+import { fetchCategories } from "../store/actions/category";
 import { fetchComingSoons } from "../store/actions/Comingsoon";
-import HomeScreen from "./HomeScreen";
 function ComingSoonScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const navigation = useNavigation();
+  const category = useSelector((state) => state.category.availableCategories);
   const comSonList = useSelector((state) => state.comingSoon.comingSoonList);
+  const selectedComingSoon = useSelector(
+    (state) => state.comingSoon.selectedComingSoon
+  );
+  console.log("sssssssssss", selectedComingSoon);
 
   const loadComingSoon = useCallback(async () => {
     setIsLoading(true);
     setIsRefreshing(true);
     try {
+      await dispatch(fetchCategories());
       await dispatch(fetchComingSoons());
     } catch (err) {
       alert(err);
@@ -44,36 +51,77 @@ function ComingSoonScreen() {
     loadComingSoon().then(() => setIsLoading(false));
   }, [dispatch, loadComingSoon]);
   console.log("commmmmming");
-  console.log(comSonList);
-  const na = useNavigation();
+
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center",backgroundColor: "black", }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "black",
+        }}
+      >
         <ActivityIndicator size="large" color="red" />
       </View>
     );
   }
 
   return (
-    <FlatList
-     style={{backgroundColor: "black"}}
-      refreshControl={
-        <RefreshControl
-        onRefresh={loadComingSoon}
-        refreshing={isRefreshing}
-          title="Pull to refresh"
-          tintColor="#fff"
-          titleColor="#fff"
-          colors={["red"]}
-        />
-      }
-      data={comSonList}
-      keyExtractor={(item: any) => item.id}
-      renderItem={({ item }) => <ComingSoonItem item={item} />}
-    />
+    <View style={styles.container}>
+      <Image
+        resizeMode="cover"
+        source={{
+          uri: selectedComingSoon!.poster ? selectedComingSoon.poster : "",
+        }}
+        style={styles.image}
+      />
+      <View style={styles.texts}>
+        <Text style={styles.title}>{selectedComingSoon!.title}</Text>
+        <Text style={styles.subtitle}>Cast: {selectedComingSoon!.cast}</Text>
+        <Text style={styles.subtitle}>
+          Creator: {selectedComingSoon!.creatorName}
+        </Text>
+        <Text style={styles.subtitle}>
+          Release: {selectedComingSoon!.releaseDate}
+        </Text>
+      </View>
+      <FlatList
+        data={category}
+        renderItem={({ item }) => (
+          <HomeCategories category={item} isComingSoon={true} />
+        )}
+      />
+    </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: 400,
+    height: 250,
+  },
+  texts: {
+    width: "100%",
+    marginVertical: 10,
+    paddingLeft: 10,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "white",
+    marginVertical: 5,
+  },
+  subtitle: {
+    color: "lightgrey",
+    fontSize: 15,
+  },
+});
 
 export default ComingSoonScreen;

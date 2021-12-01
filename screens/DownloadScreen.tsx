@@ -19,39 +19,43 @@ export default function DownloadScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-
   const downloads: [] = useSelector((state) => state.download.downloadList);
   console.log("this is the download list: keke");
 
   console.log(downloads);
 
-  const loadDownloads = useCallback( async () => {
+  const loadDownloads = useCallback(async () => {
     setIsLoading(true);
-    try{
-        await dispatch(fetchDownloads());
-    }catch(err){
-        alert(err);
+    try {
+      await dispatch(fetchDownloads());
+    } catch (err) {
+      alert(err);
     }
     setIsLoading(false);
-    
-}, [dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", loadDownloads);
     return () => {
       unsubscribe();
-    }
-  })
-
+    };
+  });
 
   useEffect(() => {
-      setIsLoading(true);
-      loadDownloads().then(() => setIsLoading(false));        
+    setIsLoading(true);
+    loadDownloads().then(() => setIsLoading(false));
   }, [dispatch, loadDownloads]);
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "black" }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "black",
+        }}
+      >
         <ActivityIndicator color="red" size="large" />
       </View>
     );
@@ -59,7 +63,7 @@ export default function DownloadScreen() {
 
   return (
     <FlatList
-    style={{ backgroundColor: "black"}}
+      style={{ backgroundColor: "black" }}
       data={downloads}
       keyExtractor={(item: any) => item.downloadId}
       renderItem={({ item }) => <DownloadItem downloadItem={item} />}

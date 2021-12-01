@@ -1,17 +1,26 @@
-import { FETCH_COMINGSOONS } from "../actions/Comingsoon"
+import {
+  FETCH_COMINGSOONS,
+  UPDATE_SELECTED_COMINGSOON,
+} from "../actions/Comingsoon";
 
 const CInitialState = {
-    comingSoonList: null,
-}
+  comingSoonList: null,
+  selectedComingSoon: {},
+};
 
 const ComingSoonReducer = (state = CInitialState, action: any) => {
-
-    switch(action.type){
-        case FETCH_COMINGSOONS: 
-            return { comingSoonList: action.comingSoonList};
-        default: 
-            return CInitialState;
-    }
-}
+  switch (action.type) {
+    case FETCH_COMINGSOONS:
+      return {
+        comingSoonList: action.comingSoonList,
+        selectedComingSoon: action.comingSoonList[0],
+      };
+    case UPDATE_SELECTED_COMINGSOON:
+      console.log("lisssssssssssst", state.comingSoonList);
+      return { ...state, selectedComingSoon: action.comingSoon };
+    default:
+      return CInitialState;
+  }
+};
 
 export default ComingSoonReducer;

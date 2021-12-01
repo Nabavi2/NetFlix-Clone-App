@@ -1,18 +1,18 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import { setStatusBarStyle, StatusBar } from "expo-status-bar";
+import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import Navigation from "./navigation";
 import AuthReducer from "./store/reducers/AuthReducer";
-import movieReducer from './store/reducers/movie';
-import seriesReducer from './store/reducers/series';
-import { DownloadReducer } from './store/reducers/download';
+import movieReducer from "./store/reducers/movie";
+import seriesReducer from "./store/reducers/series";
+import { DownloadReducer } from "./store/reducers/download";
 import ComingSoonReducer from "./store/reducers/ComingSoon";
-import CategoryReducer from './store/reducers/category';
+import CategoryReducer from "./store/reducers/category";
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -22,10 +22,8 @@ const rootReducer = combineReducers({
   comingSoon: ComingSoonReducer,
   category: CategoryReducer,
 });
-const store = createStore(rootReducer,applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {
-
-
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
@@ -35,7 +33,7 @@ export default function App() {
     return (
       <Provider store={store}>
         <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <StatusBar style="light" />
       </Provider>
     );
   }
