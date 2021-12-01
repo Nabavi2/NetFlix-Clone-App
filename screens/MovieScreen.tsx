@@ -9,6 +9,7 @@ import * as categoryActions from '../store/actions/category';
 import { useDispatch, useSelector } from 'react-redux';
 import Movie from './../models/Movie';
 import SeriesCategories from '../components/SeriesCategories';
+import Colors from '../constants/Colors';
 
 function MovieScreen() {
     const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +47,7 @@ function MovieScreen() {
     if (isLoading) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <ActivityIndicator size='large' color='#c75a5f' />
+                <ActivityIndicator size='large' color={Colors.primary} />
             </View>
         )
     }
@@ -61,24 +62,8 @@ function MovieScreen() {
                 )}
 
             />
-            {/* <View style={{ width: 250, backgroundColor: '#000', height: 30, marginVertical: 7, marginHorizontal: 10, }}>
-        <Text style={{ fontSize: 20, color: '#c75a5f' }}> These are NetFlix Series </Text>
-      </View> */}
-
-            {/* <FlatList
-        data={episode}
-        renderItem={({ item }) =>
-        (
-          <SeriesCategories category={item} />
-        )
-        }
-
-      /> */}
-
         </View>
-
-
-    );
+ );
 }
 
 const styles = StyleSheet.create({

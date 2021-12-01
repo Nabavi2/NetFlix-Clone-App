@@ -11,16 +11,12 @@ import * as React from 'react';
 import {
   createDrawerNavigator,
   DrawerItemList,
-  DrawerToggleButton,
-  
 } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import DownloadScreen from '../screens/DownloadScreen';
-import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ComingSoonScreen from '../screens/ComingSoonScreen';
 import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
@@ -30,23 +26,21 @@ import LoginScreen from '../screens/LoginScreen';
 import { useDispatch } from 'react-redux';
 import * as authActions from '../store/actions/AuthAction';
 import TestScreen from '../screens/TestScreen';
-
 import MovieScreen from '../screens/MovieScreen';
 import SeriesScreen from '../screens/SeriesScreen';
-
+import Colors from '../constants/Colors';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <StackNavigator /> */}
       <StackNavigator />
-      {/* <TopTabNavigator /> */}
+
     </NavigationContainer>
   );
 }
-// top tab list vies
+// This methode is for Top Tab Navigator
 const Tab = createMaterialTopTabNavigator();
 
 const TopTabNavigator = () => {
@@ -55,26 +49,30 @@ const TopTabNavigator = () => {
       initialRouteName="Movies"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: '#717a73',
+          backgroundColor: '#7d8485',
         },
-        tabBarPressOpacity: 1,
       }}
-    // style={{ backgroundColor: '#717a73' }}
 
     >
       <Tab.Screen
         name="Movies" component={MovieScreen}
         options={{
-          tabBarLabelStyle: {
-            color: '#FFF'
-          }
+          // tabBarLabelStyle: {
+          //   color: '#000'
+          // },
+          tabBarActiveTintColor: Colors.primary,
+          tabBarInactiveTintColor: Colors.secondary,
+          tabBarPressOpacity: 0.1,
+          tabBarPressColor: '#FFF',
+
         }}
       />
       <Tab.Screen
         name="Series" component={SeriesScreen}
         options={{
+          tabBarActiveTintColor: Colors.primary,
+          tabBarInactiveTintColor: Colors.secondary,
 
-          tabBarLabelStyle: { color: '#FFF' }
         }}
 
       />
@@ -84,45 +82,30 @@ const TopTabNavigator = () => {
   )
 }
 
-
-
-
-
-
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
-    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false,  }} >
+    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false, }} >
       <Stack1.Screen name="Home"
         component={AppDrawerNavigator}
       />
-
       <Stack1.Screen
         name="LoginScreen"
         component={LoginScreen}
-
       />
-
       <Stack1.Screen
         name="Movies"
         component={MovieScreen}
-
       />
       <Stack1.Screen
         name="Series"
         component={SeriesScreen}
-
       />
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
         options={{ headerShown: true }}
       />
-      {/* <Stack1.Screen
-        name="Search"
-        component={BottomTabNavigator}
-        options={{ headerShown: true }}
-      /> */}
     </Stack1.Navigator>
   )
 }
@@ -135,13 +118,11 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        
-        tabBarActiveTintColor: "#eee",
-        tabBarStyle: {backgroundColor: "black", overflow: "hidden"},
-        headerShown: false,
-        headerStyle: { backgroundColor: "#222"}
-      
 
+        tabBarActiveTintColor: "#eee",
+        tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
+        headerShown: false,
+        headerStyle: { backgroundColor: "#222" }
       }}>
       <BottomTab.Screen
         name="Home"
@@ -207,12 +188,6 @@ function BottomTabNavigator() {
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
             </Pressable>
           ),
           headerShown: false
@@ -240,7 +215,6 @@ export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
   return (
     <DrawerNavigator.Navigator
-
       drawerContent={(props: any) => {
 
         return (
@@ -265,14 +239,12 @@ export const AppDrawerNavigator = () => {
         );
       }}
       screenOptions={{
-        drawerActiveTintColor: "red",
-        headerStyle: {backgroundColor: "#222"},
+        drawerActiveTintColor: Colors.primary,
+        headerStyle: { backgroundColor: "#222" },
         headerTintColor: "white",
         headerShadowVisible: true,
         drawerInactiveTintColor: "#ddd"
       }}
-    //defaultScreenOptions={{ drawerActiveTintColor: Colors.primary, headerShown: false }}
-
     >
       <DrawerNavigator.Screen
         name="NETFLIX"
@@ -285,7 +257,7 @@ export const AppDrawerNavigator = () => {
               color={props.color}
             />
           ),
-          headerTitleStyle: {color:"red"}
+          headerTitleStyle: { color: Colors.primary }
         }}
       />
       <DrawerNavigator.Screen

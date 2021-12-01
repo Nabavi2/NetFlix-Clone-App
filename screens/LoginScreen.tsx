@@ -1,19 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from "react-redux";
 import * as Yup from 'yup';
-import { Formik, useFormik } from 'formik';
+import { Formik } from 'formik';
 import { Alert, TextInput, StyleSheet, View, Image, ActivityIndicator, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { Text } from '../components/Themed';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import * as authActions from "../store/actions/AuthAction";
-import * as movieActions from '../store/actions/movie';
-import { loginUser } from '../store/actions/AuthAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { string } from 'yup/lib/locale';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import HeaderButton from '../components/HeaderButton';
-
+import Colors from '../constants/Colors';
 
 function LoginScreen() {
     const [isSignup, setIsSignup] = useState(false);
@@ -29,12 +24,7 @@ function LoginScreen() {
     const handleEmailFocused = () => {
         setIsEmailFocused(true)
     }
-    const handlePasswordBlur = () => {
-        setIsPasswordFocused(true)
-    }
-    const handleEmaildBlur = () => {
-        setIsEmailFocused(true)
-    }
+
 
     const dispatch = useDispatch()
     const authHandler = async (email: string, password: string) => {
@@ -42,7 +32,7 @@ function LoginScreen() {
         setIsLoading(true);
         let action: Function;
         if (isSignup) {
-          action =  await dispatch(authActions.signupUser(email, password))
+            action = await dispatch(authActions.signupUser(email, password))
         } else {
             action = await dispatch(authActions.loginUser(email, password))
         }
@@ -66,7 +56,7 @@ function LoginScreen() {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <ActivityIndicator
                     size="large"
-                    color="#c75a5f"
+                    color={Colors.primary}
                 />
             </View>
         )
@@ -78,9 +68,6 @@ function LoginScreen() {
                     style={{ width: '75%', height: 100, marginTop: '17%', marginBottom: "10%", }}
                     source={require('../assets/images/nt.png')}
                 />
-                {/* <Ionicons
-                    style={{ marginBottom: 30, width: 120, alignSelf: 'center' }}
-                    name="ios-person-outline" size={114} color="#E50914" /> */}
                 <Text style={{ color: '#FFF', fontSize: 20, marginBottom: '15%' }}> Start your free three days trial</Text>
                 <Formik
                     validationSchema={validationSchema}
@@ -101,28 +88,28 @@ function LoginScreen() {
                                                 name="email" size={28} color="#FFF" />
                                             <TextInput
                                                 style={[styles.input, {
-                                                    borderColor: isEmailFocused ? 'red' : 'grey'
+                                                    borderColor: isEmailFocused ? Colors.primary : Colors.secondary
                                                 }]}
                                                 onFocus={handleEmailFocused}
                                                 placeholder="Email"
-                                                placeholderTextColor='#423e3e'
+                                                placeholderTextColor={Colors.secondary}
                                                 keyboardType="email-address"
                                                 onBlur={handleBlur('email')}
                                                 value={values.email}
                                                 onChangeText={handleChange('email')}
                                             />
                                         </View>
-                                        {errors ? <Text style={{ color: 'red' }}> {touched.email && errors.email} </Text> : null}
+                                        {errors ? <Text style={{ color: Colors.secondary }}> {touched.email && errors.email} </Text> : null}
                                         <View style={{ flexDirection: 'row' }}>
                                             <MaterialCommunityIcons
                                                 style={{ paddingTop: 10, paddingBottom: 10, marginBottom: 5, }}
                                                 name="lock" size={26} color="#FFF" />
                                             <TextInput
                                                 style={[styles.input, {
-                                                    borderColor: isPasswordFocused ? 'red' : 'grey'
+                                                    borderColor: isPasswordFocused ? Colors.primary : Colors.secondary
                                                 }]}
                                                 placeholder="Password"
-                                                placeholderTextColor='#423e3e'
+                                                placeholderTextColor={Colors.secondary}
                                                 secureTextEntry={true}
                                                 keyboardType="default"
                                                 onBlur={handleBlur('password')}
@@ -197,12 +184,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         width: '80%',
         height: 40,
-        borderColor: '#423e3e',
+        borderColor: Colors.secondary,
         borderBottomWidth: 1,
         color: '#FFF'
     },
     button: {
-        backgroundColor: '#c41a1a',
+        backgroundColor: Colors.primary,
         width: '90%',
         height: 40,
         borderRadius: 25,
@@ -211,18 +198,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    // snignupBotton: {
-    //     backgroundColor: '#000',
-    //     borderColor: '#633f59',
-    //     borderWidth: 1,
-    //     width: '90%',
-    //     height: 40,
-    //     borderRadius: 25,
-    //     marginBottom: 20,
-    //     marginTop: 7,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    // },
     cart: {
         backgroundColor: '#000',
         width: '85%',
