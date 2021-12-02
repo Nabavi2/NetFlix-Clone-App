@@ -27,7 +27,7 @@ import { useNavigation } from "@react-navigation/core";
 import VideoPlayBack from "../components/VideoPlayBack";
 import EpisodeItems from "../components/EpisodeItems";
 
-function MovieDetailScreen(props: any) {
+function MovieDetailScreen(props: any,) {
     const dispatch = useDispatch();
 
     //creating downloadResumable.
@@ -58,6 +58,8 @@ function MovieDetailScreen(props: any) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    console.log('SSSSSSSSSSSSSSSSSSSS ', series)
+
     const episodeAndSeasonHandler = useCallback(async () => {
         try {
             setError(null);
@@ -80,7 +82,7 @@ function MovieDetailScreen(props: any) {
     }, [dispatch, episodeAndSeasonHandler]);
     //   if (isLoading) {
     return (
-        <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
+        <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20, marginTop: 5, }}>
             <View>
                 <FlatList
                     data={movieId ? movieById : episode}
@@ -93,7 +95,7 @@ function MovieDetailScreen(props: any) {
                 <View style={{ backgroundColor: '#000' }}>
                     <FlatList
                         key={movieId}
-                        data={movieId ? movieById : series}
+                        data={movieId ? movieById : episode}
                         renderItem={({ item }) => {
                             return (
                                 <View style={{ backgroundColor: '#000' }}>
@@ -258,7 +260,7 @@ function MovieDetailScreen(props: any) {
                 <View>
                     {episodeId ? (
                         <FlatList
-                            data={movieId ? movie : episode}
+                            data={episode}
                             renderItem={({ item }) => {
                                 return (
                                     <EpisodeItems episode={item} onPress={setCurrentEpisode} />

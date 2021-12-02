@@ -1,1 +1,1 @@
-export const url = "http://172.16.1.63:1337";
+export const url = "https://netflix-test-app.herokuapp.com";

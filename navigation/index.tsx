@@ -21,7 +21,6 @@ import * as React from "react";
 import {
   createDrawerNavigator,
   DrawerItemList,
-<<<<<<< HEAD
 } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
@@ -46,54 +45,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-=======
-  DrawerToggleButton,
-} from "@react-navigation/drawer";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import {
-  View,
-  SafeAreaView,
-  Text,
-  Platform,
-  Image,
-  Pressable,
-  ColorSchemeName,
-} from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import DownloadScreen from "../screens/DownloadScreen";
-import HomeScreen from "../screens/HomeScreen";
-import SearchScreen from "../screens/SearchScreen";
-import ComingSoonScreen from "../screens/ComingSoonScreen";
-import {
-  HomeParamList,
-  RootStackParamList,
-  RootTabParamList,
-  RootTabScreenProps,
-} from "../types";
-import LinkingConfiguration from "./LinkingConfiguration";
-import MovieDetailScreen from "../screens/MovieDetailScreen";
-import LoginScreen from "../screens/LoginScreen";
-import { useDispatch } from "react-redux";
-import * as authActions from "../store/actions/AuthAction";
-import TestScreen from "../screens/TestScreen";
-
-import MovieScreen from "../screens/MovieScreen";
-import SeriesScreen from "../screens/SeriesScreen";
-
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
-      {/* <StackNavigator /> */}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <StackNavigator />
 
     </NavigationContainer>
@@ -108,66 +59,39 @@ const TopTabNavigator = () => {
       initialRouteName="Movies"
       screenOptions={{
         tabBarStyle: {
-<<<<<<< HEAD
           backgroundColor: '#7d8485',
-=======
-          backgroundColor: "#717a73",
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         },
       }}
-<<<<<<< HEAD
-
-=======
-      // style={{ backgroundColor: '#717a73' }}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
     >
       <Tab.Screen
         name="Movies"
         component={MovieScreen}
         options={{
-<<<<<<< HEAD
-          // tabBarLabelStyle: {
-          //   color: '#000'
-          // },
-          tabBarActiveTintColor: Colors.primary,
+
+          tabBarActiveTintColor: '#FFF',
           tabBarInactiveTintColor: Colors.secondary,
           tabBarPressOpacity: 0.1,
           tabBarPressColor: '#FFF',
+          tabBarIndicatorStyle: { backgroundColor: Colors.primary }
 
-=======
-          tabBarLabelStyle: {
-            color: "#FFF",
-          },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         }}
       />
       <Tab.Screen
         name="Series"
         component={SeriesScreen}
         options={{
-<<<<<<< HEAD
-          tabBarActiveTintColor: Colors.primary,
+          tabBarActiveTintColor: '#FFF',
           tabBarInactiveTintColor: Colors.secondary,
-
-=======
-          tabBarLabelStyle: { color: "#FFF" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
+          tabBarIndicatorStyle: { backgroundColor: Colors.primary }
         }}
       />
     </Tab.Navigator>
-<<<<<<< HEAD
-
-  )
-}
-=======
   );
 };
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
 
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
-<<<<<<< HEAD
     <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false, }} >
       <Stack1.Screen name="Home"
         component={AppDrawerNavigator}
@@ -184,22 +108,10 @@ const StackNavigator = () => {
         name="Series"
         component={SeriesScreen}
       />
-=======
-    <Stack1.Navigator
-      initialRouteName="LoginScreen"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack1.Screen name="Home" component={AppDrawerNavigator} />
-
-      <Stack1.Screen name="LoginScreen" component={LoginScreen} />
-
-      <Stack1.Screen name="Movies" component={MovieScreen} />
-      <Stack1.Screen name="Series" component={SeriesScreen} />
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
       />
     </Stack1.Navigator>
   );
@@ -213,27 +125,18 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-<<<<<<< HEAD
-
-        tabBarActiveTintColor: "#eee",
-        tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
-        headerShown: false,
-        headerStyle: { backgroundColor: "#222" }
-      }}>
-=======
         tabBarActiveTintColor: "#eee",
         tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
         headerShown: false,
         headerStyle: { backgroundColor: "#222" },
       }}
     >
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <BottomTab.Screen
         name="Home"
         component={TopTabNavigator}
         options={({ navigation }: RootTabScreenProps<"Home">) => ({
           title: "Home Screen",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name={Platform.OS === "android" ? "home" : 'ios-home'} color={color} size={24} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Home")}
@@ -251,7 +154,7 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<"ComingSoon">) => ({
           title: "Coming Soon ",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="video-library" color={color} size={24} />
+            <MaterialIcons name={Platform.OS === "android" ? "video-library" : 'video-library'} color={color} size={24} />
           ),
           headerRight: () => (
             <Pressable
@@ -270,7 +173,7 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<"Search">) => ({
           title: "Search ",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="search" size={24} color={color} />
+            <Ionicons name={Platform.OS === "android" ? "search" : 'ios-search'} size={24} color={color} />
           ),
           headerRight: () => (
             <Pressable
@@ -289,25 +192,14 @@ function BottomTabNavigator() {
         options={({ navigation }: RootTabScreenProps<"Download">) => ({
           title: "Downloads",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="download" color={color} size={24} />
+            <Ionicons name={Platform.OS === "android" ? "download" : 'ios-download'} color={color} size={24} />
           ),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Download")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-<<<<<<< HEAD
               })}>
-=======
-              })}
-            >
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
             </Pressable>
           ),
           headerShown: false,
@@ -385,13 +277,8 @@ export const AppDrawerNavigator = () => {
         );
       }}
       screenOptions={{
-<<<<<<< HEAD
         drawerActiveTintColor: Colors.primary,
         headerStyle: { backgroundColor: "#222" },
-=======
-        drawerActiveTintColor: "red",
-        headerStyle: { backgroundColor: "black" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         headerTintColor: "white",
         drawerInactiveTintColor: "#ddd",
       }}
@@ -402,16 +289,12 @@ export const AppDrawerNavigator = () => {
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "home" : "home"}
+              name={Platform.OS === "android" ? "home" : "ios-home"}
               size={23}
               color={props.color}
             />
           ),
-<<<<<<< HEAD
           headerTitleStyle: { color: Colors.primary }
-=======
-          headerTitleStyle: { color: "red" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         }}
       />
       <DrawerNavigator.Screen
@@ -420,7 +303,7 @@ export const AppDrawerNavigator = () => {
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "search" : "search"}
+              name={Platform.OS === "android" ? "search" : "ios-search"}
               size={23}
               color={props.color}
             />
@@ -449,7 +332,7 @@ export const AppDrawerNavigator = () => {
         options={{
           drawerIcon: (props: any) => (
             <Ionicons
-              name={Platform.OS === "android" ? "download" : "download"}
+              name={Platform.OS === "android" ? "download" : "ios-download"}
               size={23}
               color={props.color}
             />

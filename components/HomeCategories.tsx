@@ -55,12 +55,8 @@ function HomeCategories(props: any) {
                 if (isComingSoon) {
                   await dispatch(updateSelectedComingSoon(item));
                 } else {
-                  navigation.setParams("MovieDetailScreen", {
-                    movieId: item.id,
-                  });
-                  navigation.navigate("MovieDetailScreen", {
-                    movieId: item.id,
-                  });
+                  navigation.setParams("MovieDetailScreen", {movieId: item.id,});
+                  navigation.navigate("MovieDetailScreen", {movieId: item.id,});
                 }
               }}
             >

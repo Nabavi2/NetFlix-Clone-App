@@ -86,8 +86,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000',
-        justifyContent: 'center',
-        alignItems: 'center',
+
     },
     image: {
         width: '96%',
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         padding: 8,
         resizeMode: 'cover',
-        aspectRatio: 16 / 9,
+        aspectRatio: 17 / 9,
         marginVertical: 10,
     }
 })

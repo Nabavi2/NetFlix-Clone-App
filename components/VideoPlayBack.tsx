@@ -14,7 +14,7 @@ function VideoPlayBack(props: any) {
     const [status, setStatus] = useState({});
     const video = useRef<Playback>(null);
 
-    console.log(" thsi si videos play back 000000000  ", episode.plot)
+    console.log(" thsi si videos play back 000000000  ", episode.video)
     useEffect(() => {
         if (!video) {
             return;

@@ -28,7 +28,7 @@ function SeriesCategories(props: any) {
                 renderItem={({ item }) => {
                     return (
                         <Pressable onPress={() => {
-                            navigation.setParams('MovieDetailScreen', { episodeId: item.id });
+                            // navigation.setParams('MovieDetailScreen', { episodeId: item.id });
                             navigation.navigate('MovieDetailScreen', { episodeId: item.id })
                         }}>
                             <Image style={styles.image} source={{ uri: item.poster }} />
