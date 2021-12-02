@@ -45,20 +45,19 @@ function SeriesCategories(props: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
-
-        marginBottom: 20,
-
+        backgroundColor: "#000",
+        width: "100%",
+        height: 240,
     },
     image: {
-        width: '96%',
-        height: 200,
+        overflow: "hidden",
+        width: 130,
+        height: 180,
         borderRadius: 7,
         margin: 8,
-        alignSelf: 'center',
-        resizeMode: 'cover',
-        aspectRatio: 16 / 9,
-
-    }
+        alignSelf: "center",
+        resizeMode: "cover",
+        // aspectRatio: 16 / 9,
+    },
 })
 export default SeriesCategories;

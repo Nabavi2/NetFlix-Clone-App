@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, Image, FlatList, ActivityIndicator, ScrollView, Platform } from 'react-native';
+import movie from '../data/movie';
+import { View, Text } from './../components/Themed';
+import HomeCategories from '../components/HomeCategories';
+import * as movieActions from '../store/actions/movie';
+import * as seriesActions from '../store/actions/series';
+import * as categoryActions from '../store/actions/category';
+import { useDispatch, useSelector } from 'react-redux';
+import Movie from './../models/Movie';
+import SeriesCategories from '../components/SeriesCategories';
+import Colors from '../constants/Colors';
+=======
 import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -16,6 +30,7 @@ import * as categoryActions from "../store/actions/category";
 import { useDispatch, useSelector } from "react-redux";
 import Movie from "./../models/Movie";
 import SeriesCategories from "../components/SeriesCategories";
+>>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,8 +56,39 @@ function MovieScreen() {
     } catch (err: any) {
       setError(err.message);
 
+<<<<<<< HEAD
+    const dispatch = useDispatch()
+    const movieAndSeriesHandler = useCallback(async () => {
+        try {
+            setError(null)
+            setIsLoading(true);
+            await dispatch(categoryActions.fetchCategories());
+            await dispatch(movieActions.fetchMovies());
+            await dispatch(seriesActions.fetchSeries());
+            await dispatch(seriesActions.fetchEpisode());
+            await dispatch(seriesActions.fetchSeason());
+            setIsLoading(false);
+        } catch (err: any) {
+            setError(err.message)
+
+            alert(err.message);
+            setIsLoading(false);
+        }
+
+    }, [dispatch])
+    useEffect(() => {
+        movieAndSeriesHandler();
+    }, [dispatch, movieAndSeriesHandler]);
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+=======
       alert(err.message);
       setIsLoading(false);
+>>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
     }
   }, [dispatch]);
   useEffect(() => {
@@ -50,6 +96,19 @@ function MovieScreen() {
   }, [dispatch, movieAndSeriesHandler]);
   if (isLoading) {
     return (
+<<<<<<< HEAD
+
+        <View style={styles.container}>
+            <FlatList
+                data={category}
+                renderItem={({ item }) => (
+                    <HomeCategories category={item} />
+                )}
+
+            />
+        </View>
+ );
+=======
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <ActivityIndicator size="large" color="#c75a5f" />
       </View>
@@ -64,6 +123,7 @@ function MovieScreen() {
       />
     </View>
   );
+>>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
 }
 
 const styles = StyleSheet.create({

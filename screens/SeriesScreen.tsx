@@ -9,6 +9,7 @@ import * as categoryActions from '../store/actions/category';
 import { useDispatch, useSelector } from 'react-redux';
 import Movie from './../models/Movie';
 import SeriesCategories from '../components/SeriesCategories';
+import Colors from '../constants/Colors';
 
 function SeriesScreen() {
     const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +47,7 @@ function SeriesScreen() {
     if (isLoading) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <ActivityIndicator size='large' color='#c75a5f' />
+                <ActivityIndicator size='large' color={Colors.primary} />
             </View>
         )
     }
