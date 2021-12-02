@@ -19,7 +19,7 @@ export default function DownloadScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
-  const downloads: [] = useSelector((state) => state.download.downloadList);
+  const downloads = useSelector((state) => state.download.downloadList);
   console.log("this is the download list: keke");
 
   console.log(downloads);
@@ -33,13 +33,6 @@ export default function DownloadScreen() {
     }
     setIsLoading(false);
   }, [dispatch]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", loadDownloads);
-    return () => {
-      unsubscribe();
-    };
-  });
 
   useEffect(() => {
     setIsLoading(true);

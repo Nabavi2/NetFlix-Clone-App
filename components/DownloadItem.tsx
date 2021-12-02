@@ -1,13 +1,14 @@
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
 import Movie from "../models/Movie";
+import { useIsFocused } from "@react-navigation/core";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
@@ -22,17 +23,15 @@ function DownloadItem(props: any) {
   const displays: [] = downloadItem.movieId
     ? useSelector((state) => state.movies.availableMovies)
     : useSelector((state) => state.series.availableEpisode);
-   
-    
+
   const displayId = downloadItem.movieId
     ? downloadItem.movieId
     : downloadItem.episodeId;
-  
-  
-  const selectedDisplay: any = displays.find((item, index, obj) => item.id  === displayId)!;
 
-  
-  
+  const selectedDisplay: any = displays.find(
+    (item, index, obj) => item.id === displayId
+  )!;
+
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
     const progress =
@@ -88,6 +87,12 @@ function DownloadItem(props: any) {
       console.error(e);
     }
   };
+  const focused = useIsFocused();
+  useEffect(() => {
+    if (!focused) {
+      pauseDownload();
+    }
+  }, [useIsFocused]);
 
   useEffect(() => {
     if (progress === 0 && !downloadItem.downloaded) {
@@ -113,22 +118,33 @@ function DownloadItem(props: any) {
     : styles.container;
   return (
     <View style={containerStyle}>
-      <View style={styles.titleCon}>
-        <Text style={styles.title}>{selectedDisplay ? selectedDisplay.title : "...."}</Text>
-      </View>
-      <View style={styles.pCon}>
-        <LinearProgress
-          color="lightgreen"
-          trackColor="grey"
-          value={downloadItem.downloaded ? 1 : progress}
-          variant="determinate"
-        />
-      </View>
-      {progress === 1 || downloadItem.downloaded ? (
-        <View style={styles.checkIcon}>
-          <Feather name="check-square" size={24} color="white" />
+      <Image
+        source={{ uri: selectedDisplay.poster }}
+        style={{ width: 80, height: 80, borderRadius: 3 }}
+      />
+      <View style={{ width: "50%" }}>
+        <View style={styles.titleCon}>
+          <Text style={styles.title}>
+            {selectedDisplay ? selectedDisplay.title : "...."}
+          </Text>
         </View>
-      ) : (
+        {!downloadItem.downloaded ? (
+          <>
+            <View style={styles.pCon}>
+              <LinearProgress
+                color="lightgreen"
+                trackColor="grey"
+                value={downloadItem.downloaded ? 1 : progress}
+                variant="determinate"
+              />
+              <Text style={{ color: "white", alignSelf: "center" }}>
+                {(progress * 100).toFixed(0)}%
+              </Text>
+            </View>
+          </>
+        ) : null}
+      </View>
+      {!downloadItem.downloaded ? (
         <>
           <View style={{ ...styles.button, marginLeft: 5 }}>
             <Button
@@ -159,6 +175,8 @@ function DownloadItem(props: any) {
             />
           </View>
         </>
+      ) : (
+        <View style={{ width: "25%" }}></View>
       )}
     </View>
   );
@@ -174,7 +192,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 45,
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 20,
   },
   title: {
     color: "white",
@@ -182,16 +200,15 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   titleCon: {
-    width: 85,
+    // width: 85,
     marginRight: 10,
-    backgroundColor: "transparent",
+    backgroundColor: "blue",
   },
   pCon: {
-    width: "50%",
+    width: "100%",
     justifyContent: "center",
   },
   button: {
-    
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
