@@ -21,32 +21,6 @@ import * as React from "react";
 import {
   createDrawerNavigator,
   DrawerItemList,
-<<<<<<< HEAD
-} from "@react-navigation/drawer";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { View, SafeAreaView, Text, Platform, Image, Pressable, ColorSchemeName } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import useColorScheme from '../hooks/useColorScheme';
-import DownloadScreen from '../screens/DownloadScreen';
-import SearchScreen from '../screens/SearchScreen';
-import ComingSoonScreen from '../screens/ComingSoonScreen';
-import { HomeParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
-import MovieDetailScreen from '../screens/MovieDetailScreen';
-import LoginScreen from '../screens/LoginScreen';
-import { useDispatch } from 'react-redux';
-import * as authActions from '../store/actions/AuthAction';
-import TestScreen from '../screens/TestScreen';
-import MovieScreen from '../screens/MovieScreen';
-import SeriesScreen from '../screens/SeriesScreen';
-import Colors from '../constants/Colors';
-
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-=======
   DrawerToggleButton,
 } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -93,9 +67,7 @@ export default function Navigation({
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       {/* <StackNavigator /> */}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <StackNavigator />
-
     </NavigationContainer>
   );
 }
@@ -108,83 +80,38 @@ const TopTabNavigator = () => {
       initialRouteName="Movies"
       screenOptions={{
         tabBarStyle: {
-<<<<<<< HEAD
-          backgroundColor: '#7d8485',
-=======
           backgroundColor: "#717a73",
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         },
       }}
-<<<<<<< HEAD
-
-=======
-      // style={{ backgroundColor: '#717a73' }}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
     >
       <Tab.Screen
         name="Movies"
         component={MovieScreen}
         options={{
-<<<<<<< HEAD
           // tabBarLabelStyle: {
           //   color: '#000'
           // },
           tabBarActiveTintColor: Colors.primary,
           tabBarInactiveTintColor: Colors.secondary,
           tabBarPressOpacity: 0.1,
-          tabBarPressColor: '#FFF',
-
-=======
-          tabBarLabelStyle: {
-            color: "#FFF",
-          },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
+          tabBarPressColor: "#FFF",
         }}
       />
       <Tab.Screen
         name="Series"
         component={SeriesScreen}
         options={{
-<<<<<<< HEAD
           tabBarActiveTintColor: Colors.primary,
           tabBarInactiveTintColor: Colors.secondary,
-
-=======
-          tabBarLabelStyle: { color: "#FFF" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         }}
       />
     </Tab.Navigator>
-<<<<<<< HEAD
-
-  )
-}
-=======
   );
 };
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
 
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
-<<<<<<< HEAD
-    <Stack1.Navigator initialRouteName="LoginScreen" screenOptions={{ headerShown: false, }} >
-      <Stack1.Screen name="Home"
-        component={AppDrawerNavigator}
-      />
-      <Stack1.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-      />
-      <Stack1.Screen
-        name="Movies"
-        component={MovieScreen}
-      />
-      <Stack1.Screen
-        name="Series"
-        component={SeriesScreen}
-      />
-=======
     <Stack1.Navigator
       initialRouteName="LoginScreen"
       screenOptions={{ headerShown: false }}
@@ -195,7 +122,6 @@ const StackNavigator = () => {
 
       <Stack1.Screen name="Movies" component={MovieScreen} />
       <Stack1.Screen name="Series" component={SeriesScreen} />
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
@@ -213,21 +139,12 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Home"
       screenOptions={{
-<<<<<<< HEAD
-
-        tabBarActiveTintColor: "#eee",
-        tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
-        headerShown: false,
-        headerStyle: { backgroundColor: "#222" }
-      }}>
-=======
         tabBarActiveTintColor: "#eee",
         tabBarStyle: { backgroundColor: "black", overflow: "hidden" },
         headerShown: false,
         headerStyle: { backgroundColor: "#222" },
       }}
     >
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
       <BottomTab.Screen
         name="Home"
         component={TopTabNavigator}
@@ -296,19 +213,8 @@ function BottomTabNavigator() {
               onPress={() => navigation.navigate("Download")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
-<<<<<<< HEAD
-              })}>
-=======
               })}
-            >
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
-            </Pressable>
+            ></Pressable>
           ),
           headerShown: false,
         })}
@@ -385,13 +291,8 @@ export const AppDrawerNavigator = () => {
         );
       }}
       screenOptions={{
-<<<<<<< HEAD
         drawerActiveTintColor: Colors.primary,
         headerStyle: { backgroundColor: "#222" },
-=======
-        drawerActiveTintColor: "red",
-        headerStyle: { backgroundColor: "black" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         headerTintColor: "white",
         drawerInactiveTintColor: "#ddd",
       }}
@@ -407,11 +308,7 @@ export const AppDrawerNavigator = () => {
               color={props.color}
             />
           ),
-<<<<<<< HEAD
-          headerTitleStyle: { color: Colors.primary }
-=======
           headerTitleStyle: { color: "red" },
->>>>>>> a61b637da4001615ec64846680582c14b4b3e52e
         }}
       />
       <DrawerNavigator.Screen

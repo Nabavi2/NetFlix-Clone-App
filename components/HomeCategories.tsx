@@ -17,7 +17,7 @@ import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
   const dispatch = useDispatch();
-  console.log("CAAAAAAAAAAAAAAAAAAAAA ", category);
+  // console.log("CAAAAAAAAAAAAAAAAAAAAA ", category);
   const movie = isComingSoon
     ? null
     : useSelector((state) => state.movies.availableMovies);
@@ -25,7 +25,7 @@ function HomeCategories(props: any) {
     ? useSelector((state) => state.comingSoon.comingSoonList)
     : null;
   console.log(category.id);
-
+  console.log("CAAAAAAAAAAAAAAAAAAAAA ", movie);
   const filteredComings = comingSoons
     ? comingSoons.filter((item: any) => item.category_id["id"] === category.id)
     : [];

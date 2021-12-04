@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
 import Movie from "../models/Movie";
 import { useIsFocused } from "@react-navigation/core";
+import moment from "moment";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
@@ -110,53 +111,72 @@ function DownloadItem(props: any) {
     <MaterialCommunityIcons name="pause" size={24} color="lightgrey" />
   );
 
-  // const downloadedView = ;
-
   const [isCanceled, setIsCanceled] = useState(false);
   const containerStyle = isCanceled
     ? { ...styles.container, backgroundColor: "darkgrey" }
     : styles.container;
   return (
     <View style={containerStyle}>
-      <Image
-        source={{ uri: selectedDisplay.poster }}
-        style={{ width: 80, height: 80, borderRadius: 3 }}
-      />
-      <View style={{ width: "50%" }}>
-        <View style={styles.titleCon}>
-          <Text style={styles.title}>
-            {selectedDisplay ? selectedDisplay.title : "...."}
-          </Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Image
+          source={{ uri: selectedDisplay.poster }}
+          style={{ width: 80, height: 80, borderRadius: 3 }}
+        />
+        <View style={{ width: "50%" }}>
+          <View style={styles.titleCon}>
+            <Text style={styles.title}>
+              {selectedDisplay ? selectedDisplay.title : "...."}
+            </Text>
+            <Text style={{ color: "lightgrey" }}>
+              {moment(downloadItem.created_at).format("YYYY/DD/MM HH:mm")}
+            </Text>
+          </View>
+          {!downloadItem.downloaded ? <>{/*  */}</> : null}
         </View>
-        {!downloadItem.downloaded ? (
-          <>
-            <View style={styles.pCon}>
-              <LinearProgress
-                color="lightgreen"
-                trackColor="grey"
-                value={downloadItem.downloaded ? 1 : progress}
-                variant="determinate"
-              />
-              <Text style={{ color: "white", alignSelf: "center" }}>
-                {(progress * 100).toFixed(0)}%
-              </Text>
-            </View>
-          </>
-        ) : null}
       </View>
       {!downloadItem.downloaded ? (
-        <>
-          <View style={{ ...styles.button, marginLeft: 5 }}>
-            <Button
-              // buttonStyle={{marginLeft: 30}}
-              buttonStyle={styles.button}
-              icon={pauseOrResume}
-              onPress={isPaused ? resumDownload : pauseDownload}
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 20,
+            backgroundColor: "purple",
+            overflow: "visible",
+          }}
+        >
+          <View style={styles.pCon}>
+            <LinearProgress
+              color="lightgreen"
+              trackColor="grey"
+              value={downloadItem.downloaded ? 1 : progress}
+              variant="determinate"
             />
+            <Text style={{ color: "white", alignSelf: "center" }}>
+              {(progress * 100).toFixed(0)}%
+            </Text>
           </View>
-          <View style={{ ...styles.button, marginLeft: 5 }}>
+          {/* <View
+            style={{ ...styles.button, margin: 10, backgroundColor: "red" }}
+          > */}
+          <Button
+            // buttonStyle={{ width: 40, height: 40, backgroundColor: "red" }}
+            buttonStyle={{ width: 90 }}
+            icon={pauseOrResume}
+            onPress={isPaused ? resumDownload : pauseDownload}
+          />
+          {/* </View> */}
+          {/* <View
+            style={{
+              ...styles.button,
+              margin: 10,
+              backgroundColor: "dodgerblue",
+            }}
+          >
             <Button
-              buttonStyle={styles.button}
+              buttonStyle={{
+                width: 40,
+                height: 40,
+                backgroundColor: "dodgerblue",
+              }}
               icon={
                 <MaterialCommunityIcons
                   name="close"
@@ -173,11 +193,9 @@ function DownloadItem(props: any) {
                 }
               }}
             />
-          </View>
-        </>
-      ) : (
-        <View style={{ width: "25%" }}></View>
-      )}
+          </View> */}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -187,33 +205,31 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignSelf: "center",
     justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     width: "100%",
     height: 45,
     paddingHorizontal: 20,
-    marginVertical: 20,
+    marginVertical: 40,
   },
   title: {
     color: "white",
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "600",
   },
   titleCon: {
     // width: 85,
-    marginRight: 10,
-    backgroundColor: "blue",
+    marginLeft: 10,
   },
   pCon: {
-    width: "100%",
+    width: "50%",
     justifyContent: "center",
   },
   button: {
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
-    width: 35,
-    height: 35,
+    width: 80,
+    height: 80,
     borderRadius: 5,
     padding: 0,
     backgroundColor: "transparent",

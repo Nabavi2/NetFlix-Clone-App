@@ -81,10 +81,12 @@ function MovieDetailScreen(props: any) {
   useEffect(() => {
     episodeAndSeasonHandler();
   }, [dispatch, episodeAndSeasonHandler]);
+  console.log("BBBBBBBBBYYYYYYYYYYIIIIIIIIDDDDD", movieById);
+
   return (
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
-        <VideoPlayBack episode={movieId ? movieById[0] : currentEpisode} />
+        <VideoPlayBack episode={movieId ? movieById : currentEpisode} />
       </View>
       <ScrollView>
         <View style={{ backgroundColor: "#000" }}>
