@@ -23,7 +23,7 @@ import * as seriesActions from "../store/actions/series";
 import series from "../store/reducers/series";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import VideoPlayBack from "../components/VideoPlayBack";
+import { VideoPlayBack } from "../components/VideoPlayBack";
 import EpisodeItems from "../components/EpisodeItems";
 import Episode from './../models/Episde';
 
@@ -313,6 +313,9 @@ function MovieDetailScreen(props: any) {
                         />
                     ) : null}
                 </View>
+
+
+
             </ScrollView>
         </View>
     );

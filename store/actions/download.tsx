@@ -12,7 +12,6 @@ export const addDownload = (
   episodeId: any,
   isDownloaded: boolean
 ) => {
-
   return async (dispatch: any) => {
     //async code man!!!
     const token = await AsyncStorage.getItem("jwt");
@@ -30,81 +29,77 @@ export const addDownload = (
         episode: episodeId,
       }),
     });
-    if(!response.ok){
-        throw new Error("Something went wrong!");
-    }else{
-        console.log("download add correctly!!!");
-        
+    console.log(response);
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    } else {
+      console.log("download add correctly!!!");
     }
     const resData = await response.json();
 
-    console.log("this is resData ", resData );
+    console.log("this is resData ", resData);
 
     dispatch({
-        type: ADD_DOWNLOAD,
-        download,
-        downloadId: resData.id,
-        movieId,
-        episodeId,
+      type: ADD_DOWNLOAD,
+      download,
+      downloadId: resData.id,
+      movieId,
+      episodeId,
+      created_at: resData.created_at,
     });
-
   };
 };
 
 export const updateDownload = (downloadId: any) => {
-
-    return async (dispatch: any) => {
-      const token = await AsyncStorage.getItem("jwt");
-        const response = await fetch(`${url}/downloads/${downloadId}`,{
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            downloaded: true,
-          }),
-        } );
-        if(!response.ok){
-          throw new Error("could not app date downlaod!");
-        }else{
-          console.log("download updated correctly");
-          
-        }
-        dispatch({
-          type: UPDATE_DOWNLOAD,
-          downloadId,
-        });
+  return async (dispatch: any) => {
+    const token = await AsyncStorage.getItem("jwt");
+    const response = await fetch(`${url}/downloads/${downloadId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        downloaded: true,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("could not app date downlaod!");
+    } else {
+      console.log("download updated correctly");
     }
-}
+    dispatch({
+      type: UPDATE_DOWNLOAD,
+      downloadId,
+    });
+  };
+};
 
-export const fetchDownloads = () =>{
+export const fetchDownloads = () => {
+  return async (dispatch: any) => {
+    // await AsyncStorage.setItem("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8");
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8";
 
-      return async (dispatch: any) => {
-  // await AsyncStorage.setItem("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8");
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8';
-        
-        
-        const response = await fetch(`${url}/downloads`,{
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        } ); 
-         
-        if(!response.ok){
-          throw new Error("could not fetch downloads!");
-        }
-        console.log("sttttttttttaaaaaaaaaaatuuuuuuuuuuussssss", response.status);
-        
-        
-        
-        const resData= await response.json();
-        
-        dispatch({
-          type: FETCH_DOWNLOADS,
-          downloadList: resData,
-        });
-      }
-}
+    const response = await fetch(`${url}/downloads`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("could not fetch downloads!");
+    }
+    console.log("sttttttttttaaaaaaaaaaatuuuuuuuuuuussssss", response.status);
+
+    const resData = await response.json();
+
+    dispatch({
+      type: FETCH_DOWNLOADS,
+      downloadList: resData,
+    });
+  };
+};

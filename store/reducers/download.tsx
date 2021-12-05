@@ -18,7 +18,8 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
         action.download,
         action.movieId,
         action.episodeId,
-        false
+        false,
+        action.created_at
       );
       const newList = [...state.downloadList!, downloadItem];
       return { downloadList: newList };
@@ -38,7 +39,8 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
             item.movie ? item.movie.id : null,
             item.episode ? item.episode.id : null,
             // null,
-            item.downloaded
+            item.downloaded,
+            item.created_at
           )
       );
       return { downloadList: [...dList] };

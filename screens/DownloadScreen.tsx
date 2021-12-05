@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   ActivityIndicatorBase,
   FlatList,
+  RefreshControl,
   StyleSheet,
 } from "react-native";
 import { Button } from "react-native-elements/dist/buttons/Button";
@@ -18,6 +19,7 @@ import { RootTabScreenProps } from "../types";
 export default function DownloadScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, SetIsRefreshing] = useState(false);
   const navigation = useNavigation();
   const downloads = useSelector((state) => state.download.downloadList);
   console.log("this is the download list: keke");
@@ -25,6 +27,7 @@ export default function DownloadScreen() {
   console.log(downloads);
 
   const loadDownloads = useCallback(async () => {
+    SetIsRefreshing(true);
     setIsLoading(true);
     try {
       await dispatch(fetchDownloads());
@@ -32,11 +35,11 @@ export default function DownloadScreen() {
       alert(err);
     }
     setIsLoading(false);
+    SetIsRefreshing(false);
   }, [dispatch]);
 
   useEffect(() => {
-    setIsLoading(true);
-    loadDownloads().then(() => setIsLoading(false));
+    loadDownloads();
   }, [dispatch, loadDownloads]);
 
   if (isLoading) {
@@ -56,6 +59,14 @@ export default function DownloadScreen() {
 
   return (
     <FlatList
+      refreshing={isRefreshing}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={loadDownloads}
+          colors={["red"]}
+        />
+      }
       style={{ backgroundColor: "black" }}
       data={downloads}
       keyExtractor={(item: any) => item.downloadId}

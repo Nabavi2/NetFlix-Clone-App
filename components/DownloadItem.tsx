@@ -9,15 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
 import Movie from "../models/Movie";
 import { useIsFocused } from "@react-navigation/core";
+import moment from "moment";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
-  // const displayId = downloadItem.movieId ? downloadItem.movieId : downloadItem.episodeId;
-  // const displayItemList =
-  //the two above are for displaying name of download item.
+
   const [progress, setProgress] = useState(0);
   const [isloading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
 
   // finding display item for rendering of name.
   const displays: [] = downloadItem.movieId
@@ -98,6 +98,7 @@ function DownloadItem(props: any) {
     if (progress === 0 && !downloadItem.downloaded) {
       startDownload();
     } else if (progress === 1) {
+      setIsDownlaoded(true);
       const update = async () =>
         await dispatch(updateDownload(downloadItem.downloadId));
       update();
@@ -110,118 +111,96 @@ function DownloadItem(props: any) {
     <MaterialCommunityIcons name="pause" size={24} color="lightgrey" />
   );
 
-  // const downloadedView = ;
-
-  const [isCanceled, setIsCanceled] = useState(false);
-  const containerStyle = isCanceled
-    ? { ...styles.container, backgroundColor: "darkgrey" }
-    : styles.container;
   return (
-    <View style={containerStyle}>
-      <Image
-        source={{ uri: selectedDisplay.poster }}
-        style={{ width: 80, height: 80, borderRadius: 3 }}
-      />
-      <View style={{ width: "50%" }}>
-        <View style={styles.titleCon}>
-          <Text style={styles.title}>
-            {selectedDisplay ? selectedDisplay.title : "...."}
-          </Text>
+    <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <Image source={{ uri: selectedDisplay.poster }} style={styles.image} />
+        <View style={{ width: "50%", backgroundColor: "transparent" }}>
+          <View style={styles.titleCon}>
+            <Text style={styles.title}>
+              {selectedDisplay ? selectedDisplay.title : "...."}
+            </Text>
+            <Text style={{ color: "lightgrey" }}>
+              {moment(downloadItem.created_at).format("YYYY/DD/MM HH:mm")}
+            </Text>
+          </View>
         </View>
-        {!downloadItem.downloaded ? (
-          <>
-            <View style={styles.pCon}>
-              <LinearProgress
-                color="lightgreen"
-                trackColor="grey"
-                value={downloadItem.downloaded ? 1 : progress}
-                variant="determinate"
-              />
-              <Text style={{ color: "white", alignSelf: "center" }}>
-                {(progress * 100).toFixed(0)}%
-              </Text>
-            </View>
-          </>
-        ) : null}
       </View>
-      {!downloadItem.downloaded ? (
-        <>
-          <View style={{ ...styles.button, marginLeft: 5 }}>
+      {!isDowloaded ? (
+        <View style={styles.bottomContainer}>
+          <View style={styles.progCon}>
+            <LinearProgress
+              color="lightgreen"
+              trackColor="grey"
+              value={downloadItem.downloaded ? 1 : progress}
+              variant="determinate"
+            />
+            <Text style={{ color: "white", alignSelf: "center" }}>
+              {(progress * 100).toFixed(0)}%
+            </Text>
+          </View>
+          <View style={{ ...styles.button, marginLeft: 10 }}>
             <Button
-              // buttonStyle={{marginLeft: 30}}
-              buttonStyle={styles.button}
+              buttonStyle={{ ...styles.button }}
               icon={pauseOrResume}
               onPress={isPaused ? resumDownload : pauseDownload}
             />
           </View>
-          <View style={{ ...styles.button, marginLeft: 5 }}>
-            <Button
-              buttonStyle={styles.button}
-              icon={
-                <MaterialCommunityIcons
-                  name="close"
-                  size={24}
-                  color="lightgrey"
-                />
-              }
-              onPress={async () => {
-                try {
-                  await resumableDownload.current.cancelAsync();
-                  setIsCanceled(true);
-                } catch (error) {
-                  alert(error);
-                }
-              }}
-            />
-          </View>
-        </>
-      ) : (
-        <View style={{ width: "25%" }}></View>
-      )}
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "transparent",
+    backgroundColor: "black",
     alignSelf: "center",
     justifyContent: "center",
+    alignItems: "flex-start",
+    width: "100%",
+    height: 120,
+    paddingHorizontal: 20,
+    marginVertical: 0,
+  },
+  topContainer: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
-    height: 45,
-    paddingHorizontal: 20,
-    marginVertical: 20,
+    backgroundColor: "transparent",
   },
+  bottomContainer: {
+    flexDirection: "row",
+    paddingRight: 0,
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
+    width: "100%",
+    overflow: "visible",
+  },
+  image: { width: 80, height: 80, borderRadius: 3 },
   title: {
     color: "white",
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "600",
   },
   titleCon: {
-    // width: 85,
-    marginRight: 10,
-    backgroundColor: "blue",
+    marginLeft: 10,
+    backgroundColor: "transparent",
   },
-  pCon: {
-    width: "100%",
+  progCon: {
+    backgroundColor: "transparent",
+    paddingTop: 14,
+    width: "90%",
     justifyContent: "center",
   },
   button: {
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
-    width: 35,
-    height: 35,
-    borderRadius: 5,
+    width: 32,
+    height: 30,
+    borderRadius: 3,
     padding: 0,
-    backgroundColor: "transparent",
-  },
-  checkIcon: {
-    alignItems: "center",
-    width: 85,
-    backgroundColor: "transparent",
+    backgroundColor: "#444",
   },
 });
 export default DownloadItem;
