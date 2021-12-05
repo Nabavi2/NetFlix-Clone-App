@@ -29,6 +29,8 @@ export const addDownload = (
         episode: episodeId,
       }),
     });
+    console.log(response);
+
     if (!response.ok) {
       throw new Error("Something went wrong!");
     } else {

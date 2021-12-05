@@ -13,12 +13,11 @@ import moment from "moment";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
-  // const displayId = downloadItem.movieId ? downloadItem.movieId : downloadItem.episodeId;
-  // const displayItemList =
-  //the two above are for displaying name of download item.
+
   const [progress, setProgress] = useState(0);
   const [isloading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
 
   // finding display item for rendering of name.
   const displays: [] = downloadItem.movieId
@@ -99,6 +98,7 @@ function DownloadItem(props: any) {
     if (progress === 0 && !downloadItem.downloaded) {
       startDownload();
     } else if (progress === 1) {
+      setIsDownlaoded(true);
       const update = async () =>
         await dispatch(updateDownload(downloadItem.downloadId));
       update();
@@ -111,18 +111,11 @@ function DownloadItem(props: any) {
     <MaterialCommunityIcons name="pause" size={24} color="lightgrey" />
   );
 
-  const [isCanceled, setIsCanceled] = useState(false);
-  const containerStyle = isCanceled
-    ? { ...styles.container, backgroundColor: "darkgrey" }
-    : styles.container;
   return (
-    <View style={containerStyle}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image
-          source={{ uri: selectedDisplay.poster }}
-          style={{ width: 80, height: 80, borderRadius: 3 }}
-        />
-        <View style={{ width: "50%" }}>
+    <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <Image source={{ uri: selectedDisplay.poster }} style={styles.image} />
+        <View style={{ width: "50%", backgroundColor: "transparent" }}>
           <View style={styles.titleCon}>
             <Text style={styles.title}>
               {selectedDisplay ? selectedDisplay.title : "...."}
@@ -131,19 +124,11 @@ function DownloadItem(props: any) {
               {moment(downloadItem.created_at).format("YYYY/DD/MM HH:mm")}
             </Text>
           </View>
-          {!downloadItem.downloaded ? <>{/*  */}</> : null}
         </View>
       </View>
-      {!downloadItem.downloaded ? (
-        <View
-          style={{
-            flexDirection: "row",
-            paddingHorizontal: 20,
-            backgroundColor: "purple",
-            overflow: "visible",
-          }}
-        >
-          <View style={styles.pCon}>
+      {!isDowloaded ? (
+        <View style={styles.bottomContainer}>
+          <View style={styles.progCon}>
             <LinearProgress
               color="lightgreen"
               trackColor="grey"
@@ -154,46 +139,13 @@ function DownloadItem(props: any) {
               {(progress * 100).toFixed(0)}%
             </Text>
           </View>
-          {/* <View
-            style={{ ...styles.button, margin: 10, backgroundColor: "red" }}
-          > */}
-          <Button
-            // buttonStyle={{ width: 40, height: 40, backgroundColor: "red" }}
-            buttonStyle={{ width: 90 }}
-            icon={pauseOrResume}
-            onPress={isPaused ? resumDownload : pauseDownload}
-          />
-          {/* </View> */}
-          {/* <View
-            style={{
-              ...styles.button,
-              margin: 10,
-              backgroundColor: "dodgerblue",
-            }}
-          >
+          <View style={{ ...styles.button, marginLeft: 10 }}>
             <Button
-              buttonStyle={{
-                width: 40,
-                height: 40,
-                backgroundColor: "dodgerblue",
-              }}
-              icon={
-                <MaterialCommunityIcons
-                  name="close"
-                  size={24}
-                  color="lightgrey"
-                />
-              }
-              onPress={async () => {
-                try {
-                  await resumableDownload.current.cancelAsync();
-                  setIsCanceled(true);
-                } catch (error) {
-                  alert(error);
-                }
-              }}
+              buttonStyle={{ ...styles.button }}
+              icon={pauseOrResume}
+              onPress={isPaused ? resumDownload : pauseDownload}
             />
-          </View> */}
+          </View>
         </View>
       ) : null}
     </View>
@@ -202,42 +154,53 @@ function DownloadItem(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "transparent",
+    backgroundColor: "black",
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "flex-start",
     width: "100%",
-    height: 45,
+    height: 120,
     paddingHorizontal: 20,
-    marginVertical: 40,
+    marginVertical: 0,
   },
+  topContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+  bottomContainer: {
+    flexDirection: "row",
+    paddingRight: 0,
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
+    width: "100%",
+    overflow: "visible",
+  },
+  image: { width: 80, height: 80, borderRadius: 3 },
   title: {
     color: "white",
     fontSize: 18,
     fontWeight: "600",
   },
   titleCon: {
-    // width: 85,
     marginLeft: 10,
+    backgroundColor: "transparent",
   },
-  pCon: {
-    width: "50%",
+  progCon: {
+    backgroundColor: "transparent",
+    paddingTop: 14,
+    width: "90%",
     justifyContent: "center",
   },
   button: {
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
-    width: 80,
-    height: 80,
-    borderRadius: 5,
+    width: 32,
+    height: 30,
+    borderRadius: 3,
     padding: 0,
-    backgroundColor: "transparent",
-  },
-  checkIcon: {
-    alignItems: "center",
-    width: 85,
-    backgroundColor: "transparent",
+    backgroundColor: "#444",
   },
 });
 export default DownloadItem;
