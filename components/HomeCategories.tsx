@@ -17,7 +17,6 @@ import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
   const dispatch = useDispatch();
-  // console.log("CAAAAAAAAAAAAAAAAAAAAA ", category);
   const movie = isComingSoon
     ? null
     : useSelector((state) => state.movies.availableMovies);
@@ -31,7 +30,7 @@ function HomeCategories(props: any) {
     : [];
   const navigation = useNavigation();
 
-  console.log("ffffffffff", filteredComings);
+  console.log("ffffffffff", movie);
 
   return (
     <View style={styles.container}>

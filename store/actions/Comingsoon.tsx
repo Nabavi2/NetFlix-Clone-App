@@ -1,3 +1,5 @@
+import { url } from "../../constants/links";
+
 export const FETCH_COMINGSOONS = "FETCH_COMINGSOONS";
 export const UPDATE_SELECTED_COMINGSOON = "UPATE_SELECTED_COMINGSOON";
 export const fetchComingSoons = () => {
@@ -5,7 +7,7 @@ export const fetchComingSoons = () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3ODIxNDcxLCJleHAiOjE2NDA0MTM0NzF9.EeYZ52w2Q2UYc0njevC3Q3aIwwWLsApSvaHPeTmwp4g";
     const response = await fetch(
-      "https://netflix-test-app.herokuapp.com/coming-soons",
+      `${url}/coming-soons`,
       {
         method: "GET",
         headers: {

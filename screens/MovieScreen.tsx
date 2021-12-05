@@ -7,7 +7,7 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-import movie from "../data/movie";
+
 import { View, Text } from "./../components/Themed";
 import HomeCategories from "../components/HomeCategories";
 import * as movieActions from "../store/actions/movie";

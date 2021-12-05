@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator, FlatList, TextInput, Image, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, Pressable, FlatList, TextInput, Image, Button, StyleSheet, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements'
 import { useSelector } from 'react-redux';
 import Colors from '../constants/Colors';
@@ -7,18 +8,18 @@ import Colors from '../constants/Colors';
 function SearchScreen() {
 
 
-    const episode: [] = useSelector((state) => state.series.availableEpisode);
-    const movies: [] = useSelector((state) => state.movies.availableMovies);
+    const episode = useSelector((state) => state.series.availableEpisode);
+    const movies = useSelector((state) => state.movies.availableMovies);
     const movie = useSelector((state) => state.movies.availableMovies);
 
     const movieIdArray = movie.map((MovieId: any) => MovieId.id);
-    const data = movies.concat(episode)
+    // const data = movies.concat(episode)
 
     const id = movieIdArray.map((movieId: any) => movieId.id)
 
     console.log('CONCAT DATA DADADADAD IN SEARCH SCREAN DATA  ', movieIdArray, 'IIIDDDDD AAAAARRRRRRRAAAAAYYYYYvv   ', id)
 
-    const [filterData, setFilterData] = useState(data);
+    const [filterData, setFilterData] = useState(movie);
     const [search, setSearch] = useState();
 
     let i = 0;
@@ -34,13 +35,16 @@ function SearchScreen() {
             setSearch(text);
 
         } else {
-            setFilterData(data);
+            setFilterData(movie);
             setSearch(text)
         }
     };
-    console.log('FLLLLTTTTEEERRR DDDD IIIIDDDD  ', filterData[0])
+
+    const navigation = useNavigation();
     return (
-        <View style={{ flex: 1, backgroundColor: "black", }}>
+        <View
+
+            style={{ flex: 1, backgroundColor: "black", }}>
             <SearchBar
                 placeholder="Search..."
                 onChangeText={(text) => searchFilterFunction(text)}
@@ -53,7 +57,13 @@ function SearchScreen() {
                 keyExtractor={(item, index) => item.title}
                 renderItem={({ item }) => {
                     return (
-                        <View style={{ flexDirection: 'row', width: "90%", marginTop: 20, height: 80, }}>
+                        <Pressable
+                            onPress={() => {
+                                navigation.setParams('MovieDetailScreen', { movieId: item.id });
+                                navigation.setParams('MovieDetailScreen', { episodeId: item.id });
+                                navigation.navigate('MovieDetailScreen', { movieId: item.id })
+                            }}
+                            style={{ flexDirection: 'row', width: "90%", marginTop: 20, height: 80, }}>
                             <Image
                                 style={styles.image}
                                 source={{ uri: item.poster }} />
@@ -67,7 +77,7 @@ function SearchScreen() {
                                     <Text style={{ color: '#a8b4b5', fontSize: 18, }}>{item.duration}</Text>
                                 </View>
                             </View>
-                        </View>
+                        </Pressable>
                     )
                 }}
                 style={{ marginLeft: 10, }}

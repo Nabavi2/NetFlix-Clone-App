@@ -23,7 +23,7 @@ import * as seriesActions from "../store/actions/series";
 import series from "../store/reducers/series";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
-import VideoPlayBack from "../components/VideoPlayBack";
+import { VideoPlayBack } from "../components/VideoPlayBack";
 import EpisodeItems from "../components/EpisodeItems";
 
 function MovieDetailScreen(props: any) {
@@ -39,19 +39,28 @@ function MovieDetailScreen(props: any) {
   );
   const navigation = useNavigation();
   const id = props.route.params.movieId;
-  const id2 = props.route.params.episodeId;
+  const id2 = props.route.params.seriesId;
 
   let movieId = id;
-  let episodeId = id2;
+  let seriesId = id2;
+  const episodes = useSelector((state) => state.series.availableEpisode);
+  const season: [] = useSelector((state) => state.series.availableSeason);
+  const movieById = useSelector((state) => state.movies.availableMovieById);
 
-  const episodes: [] = useSelector((state) => state.series.availableEpisode);
-  const season = useSelector((state) => state.series.availableSeason);
-  const movieById: any = useSelector(
-    (state) => state.movies.availableMovieById
-  );
-  const series = useSelector((state) => state.series.availableSeries);
+  const series: [] = useSelector((state) => state.series.availableSeries);
   const seasons = season.map((seasonN: any) => seasonN.name);
 
+  let selectedSeries = seriesId
+    ? series.find((item: any) => item.id === seriesId)
+    : null;
+  let selectedSeason = seriesId
+    ? season.filter((item: any) => item.id === seriesId)
+    : null;
+
+  console.log(
+    "SSSSSSSSSSSEEEEEEEAAAAAAAAASSSSSSSSSSOOOOnnnnnnNNNNAAMMMM  ",
+    movieById
+  );
   let selectedEpisode = episodeId
     ? episodes.find((item: any) => item.id === episodeId)
     : null;
@@ -60,6 +69,8 @@ function MovieDetailScreen(props: any) {
   const [currentEpisode, setCurrentEpisode] = useState(selectedEpisode);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // console.log('MMMMOOOOVVVV SSSSSSSSSSSSRRRRRRRRyyyyyyyyyyyy  ', selectedEpisode.season_d.series_id,)
 
   const episodeAndSeasonHandler = useCallback(async () => {
     try {
@@ -81,18 +92,21 @@ function MovieDetailScreen(props: any) {
   useEffect(() => {
     episodeAndSeasonHandler();
   }, [dispatch, episodeAndSeasonHandler]);
-  console.log("BBBBBBBBBYYYYYYYYYYIIIIIIIIDDDDD", movieById);
-
   return (
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
-        <VideoPlayBack episode={movieId ? movieById : currentEpisode} />
+        <FlatList
+          data={movieId ? movieById : currentEpisode}
+          renderItem={({ item }) => {
+            return <VideoPlayBack episode={item} />;
+          }}
+        />
       </View>
       <ScrollView>
         <View style={{ backgroundColor: "#000" }}>
           <FlatList
             key={movieId}
-            data={movieId ? movieById : series}
+            data={movieId ? movieById : selectedSeries}
             renderItem={({ item }) => {
               return (
                 <View style={{ backgroundColor: "#000" }}>
@@ -234,7 +248,7 @@ function MovieDetailScreen(props: any) {
                       backgroundColor: "#000",
                     }}
                   >
-                    {episodeId ? (
+                    {seriesId ? (
                       <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
                         {" "}
                         EPISODES{" "}
@@ -247,7 +261,7 @@ function MovieDetailScreen(props: any) {
                     )}
                     <Text style={{ color: "#8e96a3" }}>MORE LIKE THIS</Text>
                   </View>
-                  {episodeId ? (
+                  {seriesId ? (
                     <Picker
                       style={{
                         width: 220,
@@ -271,7 +285,7 @@ function MovieDetailScreen(props: any) {
           />
         </View>
         <View>
-          {episodeId ? (
+          {seriesId ? (
             <FlatList
               data={episodes}
               renderItem={({ item }) => {

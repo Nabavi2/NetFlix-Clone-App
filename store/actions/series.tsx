@@ -128,7 +128,7 @@ export const fetchEpisode = () => {
                         resData[key].poster,
                         resData[key].video,
                         resData[key].duration,
-                        resData[key].number,
+                        resData[key].part
                     )
                 );
             }
