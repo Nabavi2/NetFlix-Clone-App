@@ -1,7 +1,7 @@
 
 class Episode {
     id: number;
-    season_id: {};
+    season_id: any;
     title: string;
     plot: string;
     poster: string;
@@ -12,7 +12,7 @@ class Episode {
 
     constructor(
         id: number,
-        season_id: {},
+        season_id: any,
         title: string,
         plot: string,
         poster: string,
