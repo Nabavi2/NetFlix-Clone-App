@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import {
   Alert,
   TextInput,
@@ -65,10 +65,12 @@ function LoginScreen() {
       .trim()
       .min(5, `your password should be atlest ${5} character`)
       .required("Please Enter your password"),
-    confirmPassword: Yup.string()
-      .trim()
-      .min(5, `your password should be atlest ${5} character`)
-      .required("Please Reenter your password"),
+    confirmPassword: isSignup
+      ? Yup.string()
+          .trim()
+          .min(5, `your password should be atlest ${5} character`)
+          .required("Please Reenter your password")
+      : Yup.string(),
   });
   const navigation = useNavigation();
   if (isLoading) {
@@ -97,10 +99,34 @@ function LoginScreen() {
         <Formik
           validationSchema={validationSchema}
           initialValues={{ email: "", password: "", confirmPassword: "" }}
-          onSubmit={() => console.log("this is my submit form methode")}
+          onSubmit={async (values) => {
+            const token = await AsyncStorage.getItem("userData");
+            console.log("TTTTTOOOOOKKKKKEEEEENNNN  ", token);
+            if (isSignup && values.password !== values.confirmPassword) {
+              Alert.alert("Attention!", "Passwords don't match together!", [
+                { text: "Ok", style: "destructive" },
+              ]);
+            } else if (!values.email || !values.password) {
+              Alert.alert(
+                "Attention!",
+                "Please enter either your email and password!",
+                [{ text: "Ok", style: "destructive" }]
+              );
+            } else {
+              await authHandler(values.email, values.password);
+              navigation.navigate("Home");
+            }
+          }}
           validateOnMount={true}
         >
-          {({ values, errors, handleBlur, touched, handleChange }) => {
+          {({
+            values,
+            errors,
+            handleBlur,
+            touched,
+            handleChange,
+            submitForm,
+          }) => {
             const { email, password } = values;
             console.log("My values object", values);
             return (
@@ -226,29 +252,13 @@ function LoginScreen() {
                     ) : null}
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={async () => {
-                        const token = await AsyncStorage.getItem("userData");
-                        console.log("TTTTTOOOOOKKKKKEEEEENNNN  ", token);
-                        if (
-                          isSignup &&
-                          values.password !== values.confirmPassword
-                        ) {
-                          Alert.alert(
-                            "Attention!",
-                            "Passwords don't match together!",
-                            [{ text: "Ok", style: "destructive" }]
-                          );
-                        } else if (!values.email || !values.password) {
-                          Alert.alert(
-                            "Attention!",
-                            "Please enter either your email and password!",
-                            [{ text: "Ok", style: "destructive" }]
-                          );
-                        } else {
-                          await authHandler(values.email, values.password);
-                          navigation.navigate("Home");
-                        }
-                      }}
+                      onPress={
+                        submitForm.bind(values)
+
+                        //   async () => {
+                        //
+                        // }
+                      }
                     >
                       <Text style={{ color: "#FFF" }}>
                         {" "}

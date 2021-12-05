@@ -32,7 +32,7 @@ export const loginUser = (email: string, password: string) => {
     const resData = await response.json();
     console.log("this is my resData ", resData);
     dispatch({ type: LOGIN, userId: resData.user.id, jwt: resData["jwt"] });
-    saveUserData(resData.jwt);
+    saveUserData(resData.jwt, resData.user.id);
     console.log("this is token", resData.jwt);
   };
 };
@@ -45,6 +45,7 @@ export const signupUser = (email: string, password: string) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        username: email,
         email,
         password,
       }),
@@ -61,18 +62,20 @@ export const signupUser = (email: string, password: string) => {
     }
     const resData = await response.json();
     console.log("RESSSSSSSSSPPPPPPPPonse", resData);
-    dispatch({ type: SIGNUP, jwt: resData["jwt"] });
-    saveUserData(resData.jwt);
+    dispatch({ type: SIGNUP, jwt: resData["jwt"], userId: resData["user"].id });
+    saveUserData(resData.jwt, resData["user"].id);
   };
 };
 
-export const logout = () => {
-  AsyncStorage.removeItem("userData");
+export const logout = async () => {
+  await AsyncStorage.removeItem("userData");
+  await AsyncStorage.removeItem("userId");
   return async (dispatch: any) => {
     dispatch({ type: LOGOUT, nothing: "" });
   };
 };
 
-const saveUserData = async (userToken: string) => {
-  const response = await AsyncStorage.setItem("userData", userToken);
+const saveUserData = async (userToken: string, userId: any) => {
+  await AsyncStorage.setItem("userData", userToken);
+  await AsyncStorage.setItem("userId", userId.toString());
 };
