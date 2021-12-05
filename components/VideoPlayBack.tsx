@@ -8,13 +8,13 @@ import { Ionicons } from '@expo/vector-icons';
 //     episode: Episode
 // }
 function VideoPlayBack(props: any) {
-    const { episode } = props;
+    const { data } = props;
 
     // const [episodes, setEpisodes] = useState(episode);
     const [status, setStatus] = useState({});
     const video = useRef<Playback>(null);
 
-    console.log(" thsi si videos play back 000000000  ", episode.video)
+    console.log(" thsi si videos play back 000000000  ", data)
     useEffect(() => {
         if (!video) {
             return;
@@ -22,19 +22,19 @@ function VideoPlayBack(props: any) {
         (async () => {
             await video?.current?.unloadAsync();
             await video?.current?.loadAsync(
-                { uri: episode.video },
+                { uri: data.video },
                 {},
                 false
             )
         })()
-    }, [episode])
+    }, [data])
     return (
         <View>
             <Video
                 ref={video}
                 style={styles.video}
-                source={{ uri: episode.video }}
-                posterSource={{ uri: episode.poster }}
+                source={{ uri: data.video }}
+                posterSource={{ uri: data.poster }}
                 useNativeControls
                 usePoster={true}
                 isLooping={true}

@@ -19,31 +19,31 @@ function SeriesScreen() {
     const episode = useSelector((state) => state.series.availableEpisode);
     const category = useSelector((state) => state.category.availableCategories);
 
-    console.log(" thisis si   CAATEGOOOORRRRRY yyyyyyyyyyyyyyyy  ", category);
+    console.log(" thisis si   EEEEEEEEEPPPPPPPPPPPiiiiiiiiiiiiSSSSSSSSSSSSodddd yyyyyyyyyyyyyyyy  ", episode);
 
 
     const dispatch = useDispatch()
-    const movieAndSeriesHandler = useCallback(async () => {
-        try {
-            setError(null)
-            setIsLoading(true);
-            await dispatch(categoryActions.fetchCategories());
-            await dispatch(movieActions.fetchMovies());
-            await dispatch(seriesActions.fetchSeries());
-            await dispatch(seriesActions.fetchEpisode());
-            await dispatch(seriesActions.fetchSeason());
-            setIsLoading(false);
-        } catch (err: any) {
-            setError(err.message)
+    // const movieAndSeriesHandler = useCallback(async () => {
+    //     try {
+    //         setError(null)
+    //         setIsLoading(true);
+    //         await dispatch(categoryActions.fetchCategories());
+    //         await dispatch(movieActions.fetchMovies());
+    //         await dispatch(seriesActions.fetchSeries());
+    //         await dispatch(seriesActions.fetchEpisode());
+    //         await dispatch(seriesActions.fetchSeason());
+    //         setIsLoading(false);
+    //     } catch (err: any) {
+    //         setError(err.message)
 
-            alert(err.message);
-            setIsLoading(false);
-        }
+    //         alert(err.message);
+    //         setIsLoading(false);
+    //     }
 
-    }, [dispatch])
-    useEffect(() => {
-        movieAndSeriesHandler();
-    }, [dispatch, movieAndSeriesHandler]);
+    // }, [dispatch])
+    // useEffect(() => {
+    //     movieAndSeriesHandler();
+    // }, [dispatch, movieAndSeriesHandler]);
     if (isLoading) {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -60,11 +60,7 @@ function SeriesScreen() {
                 renderItem={({ item }) => (
                     <SeriesCategories category={item} />
                 )}
-
             />
-            {/* <View style={{ width: 250, backgroundColor: '#000', height: 30, marginVertical: 7, marginHorizontal: 10, }}>
-        <Text style={{ fontSize: 20, color: '#c75a5f' }}> These are NetFlix Series </Text>
-      </View> */}
 
             {/* <FlatList
         data={episode}

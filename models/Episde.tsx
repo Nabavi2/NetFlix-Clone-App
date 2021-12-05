@@ -1,32 +1,33 @@
 
 class Episode {
     id: number;
-    season_d: {};
+    season_id: {};
     title: string;
     plot: string;
     poster: string;
     video: string;
     duration: string;
-    number: number;
+    part: number;
+
 
     constructor(
         id: number,
-        season_d: {},
+        season_id: {},
         title: string,
         plot: string,
         poster: string,
         video: string,
         duration: string,
-        number: number,
+        part: number
     ) {
         this.id = id;
-        this.season_d = season_d;
+        this.season_id = season_id;
         this.title = title;
         this.plot = plot;
         this.poster = poster;
         this.video = video;
         this.duration = duration;
-        this.number = number;
+        this.part = part;
     }
 }
 export default Episode;

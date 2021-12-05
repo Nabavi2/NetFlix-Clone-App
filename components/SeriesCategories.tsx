@@ -4,7 +4,6 @@ import { StyleSheet, Image, FlatList, Pressable, TouchableOpacity, ScrollView, L
 import { View, Text } from './../components/Themed';
 import Navigation from '../navigation/index';
 import { useNavigation } from '@react-navigation/native';
-import movie from '../data/movie';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { useSelector } from 'react-redux';
 
@@ -13,8 +12,10 @@ import { useSelector } from 'react-redux';
 function SeriesCategories(props: any) {
     const { category } = props;
     const episode = useSelector((state) => state.series.availableEpisode);
+    const season = useSelector((state) => state.series.availableSeason);
 
     const navigation = useNavigation();
+    console.log('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNDDDDDDDDDDD ,', episode.season_id)
 
     let i = 0;
     return (
@@ -28,8 +29,9 @@ function SeriesCategories(props: any) {
                 renderItem={({ item }) => {
                     return (
                         <Pressable onPress={() => {
-                            // navigation.setParams('MovieDetailScreen', { episodeId: item.id });
-                            navigation.navigate('MovieDetailScreen', { episodeId: item.id })
+                            console.log('IIIIIIIIIIIIIIIIIIIIITTTTTTTTTEEEEEEEEEMM ', item);
+                            navigation.setParams('MovieDetailScreen', { seriesId: item.season_d.series_id });
+                            navigation.navigate('MovieDetailScreen', { seriesId: item.season_d.series_id })
                         }}>
                             <Image style={styles.image} source={{ uri: item.poster }} />
                         </Pressable>

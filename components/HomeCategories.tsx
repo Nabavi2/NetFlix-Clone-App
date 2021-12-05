@@ -17,7 +17,7 @@ import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
   const dispatch = useDispatch();
-  console.log("CAAAAAAAAAAAAAAAAAAAAA ", category);
+
   const movie = isComingSoon
     ? null
     : useSelector((state) => state.movies.availableMovies);
@@ -31,7 +31,7 @@ function HomeCategories(props: any) {
     : [];
   const navigation = useNavigation();
 
-  console.log("ffffffffff", filteredComings);
+  console.log("ffffffffff", movie);
 
   return (
     <View style={styles.container}>
@@ -55,8 +55,8 @@ function HomeCategories(props: any) {
                 if (isComingSoon) {
                   await dispatch(updateSelectedComingSoon(item));
                 } else {
-                  navigation.setParams("MovieDetailScreen", {movieId: item.id,});
-                  navigation.navigate("MovieDetailScreen", {movieId: item.id,});
+                  navigation.setParams("MovieDetailScreen", { movieId: item.id, });
+                  navigation.navigate("MovieDetailScreen", { movieId: item.id, });
                 }
               }}
             >
