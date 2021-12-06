@@ -8,6 +8,49 @@ import { Ionicons } from "@expo/vector-icons";
 //     episode: Episode
 // }
 function VideoPlayBack(props: any) {
+<<<<<<< HEAD
+    const { episode } = props;
+
+    // const [episodes, setEpisodes] = useState(episode);
+    console.log(" thsi si videos play back 000000000  ", episode.id)
+    const [status, setStatus] = useState({});
+    const video = useRef<Playback>(null);
+
+
+    useEffect(() => {
+        if (!video) {
+            return;
+        }
+        (async () => {
+            await video?.current?.unloadAsync();
+            await video?.current?.loadAsync(
+                { uri: episode.video },
+                {},
+                false
+            )
+        })()
+    }, [episode])
+    return (
+        <View>
+            <Video
+                ref={video}
+                style={styles.video}
+                source={{ uri: episode.video }}
+                posterSource={{ uri: episode.poster }}
+                useNativeControls
+                usePoster={true}
+                isLooping={true}
+                posterStyle={{ resizeMode: 'cover' }}
+                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+                resizeMode="contain"
+            />
+            {!status.isPlaying &&
+                <Ionicons
+                    onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
+                    }
+                    style={{ position: 'absolute', zIndex: 100, top: 70, left: 170, }}
+                    name="play" size={100} color="#FFF" />}
+=======
   const { episode } = props;
   console.log();
 
@@ -52,6 +95,7 @@ function VideoPlayBack(props: any) {
           color="#FFF"
         />
       )}
+>>>>>>> 0440db0bcb38e4ff7b7111822e6b8692834db2b8
 
       {/* <View style={styles.buttons}>
                 <Button
