@@ -95,7 +95,7 @@ function MovieDetailScreen(props: any) {
       setError(null);
       setIsLoading(true);
       {
-        movieId ? await dispatch(movieActions.fetchMovieById(id)) : null;
+        movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
       }
       await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
@@ -306,7 +306,9 @@ function MovieDetailScreen(props: any) {
                 return (
                   <EpisodeItems
                     episode={item}
-                    onPress={setCurrentEpisode(item)}
+                    onPress={() => {
+                      setCurrentEpisode(item);
+                    }}
                   />
                 );
               }}

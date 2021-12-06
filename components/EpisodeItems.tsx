@@ -15,9 +15,15 @@ import MovieDetailScreen from "../screens/MovieDetailScreen";
 import { AntDesign } from "@expo/vector-icons";
 
 interface EpisodesItem {
+<<<<<<< HEAD
   episode: Episode;
   onPress: (episode: any) => {};
 }
+=======
+    episode: Episode;
+    onPress: (episode: Episode) => {};
+};
+>>>>>>> f613d440fdff818927fb13cc9bfdfdae40760af3
 function EpisodeItems(props: EpisodesItem) {
   const { episode, onPress } = props;
 
