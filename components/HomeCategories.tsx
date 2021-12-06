@@ -6,6 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from "react-native";
 
 import { View, Text } from "./../components/Themed";
@@ -77,12 +78,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
     width: "100%",
-    height: 240,
+    height: Dimensions.get("screen").height * 0.25,
   },
   image: {
     overflow: "hidden",
-    width: 130,
-    height: 180,
+    width: Dimensions.get("screen").width * 0.25,
+    height: Dimensions.get("screen").height * 0.18,
     borderRadius: 7,
     margin: 8,
     alignSelf: "center",
