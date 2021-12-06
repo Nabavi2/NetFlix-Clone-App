@@ -10,7 +10,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 interface EpisodesItem {
     episode: Episode;
-    onPress: (episode: any) => {};
+    onPress: (episode: Episode) => {};
 };
 function EpisodeItems(props: EpisodesItem) {
     const { episode, onPress } = props;

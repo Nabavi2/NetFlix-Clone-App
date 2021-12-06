@@ -307,7 +307,7 @@ function MovieDetailScreen(props: any) {
                             data={filteredEpies}
                             renderItem={({ item }) => {
                                 return (
-                                    <EpisodeItems episode={item} onPress={setCurrentEpisode(item)} />
+                                    <EpisodeItems episode={item} onPress={() => { setCurrentEpisode(item) }} />
                                 );
                             }}
                         />
