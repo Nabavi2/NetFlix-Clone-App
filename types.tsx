@@ -45,6 +45,7 @@ export type HomeParamList = {
   Tabs: undefined;
   Movies: undefined;
   Series: undefined;
+  Download: undefined;
 }
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,

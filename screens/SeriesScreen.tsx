@@ -23,34 +23,26 @@ function SeriesScreen() {
 
 
     const dispatch = useDispatch()
-    // const movieAndSeriesHandler = useCallback(async () => {
-    //     try {
-    //         setError(null)
-    //         setIsLoading(true);
-    //         await dispatch(categoryActions.fetchCategories());
-    //         await dispatch(movieActions.fetchMovies());
-    //         await dispatch(seriesActions.fetchSeries());
-    //         await dispatch(seriesActions.fetchEpisode());
-    //         await dispatch(seriesActions.fetchSeason());
-    //         setIsLoading(false);
-    //     } catch (err: any) {
-    //         setError(err.message)
+    const movieAndSeriesHandler = useCallback(async () => {
+        try {
+            setError(null)
+            setIsLoading(true);
+            // await dispatch(seriesActions.fetchSeason());
+            await dispatch(seriesActions.fetchSeries());
+            await dispatch(seriesActions.fetchEpisode());
+            setIsLoading(false);
+        } catch (err: any) {
+            setError(err.message)
 
-    //         alert(err.message);
-    //         setIsLoading(false);
-    //     }
+            alert(err.message);
+            setIsLoading(false);
+        }
 
-    // }, [dispatch])
-    // useEffect(() => {
-    //     movieAndSeriesHandler();
-    // }, [dispatch, movieAndSeriesHandler]);
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <ActivityIndicator size='large' color={Colors.primary} />
-            </View>
-        )
-    }
+    }, [dispatch])
+    useEffect(() => {
+        movieAndSeriesHandler();
+    }, [dispatch, movieAndSeriesHandler]);
+    
 
     return (
 

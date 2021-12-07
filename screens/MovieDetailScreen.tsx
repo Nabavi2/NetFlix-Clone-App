@@ -4,6 +4,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     ActivityIndicator,
+    Dimensions,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import movie from "../data/movie";
@@ -16,6 +17,8 @@ import {
     MaterialIcons,
 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+// import Picker from 'react-native-picker-select';
+// import SelectPicker from 'react-native-select-picker';
 import * as FileSystem from "expo-file-system";
 import { addDownload } from "../store/actions/download";
 import * as movieActions from "../store/actions/movie";
@@ -25,11 +28,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import VideoPlayBack from "../components/VideoPlayBack";
 import EpisodeItems from "../components/EpisodeItems";
-import Episode from './../models/Episde';
+import Episode from '../models/Episde';
+import Colors from "../constants/Colors";
+
 
 function MovieDetailScreen(props: any) {
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
+    const episodeAndSeasonHandler = useCallback(async () => {
+        try {
+            setError(null);
+            setIsLoading(true);
+            {
+                movieId ? await dispatch(movieActions.fetchMovieById(id)) : null;
+            }
+
+            await dispatch(seriesActions.fetchEpisode());
+            await dispatch(seriesActions.fetchSeason());
+            setIsLoading(false);
+        } catch (err: any) {
+            setError(err.message);
+            setIsLoading(false);
+            console.log(err.message);
+        }
+    }, [dispatch]);
+    useEffect(() => {
+        episodeAndSeasonHandler();
+    }, [dispatch, episodeAndSeasonHandler]);
     //creating downloadResumable.
     const resumableDownload = useRef(
         FileSystem.createDownloadResumable(
@@ -59,6 +86,7 @@ function MovieDetailScreen(props: any) {
 
     let selectSeasonPicker = episodeId ? season.filter((item: any) => item.series_id.id === selectedSeries1.id) : null;
 
+    let item = movieId ? selecedMovieById : selectedSeries1;
 
     let selectedSeries = [];
     selectedSeries.push(selectedSeries1);
@@ -72,11 +100,10 @@ function MovieDetailScreen(props: any) {
     //     ? episodes.find((item: any) => item.id === episodeId)
     //     : null;
     const firstSeasone = selectedSeason;
-    // console.log('CURRRREEEEENNNNNNNTTTTTTTTTTTTTTTTTTTTTTT SSSSSSSSSS', selectedEpisode)
+
     const [currentSeasone, setCurrentSeasone] = useState(firstSeasone);
     const [currentEpisode, setCurrentEpisode] = useState(selectedEpisodOb);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+
 
     console.log("fffffffffffffffffffffffffff", currentEpisode);
     // console.log('MMMMOOOOVVVV SSSSSSSSSSSSRRRRRRRRyyyyyyyyyyyy  ', selectedEpisode.season_d.series_id,)
@@ -88,223 +115,200 @@ function MovieDetailScreen(props: any) {
     }) : null;
 
 
-    const episodeAndSeasonHandler = useCallback(async () => {
-        try {
-            setError(null);
-            setIsLoading(true);
-            {
-                movieId ? await dispatch(movieActions.fetchMovieById(id)) : null;
-            }
-            await dispatch(seriesActions.fetchSeries());
-            await dispatch(seriesActions.fetchEpisode());
-            await dispatch(seriesActions.fetchSeason());
-            setIsLoading(false);
-        } catch (err: any) {
-            setError(err.message);
-            setIsLoading(false);
-            console.log(err.message);
-        }
-    }, [dispatch]);
-    useEffect(() => {
-        episodeAndSeasonHandler();
-    }, [dispatch, episodeAndSeasonHandler]);
+
     return (
         <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
-
             <View>
 
                 <VideoPlayBack episode={movieId ? selecedMovieById : currentEpisode} />
-
             </View>
-
-
-
             <ScrollView>
                 <View style={{ backgroundColor: "#000" }}>
-                    <FlatList
-                        key={movieId ? movieId : episodeId}
-                        data={movieId ? movieById : selectedSeries}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{ backgroundColor: "#000" }}>
-                                    <Text style={{ fontSize: 30, margin: 10, color: "#FFF" }}>
-                                        {item.title}
-                                    </Text>
 
-                                    <View
-                                        style={{
-                                            flexDirection: "row-reverse",
-                                            marginLeft: 10,
-                                            backgroundColor: "#000",
-                                        }}
-                                    >
-                                        <Text style={{ color: "#61a832", marginHorizontal: 7 }}>
-                                            98% match
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                fontSize: 18,
-                                                marginHorizontal: 10,
-                                                color: "#FFF",
-                                            }}
-                                        >
-                                            {item.name}
-                                        </Text>
-                                        <View style={styles.numContainer}>
-                                            <Text style={{ color: "black" }}>12+</Text>
-                                        </View>
-                                        <Text style={styles.text1}>{item.title}</Text>
-                                        <Text style={styles.text2}>{item.id}</Text>
-                                        <MaterialIcons name="hd" size={24} color="white" />
-                                    </View>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            return <Text>lsdjflsd</Text>;
-                                        }}
-                                        style={styles.playIcon}
-                                    >
-                                        <Ionicons name="play-sharp" size={24} color="black" />
-                                        <Text style={{ color: "black", marginLeft: 5 }}>Play</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.downloadIcon}
-                                        onPress={async () => {
-                                            await dispatch(
-                                                addDownload(
-                                                    resumableDownload.current.savable(),
-                                                    movieId ? movieById[0].id : null,
-                                                    selectedEpisodOb,
-                                                    false
-                                                )
-                                            );
-                                        }}
-                                    >
-                                        <AntDesign name="download" size={24} color="black" />
-                                        <Text style={{ color: "#FFF", marginLeft: 5 }}>
-                                            DownLoad
-                                        </Text>
-                                    </TouchableOpacity>
+                    <View style={{ backgroundColor: "#000" }}>
+                        <Text style={{ fontSize: 30, margin: 10, color: "#FFF" }}>
+                            {movieId ? item.title : item.name}
+                        </Text>
 
-                                    <Text
-                                        style={{ margin: 15, alignItems: "center", color: "#FFF" }}
-                                    >
-                                        {" "}
-                                        {item.plot}{" "}
-                                    </Text>
-                                    <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
-                                        {" "}
-                                        Cast: {item.cast}{" "}
-                                    </Text>
-                                    <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
-                                        {" "}
-                                        Creator: {item.creator_name}{" "}
-                                    </Text>
-                                    <View
-                                        style={{
-                                            backgroundColor: "#FFF",
-                                            width: "80%",
-                                            height: 1,
-                                            marginLeft: 13,
-                                            marginTop: 5,
-                                        }}
-                                    ></View>
-                                    <View
-                                        style={{
-                                            flexDirection: "row",
-                                            marginHorizontal: 30,
-                                            marginTop: 10,
-                                            backgroundColor: "#000",
-                                        }}
-                                    >
-                                        <View
-                                            style={{
-                                                alignItems: "center",
-                                                marginHorizontal: 20,
-                                                backgroundColor: "#000",
-                                            }}
-                                        >
-                                            <MaterialIcons name="add" size={26} color="#FFF" />
-                                            <Text style={{ color: "#FFF" }}>My List</Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                alignItems: "center",
-                                                marginHorizontal: 20,
-                                                backgroundColor: "#000",
-                                            }}
-                                        >
-                                            <Feather name="thumbs-up" size={26} color="#FFF" />
-                                            <Text style={{ color: "#FFF" }}>Rate</Text>
-                                        </View>
-                                        <View
-                                            style={{
-                                                alignItems: "center",
-                                                marginHorizontal: 20,
-                                                backgroundColor: "#000",
-                                            }}
-                                        >
-                                            <FontAwesome name="send-o" size={26} color="#FFF" />
-                                            <Text style={{ color: "#FFF" }}>Rate</Text>
-                                        </View>
-                                    </View>
-                                    <View
-                                        style={{
-                                            backgroundColor: "red",
-                                            width: 80,
-                                            height: 2,
-                                            marginLeft: 40,
-                                            marginTop: 5,
-                                        }}
-                                    ></View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                marginLeft: 10,
+                                backgroundColor: "#000",
+                            }}
+                        >
+                            <Text style={{ color: "#61a832", marginHorizontal: 7 }}>
+                                98% match
+                            </Text>
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    marginHorizontal: 10,
+                                    color: "#FFF",
+                                }}
+                            >
+                                {item.name}
+                            </Text>
+                            <View style={styles.numContainer}>
+                                <Text style={{ color: "black" }}>12+</Text>
+                            </View>
+                            <Text style={styles.text1}>{item.title}</Text>
+                            <Text style={styles.text2}>{item.id}</Text>
+                            <MaterialIcons name="hd" size={24} color="white" />
+                        </View>
 
-                                    <View
-                                        style={{
-                                            marginTop: 10,
-                                            marginBottom: 20,
-                                            flexDirection: "row",
-                                            backgroundColor: "#000",
-                                        }}
-                                    >
-                                        {episodeId ? (
-                                            <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-                                                {" "}
-                                                EPISODES{" "}
-                                            </Text>
-                                        ) : (
-                                            <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-                                                {" "}
-                                                MOVIE{" "}
-                                            </Text>
-                                        )}
-                                        <Text style={{ color: "#8e96a3" }}>MORE LIKE THIS</Text>
-                                    </View>
-                                    {episodeId ? (
-                                        <Picker
-                                            style={{
-                                                width: 220,
-                                                color: "#FFF",
-                                                backgroundColor: "#FFF",
-                                            }}
-                                            selectedValue={currentSeasone.name}
-                                            onValueChange={(itemValue, itemIndex) =>
-                                                setCurrentSeasone(selectSeasonPicker[itemIndex])
-                                            }
-                                            dropdownIconColor="#FFF"
-                                        >
-                                            {seasons.map((seasonName: any) => (
-                                                <Picker.Item label={seasonName} value={seasonName} />
-                                            ))}
-                                        </Picker>
-                                    ) : null}
-                                </View>
-                            );
-                        }}
-                    />
+                        <TouchableOpacity
+                            style={styles.downloadIcon}
+                            onPress={async () => {
+                                await dispatch(
+                                    addDownload(
+                                        resumableDownload.current.savable(),
+                                        movieId ? movieById[0].id : null,
+                                        selectedEpisodOb,
+                                        false
+                                    )
+                                );
+
+
+                            }}
+                        >
+                            <AntDesign name="download" size={24} color="black" />
+                            <Text style={{ color: "#FFF", marginLeft: 5 }}>
+                                DownLoad
+                            </Text>
+                        </TouchableOpacity>
+
+                        <Text
+                            style={{ margin: 15, alignItems: "center", color: "#FFF" }}
+                        >
+                            {" "}
+                            {item.plot}{" "}
+                        </Text>
+                        <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
+                            {" "}
+                            Cast: {item.cast}{" "}
+                        </Text>
+                        <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
+                            {" "}
+                            Creator: {item.creator_name}{" "}
+                        </Text>
+                        <View
+                            style={{
+                                backgroundColor: "#FFF",
+                                width: "80%",
+                                height: 1,
+                                marginLeft: 13,
+                                marginTop: 5,
+                            }}
+                        ></View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                marginHorizontal: 30,
+                                marginTop: 10,
+                                backgroundColor: "#000",
+                            }}
+                        >
+                            <View
+                                style={{
+                                    alignItems: "center",
+                                    marginHorizontal: 20,
+                                    backgroundColor: "#000",
+                                }}
+                            >
+                                <MaterialIcons name="add" size={26} color="#FFF" />
+                                <Text style={{ color: "#FFF" }}>My List</Text>
+                            </View>
+                            <View
+                                style={{
+                                    alignItems: "center",
+                                    marginHorizontal: 20,
+                                    backgroundColor: "#000",
+                                }}
+                            >
+                                <Feather name="thumbs-up" size={26} color="#FFF" />
+                                <Text style={{ color: "#FFF" }}>Rate</Text>
+                            </View>
+                            <View
+                                style={{
+                                    alignItems: "center",
+                                    marginHorizontal: 20,
+                                    backgroundColor: "#000",
+                                }}
+                            >
+                                <FontAwesome name="send-o" size={26} color="#FFF" />
+                                <Text style={{ color: "#FFF" }}>Rate</Text>
+                            </View>
+                        </View>
+                        <View
+                            style={{
+                                backgroundColor: "red",
+                                width: 80,
+                                height: 2,
+                                marginLeft: 40,
+                                marginTop: 5,
+                            }}
+                        ></View>
+
+                        <View
+                            style={{
+                                marginTop: 10,
+                                marginBottom: 20,
+                                flexDirection: "row",
+                                backgroundColor: "#000",
+                            }}
+                        >
+                            {episodeId ? (
+                                <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
+                                    {" "}
+                                    EPISODES{" "}
+                                </Text>
+                            ) : (
+                                <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
+                                    {" "}
+                                    MOVIE{" "}
+                                </Text>
+                            )}
+                            <Text style={{ color: "#8e96a3" }}>MORE LIKE THIS</Text>
+                        </View>
+                        {episodeId ? (
+                            <Picker
+                                style={{
+                                    width: Dimensions.get("screen").width * 0.75,
+                                    color: "#FFF",
+                                    backgroundColor: "#FFF",
+                                    marginLeft: 7,
+                                    borderColor: Colors.secondary,
+                                    borderWidth: 2,
+                                }}
+                                itemStyle={{
+                                    width: Dimensions.get("screen").width * 0.65,
+                                    height: Dimensions.get("screen").height * 0.11,
+                                    // marginLeft: 7,
+                                }}
+                                selectedValue={currentSeasone.name}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setCurrentSeasone(selectSeasonPicker[itemIndex])
+                                }
+                                dropdownIconColor="#FFF"
+                            >
+                                {seasons.map((seasonName: any) => (
+                                    <Picker.Item
+
+                                        label={seasonName} value={seasonName}
+                                        key={1}
+                                    />
+                                ))}
+                            </Picker>
+                        ) : null}
+                    </View>
+
                 </View>
                 <View>
                     {episodeId && episodes ? (
                         <FlatList
                             data={filteredEpies}
+                            keyExtractor={(item, index) => item.id}
                             renderItem={({ item }) => {
                                 return (
                                     <EpisodeItems episode={item} onPress={() => { setCurrentEpisode(item) }} />

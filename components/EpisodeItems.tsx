@@ -12,11 +12,11 @@ interface EpisodesItem {
     episode: Episode;
     onPress: (episode: Episode) => {};
 };
-function EpisodeItems(props: EpisodesItem) {
+function EpisodeItems(props: any) {
     const { episode, onPress } = props;
 
     return (
-        <Pressable onPress={() => onPress}
+        <Pressable onPress={onPress}
             style={{ flex: 1, padding: 8, backgroundColor: '#000' }}>
             <View style={styles.container}>
                 <Image

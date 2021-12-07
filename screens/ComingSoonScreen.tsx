@@ -2,6 +2,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -100,12 +101,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   image: {
-    width: 400,
-    height: 250,
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height * 0.35,
+    resizeMode: 'cover',
+    aspectRatio: 16 / 9,
+    alignSelf: 'center',
   },
   texts: {
     width: "100%",

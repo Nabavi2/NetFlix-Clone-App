@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Button, Dimensions, StyleSheet, View } from "react-native";
 import { Episode } from "../types";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { Playback } from "expo-av/build/AV";
@@ -39,7 +39,7 @@ function VideoPlayBack(props: any) {
                 useNativeControls
                 usePoster={true}
                 isLooping={true}
-                posterStyle={{ resizeMode: 'cover' }}
+                posterStyle={{ resizeMode: 'cover', aspectRatio: 16 / 9 }}
                 onPlaybackStatusUpdate={(status) => setStatus(() => status)}
                 resizeMode="contain"
             />
@@ -47,7 +47,7 @@ function VideoPlayBack(props: any) {
                 <Ionicons
                     onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
                     }
-                    style={{ position: 'absolute', zIndex: 100, top: 70, left: 170, }}
+                    style={{ position: 'absolute', zIndex: 100, top: Dimensions.get("screen").height * 0.07, left: Dimensions.get("screen").width * 0.35, }}
                     name="play" size={100} color="#FFF" />}
 
             {/* <View style={styles.buttons}>
