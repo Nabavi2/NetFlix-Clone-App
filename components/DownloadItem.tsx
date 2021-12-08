@@ -4,8 +4,6 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Permissions from "expo-permissions";
-import * as MediaLibrary from "expo-media-library";
 import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";

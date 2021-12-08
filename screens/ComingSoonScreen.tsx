@@ -40,12 +40,12 @@ function ComingSoonScreen() {
     setIsRefreshing(false);
   }, [dispatch, setIsLoading]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", loadComingSoon);
-    return () => {
-      unsubscribe();
-    };
-  });
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", loadComingSoon);
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // });
 
   useEffect(() => {
     setIsLoading(true);
@@ -88,6 +88,14 @@ function ComingSoonScreen() {
         </Text>
       </View>
       <FlatList
+        refreshing={isRefreshing}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={loadComingSoon}
+            colors={["red"]}
+          />
+        }
         data={category}
         renderItem={({ item }) => (
           <HomeCategories category={item} isComingSoon={true} />
@@ -101,12 +109,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-    // justifyContent: "center",
-    // alignItems: "center",
   },
   image: {
     width: Dimensions.get("screen").width,
-    height: Dimensions.get("screen").height * 0.35,
+    height: Dimensions.get("screen").height * 0.3,
     resizeMode: "cover",
     aspectRatio: 16 / 9,
     alignSelf: "center",
