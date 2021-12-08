@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 
 import { View, Text } from "./../components/Themed";
@@ -100,7 +101,7 @@ function HomeCategories(props: any) {
       <Text
         style={{
           marginVertical: 10,
-          marginLeft: 10,
+          marginLeft: 0,
           color: "#FFF",
           fontSize: 20,
         }}
@@ -146,18 +147,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-    width: "100%",
-    height: 240,
+    paddingHorizontal: 12,
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height * 0.25,
   },
   image: {
     overflow: "hidden",
-    width: 130,
-    height: 180,
+    width: Dimensions.get("screen").width * 0.25,
+    height: Dimensions.get("screen").height * 0.18,
     borderRadius: 7,
     margin: 8,
     alignSelf: "center",
     resizeMode: "cover",
-    // aspectRatio: 16 / 9,
   },
 });
 export default HomeCategories;
