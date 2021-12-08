@@ -11,13 +11,14 @@ import Movie from '../../models/Movie';
 
 
 
-export const fetchMovies = () => {
+export const fetchMovies = (start:number,) => {
+    
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${url}/movies`,
+                `${url}/movies?_start=${start}&_limit=5`,
                 {
                     method: "GET",
                     headers: {

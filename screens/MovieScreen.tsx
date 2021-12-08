@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [start, setStart] = useState(0);
+  const [timer, setTimer] = useState(0);
   const movie = useSelector((state) => state.movies.availableMovies);
   const category = useSelector((state) => state.category.availableCategories);
 
@@ -29,7 +31,7 @@ function MovieScreen() {
       setError(null);
       setIsLoading(true);
       await dispatch(categoryActions.fetchCategories());
-      await dispatch(movieActions.fetchMovies());
+      await dispatch(movieActions.fetchMovies(start));
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);
@@ -39,7 +41,7 @@ function MovieScreen() {
     }
   }, [dispatch]);
   useEffect(() => {
-    movieAndSeriesHandler(); 
+    movieAndSeriesHandler();
   }, [dispatch, movieAndSeriesHandler]);
   if (isLoading) {
     return (

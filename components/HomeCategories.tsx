@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -13,9 +13,16 @@ import Navigation from "../navigation/index";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
+import * as movieActions from "../store/actions/movie";
 
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [start, setStart] = useState(0);
+  const [timer, setTimer] = useState(0);
+
   const dispatch = useDispatch();
   const movie = isComingSoon
     ? null
@@ -24,13 +31,29 @@ function HomeCategories(props: any) {
     ? useSelector((state) => state.comingSoon.comingSoonList)
     : null;
   console.log(category.id);
-  console.log("CAAAAAAAAAAAAAAAAAAAAA ", movie);
+
   const filteredComings = comingSoons
     ? comingSoons.filter((item: any) => item.category_id["id"] === category.id)
     : [];
   const navigation = useNavigation();
 
-  console.log("ffffffffff", movie);
+  const movieHandler = useCallback(async () => {
+    try {
+      setError(null);
+      setIsLoading(true);
+      await dispatch(movieActions.fetchMovies(start));
+
+      setIsLoading(false);
+      setStart(start * 2);
+    } catch (err: any) {
+      setError(err.message);
+
+      alert(err.message);
+      setIsLoading(false);
+    }
+  }, [dispatch]);
+
+
 
   return (
     <View style={styles.container}>
@@ -47,6 +70,7 @@ function HomeCategories(props: any) {
       <FlatList
         data={isComingSoon ? filteredComings : movie}
         keyExtractor={(item, index) => item.id}
+        onEndReached={movieHandler}
         renderItem={({ item }) => {
           return (
             <Pressable
