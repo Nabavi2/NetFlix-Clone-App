@@ -18,27 +18,28 @@ import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
   const dispatch = useDispatch();
-  const movie = isComingSoon
-    ? null
+  const movies: [] = isComingSoon
+    ? []
     : useSelector((state) => state.movies.availableMovies);
   const comingSoons: [] = isComingSoon
     ? useSelector((state) => state.comingSoon.comingSoonList)
     : null;
   console.log(category.id);
-  console.log("CAAAAAAAAAAAAAAAAAAAAA ", movie);
+  console.log("CAAAAAAAAAAAAAAAAAAAAA ", movies);
+  const filteredMovies = movies.filter(
+    (item: any) => item.category_id["id"] === category.id
+  );
   const filteredComings = comingSoons
     ? comingSoons.filter((item: any) => item.category_id["id"] === category.id)
     : [];
   const navigation = useNavigation();
-
-  console.log("ffffffffff", movie);
 
   return (
     <View style={styles.container}>
       <Text
         style={{
           marginVertical: 10,
-          marginLeft: 10,
+          marginLeft: 0,
           color: "#FFF",
           fontSize: 20,
         }}
@@ -46,7 +47,7 @@ function HomeCategories(props: any) {
         {category.title}
       </Text>
       <FlatList
-        data={isComingSoon ? filteredComings : movie}
+        data={isComingSoon ? filteredComings : filteredMovies}
         keyExtractor={(item, index) => item.id}
         renderItem={({ item }) => {
           return (
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000",
-    width: "100%",
+    paddingHorizontal: 12,
+    width: Dimensions.get("screen").width,
     height: Dimensions.get("screen").height * 0.25,
   },
   image: {
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
     margin: 8,
     alignSelf: "center",
     resizeMode: "cover",
-    // aspectRatio: 16 / 9,
   },
 });
 export default HomeCategories;

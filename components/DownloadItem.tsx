@@ -1,7 +1,13 @@
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Permissions from "expo-permissions";
+import * as MediaLibrary from "expo-media-library";
 import React, { useEffect, useRef, useState } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Dimensions, Image, StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
@@ -9,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
 import Movie from "../models/Movie";
 import { useIsFocused } from "@react-navigation/core";
+
 import moment from "moment";
 
 function DownloadItem(props: any) {
@@ -31,6 +38,30 @@ function DownloadItem(props: any) {
   const selectedDisplay: any = displays.find(
     (item, index, obj) => item.id === displayId
   )!;
+
+  const saveFile = async () => {
+    try {
+      console.log("uUUUUUUUUUUUUUUUUUUUUU", resumableDownload.current.fileUri);
+
+      const asset = await MediaLibrary.createAssetAsync(
+        resumableDownload.current.fileUri
+      );
+      console.log("====================================");
+      console.log(asset);
+      console.log("====================================");
+      const album = await MediaLibrary.getAlbumAsync("Download");
+      await MediaLibrary.migrateAlbumIfNeededAsync(album);
+      // MediaLibr
+      if (album == null) {
+        await MediaLibrary.createAlbumAsync("Download", asset, true);
+      } else {
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
+      }
+      alert("Your item is downloaded!!!");
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
@@ -114,8 +145,12 @@ function DownloadItem(props: any) {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <Image source={{ uri: selectedDisplay.poster }} style={styles.image} />
-        <View style={{ width: "50%", backgroundColor: "transparent" }}>
+        <View style={styles.titleAndImage}>
+          <Image
+            source={{ uri: selectedDisplay.poster }}
+            style={styles.image}
+          />
+
           <View style={styles.titleCon}>
             <Text style={styles.title}>
               {selectedDisplay ? selectedDisplay.title : "...."}
@@ -125,6 +160,13 @@ function DownloadItem(props: any) {
             </Text>
           </View>
         </View>
+        {/* <View style={styles.saveButton}>
+          <Button
+            buttonStyle={styles.saveButton}
+            icon={{ name: "save", color: "white", type: "materialIcons" }}
+            onPress={saveFile}
+          />
+        </View> */}
       </View>
       {!isDowloaded ? (
         <View style={styles.bottomContainer}>
@@ -158,14 +200,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "flex-start",
-    width: "100%",
-    height: 120,
+    width: Dimensions.get("screen").width,
+    height: Dimensions.get("screen").height * 0.124,
     paddingHorizontal: 20,
-    marginVertical: 0,
   },
   topContainer: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
     backgroundColor: "transparent",
   },
   bottomContainer: {
@@ -177,6 +220,11 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
   image: { width: 80, height: 80, borderRadius: 3 },
+  titleAndImage: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "transparent",
+  },
   title: {
     color: "white",
     fontSize: 18,
@@ -191,6 +239,13 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     width: "90%",
     justifyContent: "center",
+  },
+  saveButton: {
+    overflow: "hidden",
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+    backgroundColor: "transparent",
   },
   button: {
     justifyContent: "center",

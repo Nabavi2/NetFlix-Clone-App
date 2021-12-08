@@ -15,21 +15,15 @@ import MovieDetailScreen from "../screens/MovieDetailScreen";
 import { AntDesign } from "@expo/vector-icons";
 
 interface EpisodesItem {
-<<<<<<< HEAD
   episode: Episode;
-  onPress: (episode: any) => {};
+  onPress: (episode: Episode) => {};
 }
-=======
-    episode: Episode;
-    onPress: (episode: Episode) => {};
-};
->>>>>>> f613d440fdff818927fb13cc9bfdfdae40760af3
-function EpisodeItems(props: EpisodesItem) {
+function EpisodeItems(props: any) {
   const { episode, onPress } = props;
 
   return (
     <Pressable
-      onPress={() => onPress}
+      onPress={onPress}
       style={{ flex: 1, padding: 8, backgroundColor: "#000" }}
     >
       <View style={styles.container}>

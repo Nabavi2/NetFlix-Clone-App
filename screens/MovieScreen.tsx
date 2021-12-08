@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Movie from "./../models/Movie";
 import SeriesCategories from "../components/SeriesCategories";
 import Colors from "../constants/Colors";
+import { fetchDownloads } from "../store/actions/download";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,7 @@ function MovieScreen() {
       await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
       await dispatch(seriesActions.fetchSeason());
+      await dispatch(fetchDownloads());
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);

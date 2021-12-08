@@ -50,6 +50,7 @@ export default function DownloadScreen() {
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "black",
+          paddingTop: 5,
         }}
       >
         <ActivityIndicator color="red" size="large" />

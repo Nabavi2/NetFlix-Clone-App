@@ -30,14 +30,6 @@ import Episode from "./../models/Episde";
 function MovieDetailScreen(props: any) {
   const dispatch = useDispatch();
 
-  //creating downloadResumable.
-  const resumableDownload = useRef(
-    FileSystem.createDownloadResumable(
-      "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      FileSystem.documentDirectory + "small.mp4",
-      {}
-    )
-  );
   const navigation = useNavigation();
 
   let movieId = props.route.params.movieId;
@@ -89,6 +81,15 @@ function MovieDetailScreen(props: any) {
         return item.season_id.id === currentSeasone.id;
       })
     : null;
+
+  //creating downloadResumable.
+  const resumableDownload = useRef(
+    FileSystem.createDownloadResumable(
+      "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+      FileSystem.documentDirectory + "big_buck_bunny.mp4",
+      {}
+    )
+  );
 
   const episodeAndSeasonHandler = useCallback(async () => {
     try {

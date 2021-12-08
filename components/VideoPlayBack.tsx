@@ -8,15 +8,13 @@ import { Ionicons } from "@expo/vector-icons";
 //     episode: Episode
 // }
 function VideoPlayBack(props: any) {
-<<<<<<< HEAD
   const { episode } = props;
-  console.log();
 
   // const [episodes, setEpisodes] = useState(episode);
+  console.log(" thsi si videos play back 000000000  ", episode.id);
   const [status, setStatus] = useState({});
   const video = useRef<Playback>(null);
 
-  // console.log(" thsi si videos play back 000000000  ", episode.plot)
   useEffect(() => {
     if (!video) {
       return;
@@ -55,51 +53,6 @@ function VideoPlayBack(props: any) {
       )}
 
       {/* <View style={styles.buttons}>
-=======
-    const { episode } = props;
-
-    // const [episodes, setEpisodes] = useState(episode);
-    console.log(" thsi si videos play back 000000000  ", episode.id)
-    const [status, setStatus] = useState({});
-    const video = useRef<Playback>(null);
-
-
-    useEffect(() => {
-        if (!video) {
-            return;
-        }
-        (async () => {
-            await video?.current?.unloadAsync();
-            await video?.current?.loadAsync(
-                { uri: episode.video },
-                {},
-                false
-            )
-        })()
-    }, [episode])
-    return (
-        <View>
-            <Video
-                ref={video}
-                style={styles.video}
-                source={{ uri: episode.video }}
-                posterSource={{ uri: episode.poster }}
-                useNativeControls
-                usePoster={true}
-                isLooping={true}
-                posterStyle={{ resizeMode: 'cover' }}
-                onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-                resizeMode="contain"
-            />
-            {!status.isPlaying &&
-                <Ionicons
-                    onPress={() => status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-                    }
-                    style={{ position: 'absolute', zIndex: 100, top: 70, left: 170, }}
-                    name="play" size={100} color="#FFF" />}
-
-            {/* <View style={styles.buttons}>
->>>>>>> f613d440fdff818927fb13cc9bfdfdae40760af3
                 <Button
                     title={status.isPlaying ? 'Pause' : 'Play'}
                     onPress={() =>
@@ -107,18 +60,18 @@ function VideoPlayBack(props: any) {
                     }
                 />
             </View> */}
-        </View>
-    );
+    </View>
+  );
 }
 const styles = StyleSheet.create({
-    video: {
-        aspectRatio: 16 / 9,
-        width: "100%",
-    },
-    buttons: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-    },
+  video: {
+    aspectRatio: 16 / 9,
+    width: "100%",
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export default VideoPlayBack;
