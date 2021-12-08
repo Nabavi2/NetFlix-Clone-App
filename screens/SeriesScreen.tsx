@@ -19,11 +19,38 @@ import SeriesCategories from "../components/SeriesCategories";
 import Colors from "../constants/Colors";
 
 function SeriesScreen() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const category = useSelector((state) => state.category.availableCategories);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const movie = useSelector((state) => state.movies.availableMovies);
+    const series = useSelector((state) => state.series.availableSeries);
+    const episode = useSelector((state) => state.series.availableEpisode);
+    const category = useSelector((state) => state.category.availableCategories);
 
-  const dispatch = useDispatch();
+    console.log(" thisis si   EEEEEEEEEPPPPPPPPPPPiiiiiiiiiiiiSSSSSSSSSSSSodddd yyyyyyyyyyyyyyyy  ", episode);
+
+
+    const dispatch = useDispatch()
+    const movieAndSeriesHandler = useCallback(async () => {
+        try {
+            setError(null)
+            setIsLoading(true);
+            // await dispatch(seriesActions.fetchSeason());
+            await dispatch(seriesActions.fetchSeries());
+            await dispatch(seriesActions.fetchEpisode());
+            setIsLoading(false);
+        } catch (err: any) {
+            setError(err.message)
+
+            alert(err.message);
+            setIsLoading(false);
+        }
+
+    }, [dispatch])
+    useEffect(() => {
+        movieAndSeriesHandler();
+    }, [dispatch, movieAndSeriesHandler]);
+    
+
   if (isLoading) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

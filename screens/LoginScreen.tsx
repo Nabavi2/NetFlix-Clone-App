@@ -67,9 +67,9 @@ function LoginScreen() {
       .required("Please Enter your password"),
     confirmPassword: isSignup
       ? Yup.string()
-          .trim()
-          .min(5, `your password should be atlest ${5} character`)
-          .required("Please Reenter your password")
+        .trim()
+        .min(5, `your password should be atlest ${5} character`)
+        .required("Please Reenter your password")
       : Yup.string(),
   });
   const navigation = useNavigation();
@@ -282,8 +282,8 @@ function LoginScreen() {
                           borderColor: "red",
                         }}
                       >
-                        {" "}
-                        {`Switch to ${isSignup ? "Login" : "Sign Up"}`}{" "}
+
+                        {`Switch to ${isSignup ? "Login" : "Sign Up"}`}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
   cart: {
     backgroundColor: "#000",
     width: "85%",
-    height: Dimensions.get("screen").height * 0.35,
+    height: Dimensions.get("screen").height * 0.46,
     borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",

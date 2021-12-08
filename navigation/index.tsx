@@ -76,7 +76,7 @@ const TopTabNavigator = () => {
       initialRouteName="Movies"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#7d8485",
+          backgroundColor: "#FFF",
         },
       }}
     >
@@ -84,7 +84,7 @@ const TopTabNavigator = () => {
         name="Movies"
         component={MovieScreen}
         options={{
-          tabBarActiveTintColor: "#FFF",
+          tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor: Colors.secondary,
           tabBarPressOpacity: 0.1,
           tabBarPressColor: "#FFF",
@@ -95,7 +95,7 @@ const TopTabNavigator = () => {
         name="Series"
         component={SeriesScreen}
         options={{
-          tabBarActiveTintColor: "#FFF",
+          tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor: Colors.secondary,
           tabBarIndicatorStyle: { backgroundColor: Colors.primary },
         }}

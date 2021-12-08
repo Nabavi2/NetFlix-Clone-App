@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Button, Dimensions, StyleSheet, View } from "react-native";
 import { Episode } from "../types";
 import { Video, AVPlaybackStatus } from "expo-av";
 import { Playback } from "expo-av/build/AV";
@@ -51,15 +51,6 @@ function VideoPlayBack(props: any) {
           color="#FFF"
         />
       )}
-
-      {/* <View style={styles.buttons}>
-                <Button
-                    title={status.isPlaying ? 'Pause' : 'Play'}
-                    onPress={() =>
-                        status.isPlaying ? video.current.pauseAsync() : video.current.playAsync()
-                    }
-                />
-            </View> */}
     </View>
   );
 }

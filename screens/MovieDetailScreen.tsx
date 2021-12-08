@@ -16,6 +16,8 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
+// import Picker from 'react-native-picker-select';
+// import SelectPicker from 'react-native-select-picker';
 import * as FileSystem from "expo-file-system";
 import { addDownload } from "../store/actions/download";
 import * as movieActions from "../store/actions/movie";
