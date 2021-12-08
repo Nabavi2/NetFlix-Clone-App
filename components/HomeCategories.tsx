@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   Image,
@@ -6,6 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 
 import { View, Text } from "./../components/Themed";
@@ -14,45 +15,84 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
 import * as movieActions from "../store/actions/movie";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "../constants/links";
 
 function HomeCategories(props: any) {
   const { category, isComingSoon } = props;
 
+  const [arrLength, setArrLength] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [start, setStart] = useState(0);
   const [timer, setTimer] = useState(0);
-
+  const first = useRef(true);
   const dispatch = useDispatch();
-  const movie = isComingSoon
-    ? null
+  const movie: [] = isComingSoon
+    ? []
     : useSelector((state) => state.movies.availableMovies);
   const comingSoons: [] = isComingSoon
     ? useSelector((state) => state.comingSoon.comingSoonList)
     : null;
   console.log(category.id);
 
+  const filteredMovies = movie.filter((item: any) => item.category_id["id"] === category.id);
+
   const filteredComings = comingSoons
     ? comingSoons.filter((item: any) => item.category_id["id"] === category.id)
     : [];
   const navigation = useNavigation();
 
+  const getLength = async () => {
+
+    const token = await AsyncStorage.getItem("userData");
+    //   const userId = getState().auth.userId;
+    const response = await fetch(
+      `${url}/movies/count?category_id_eq=${category.id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": 'application/json'
+        },
+      }
+
+    );
+
+
+    const res = await response.json();
+    setArrLength(res);
+
+  }
+
   const movieHandler = useCallback(async () => {
+    console.log("eeeeeeENNNNNNNNNNNNNDDDDDDDDDDDDD", category.id);
+
     try {
       setError(null);
       setIsLoading(true);
-      await dispatch(movieActions.fetchMovies(start));
+
+      await dispatch(movieActions.fetchMovies(start, category.id));
+      setStart(start + 5);
+      console.log("stststatsttststst", start);
 
       setIsLoading(false);
-      setStart(start * 2);
     } catch (err: any) {
       setError(err.message);
 
       alert(err.message);
       setIsLoading(false);
     }
-  }, [dispatch]);
+  }, [dispatch, start]);
 
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      movieHandler();
+      getLength();
+    }
+
+  }, [dispatch, movieHandler])
 
 
   return (
@@ -67,10 +107,14 @@ function HomeCategories(props: any) {
       >
         {category.title}
       </Text>
-      <FlatList
-        data={isComingSoon ? filteredComings : movie}
+      {!isLoading ? <FlatList
+
+        snapToStart
+        decelerationRate={0.85}
+        onEndReached={arrLength === filteredMovies.length ? null : () => movieHandler()}
+        onEndReachedThreshold={0}
+        data={isComingSoon ? filteredComings : filteredMovies}
         keyExtractor={(item, index) => item.id}
-        onEndReached={movieHandler}
         renderItem={({ item }) => {
           return (
             <Pressable
@@ -92,7 +136,9 @@ function HomeCategories(props: any) {
           );
         }}
         horizontal
-      />
+      /> : <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#c75a5f" />
+      </View>}
     </View>
   );
 }

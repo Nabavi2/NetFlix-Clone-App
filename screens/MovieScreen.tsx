@@ -23,15 +23,13 @@ function MovieScreen() {
   const movie = useSelector((state) => state.movies.availableMovies);
   const category = useSelector((state) => state.category.availableCategories);
 
-  console.log(" thisis si   CAATEGOOOORRRRRY yyyyyyyyyyyyyyyy  ", category);
-
   const dispatch = useDispatch();
   const movieAndSeriesHandler = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
       await dispatch(categoryActions.fetchCategories());
-      await dispatch(movieActions.fetchMovies(start));
+
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);

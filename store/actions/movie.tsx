@@ -11,14 +11,15 @@ import Movie from '../../models/Movie';
 
 
 
-export const fetchMovies = (start:number,) => {
-    
+export const fetchMovies = (start: number, categoryId: number) => {
+    console.log("QQQQQQQQQQQQ", categoryId);
+
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
             //   const userId = getState().auth.userId;
             const response = await fetch(
-                `${url}/movies?_start=${start}&_limit=5`,
+                `${url}/movies?_start=${start}&_limit=5&category_id_eq=${categoryId}`,
                 {
                     method: "GET",
                     headers: {
@@ -53,6 +54,7 @@ export const fetchMovies = (start:number,) => {
             dispatch({
                 type: SET_MOVIES,
                 movies: loadedMovies,
+                start,
             });
         };
     } catch (error) {

@@ -73,14 +73,18 @@ const Tab = createMaterialTopTabNavigator();
 const TopTabNavigator = () => {
   return (
     <Tab.Navigator
+
       initialRouteName="Movies"
       screenOptions={{
+        swipeEnabled: false,
         tabBarStyle: {
           backgroundColor: "#FFF",
         },
       }}
+
     >
       <Tab.Screen
+
         name="Movies"
         component={MovieScreen}
         options={{

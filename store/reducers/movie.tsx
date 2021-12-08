@@ -11,10 +11,10 @@ export default (state = initialState, action: any) => {
     case SET_MOVIES:
       return {
         ...state,
-        availableMovieById: action.movies[0],
-        availableMovies: action.movies,
+        availableMovies: [...state.availableMovies, ...action.movies],
+      }
 
-      };
+
     case SET_MOVIE_BY_ID:
       return {
         ...state,
