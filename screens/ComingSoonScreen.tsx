@@ -20,9 +20,7 @@ function ComingSoonScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const navigation = useNavigation();
   const category = useSelector((state) => state.category.availableCategories);
-  const comSonList = useSelector((state) => state.comingSoon.comingSoonList);
   const selectedComingSoon = useSelector(
     (state) => state.comingSoon.selectedComingSoon
   );
@@ -32,7 +30,6 @@ function ComingSoonScreen() {
     setIsLoading(true);
     setIsRefreshing(true);
     try {
-      await dispatch(fetchCategories());
       await dispatch(fetchComingSoons());
     } catch (err) {
       alert(err);

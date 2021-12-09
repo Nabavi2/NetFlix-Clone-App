@@ -26,7 +26,6 @@ function HomeCategories(props: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [start, setStart] = useState(0);
-  const [timer, setTimer] = useState(0);
   const first = useRef(true);
   const dispatch = useDispatch();
   const movie: [] = isComingSoon
@@ -37,7 +36,9 @@ function HomeCategories(props: any) {
     : null;
   console.log(category.id);
 
-  const filteredMovies = movie.filter((item: any) => item.category_id["id"] === category.id);
+  const filteredMovies = movie.filter(
+    (item: any) => item.category_id["id"] === category.id
+  );
 
   const filteredComings = comingSoons
     ? comingSoons.filter((item: any) => item.category_id["id"] === category.id)
@@ -45,7 +46,6 @@ function HomeCategories(props: any) {
   const navigation = useNavigation();
 
   const getLength = async () => {
-
     const token = await AsyncStorage.getItem("userData");
     //   const userId = getState().auth.userId;
     const response = await fetch(
@@ -54,17 +54,13 @@ function HomeCategories(props: any) {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": 'application/json'
+          "Content-Type": "application/json",
         },
       }
-
     );
-
-
     const res = await response.json();
     setArrLength(res);
-
-  }
+  };
 
   const movieHandler = useCallback(async () => {
     console.log("eeeeeeENNNNNNNNNNNNNDDDDDDDDDDDDD", category.id);
@@ -87,14 +83,12 @@ function HomeCategories(props: any) {
   }, [dispatch, start]);
 
   useEffect(() => {
-    if (first.current) {
+    if (first.current && !isComingSoon) {
       first.current = false;
       movieHandler();
       getLength();
     }
-
-  }, [dispatch, movieHandler])
-
+  }, [dispatch, movieHandler]);
 
   return (
     <View style={styles.container}>
@@ -108,38 +102,45 @@ function HomeCategories(props: any) {
       >
         {category.title}
       </Text>
-      {!isLoading ? <FlatList
-
-        snapToStart
-        decelerationRate={0.85}
-        onEndReached={arrLength === filteredMovies.length ? null : () => movieHandler()}
-        onEndReachedThreshold={0}
-        data={isComingSoon ? filteredComings : filteredMovies}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item }) => {
-          return (
-            <Pressable
-              onPress={async () => {
-                if (isComingSoon) {
-                  await dispatch(updateSelectedComingSoon(item));
-                } else {
-                  navigation.setParams("MovieDetailScreen", {
-                    movieId: item.id,
-                  });
-                  navigation.navigate("MovieDetailScreen", {
-                    movieId: item.id,
-                  });
-                }
-              }}
-            >
-              <Image style={styles.image} source={{ uri: item.poster }} />
-            </Pressable>
-          );
-        }}
-        horizontal
-      /> : <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="#c75a5f" />
-      </View>}
+      {!isLoading ? (
+        <FlatList
+          initialScrollIndex={start === 0 || start === 5 ? 0 : start - 3}
+          decelerationRate={0.85}
+          onEndReached={
+            arrLength === filteredMovies.length ? null : () => movieHandler()
+          }
+          onEndReachedThreshold={0}
+          data={isComingSoon ? filteredComings : filteredMovies}
+          keyExtractor={(item, index) => item.id}
+          renderItem={({ item }) => {
+            return (
+              <Pressable
+                onPress={async () => {
+                  if (isComingSoon) {
+                    await dispatch(updateSelectedComingSoon(item));
+                  } else {
+                    navigation.setParams("MovieDetailScreen", {
+                      movieId: item.id,
+                    });
+                    navigation.navigate("MovieDetailScreen", {
+                      movieId: item.id,
+                    });
+                  }
+                }}
+              >
+                <Image style={styles.image} source={{ uri: item.poster }} />
+              </Pressable>
+            );
+          }}
+          horizontal
+        />
+      ) : (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <ActivityIndicator size="large" color="#c75a5f" />
+        </View>
+      )}
     </View>
   );
 }

@@ -1,3 +1,4 @@
+import { LOGOUT } from "../actions/AuthAction";
 import { EMPTY, SET_MOVIES, SET_MOVIE_BY_ID, SET_SEARCH } from "../actions/movie";
 import { searchMovieByName } from './../actions/movie';
 const initialState = {
@@ -30,6 +31,8 @@ export default (state = initialState, action: any) => {
         ...state,
         searchMovieByName: action.arr,
       }
+    case LOGOUT:
+      return initialState;
     default:
       return { ...state };
   }

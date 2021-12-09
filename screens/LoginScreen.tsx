@@ -41,18 +41,29 @@ function LoginScreen() {
     setIsLoading(true);
     let action: Function;
     if (isSignup) {
-      action = await dispatch(authActions.signupUser(email, password));
+      try {
+
+        action = await dispatch(authActions.signupUser(email, password));
+
+        navigation.navigate("Home");
+        setIsLoading(false)
+      } catch (error: any) {
+        setIsLoading(false);
+        setError(error);
+        alert(error.message);
+      }
     } else {
-      action = await dispatch(authActions.loginUser(email, password));
+      try {
+        action = await dispatch(authActions.loginUser(email, password));
+        navigation.navigate("Home");
+        setIsLoading(false)
+      } catch (error: any) {
+        setIsLoading(false);
+        setError(error);
+        alert(error.message);
+      }
     }
-    try {
-      action;
-      setIsLoading(false);
-    } catch (error: any) {
-      setIsLoading(false);
-      setError(error);
-      alert(error.message);
-    }
+    action;
   };
 
   let validate =
@@ -64,13 +75,10 @@ function LoginScreen() {
       .label("Email"),
     password: Yup.string()
       .trim()
-      .min(5, `your password should be atlest ${5} character`)
+      .min(6, `your password should be at least ${6} character`)
       .required("Please Enter your password"),
     confirmPassword: isSignup
-      ? Yup.string()
-        .trim()
-        .min(5, `your password should be atlest ${5} character`)
-        .required("Please Reenter your password")
+      ? Yup.string().trim().required("Please Reenter your password")
       : Yup.string(),
   });
   const navigation = useNavigation();
@@ -102,20 +110,12 @@ function LoginScreen() {
           initialValues={{ email: "", password: "", confirmPassword: "" }}
           onSubmit={async (values) => {
             const token = await AsyncStorage.getItem("userData");
-            console.log("TTTTTOOOOOKKKKKEEEEENNNN  ", token);
             if (isSignup && values.password !== values.confirmPassword) {
               Alert.alert("Attention!", "Passwords don't match together!", [
                 { text: "Ok", style: "destructive" },
               ]);
-            } else if (!values.email || !values.password) {
-              Alert.alert(
-                "Attention!",
-                "Please enter either your email and password!",
-                [{ text: "Ok", style: "destructive" }]
-              );
             } else {
               await authHandler(values.email, values.password);
-              navigation.navigate("Home");
             }
           }}
           validateOnMount={true}
@@ -140,6 +140,7 @@ function LoginScreen() {
                           paddingTop: 10,
                           paddingBottom: 10,
                           marginBottom: 5,
+                          marginRight: 6,
                         }}
                         name="email"
                         size={28}
@@ -180,6 +181,7 @@ function LoginScreen() {
                           paddingTop: 10,
                           paddingBottom: 10,
                           marginBottom: 5,
+                          marginRight: 6,
                         }}
                         name="lock"
                         size={26}
@@ -283,7 +285,6 @@ function LoginScreen() {
                           borderColor: "red",
                         }}
                       >
-
                         {`Switch to ${isSignup ? "Login" : "Sign Up"}`}
                       </Text>
                     </TouchableOpacity>
