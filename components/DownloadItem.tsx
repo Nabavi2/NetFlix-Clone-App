@@ -39,14 +39,9 @@ function DownloadItem(props: any) {
 
   const saveFile = async () => {
     try {
-      console.log("uUUUUUUUUUUUUUUUUUUUUU", resumableDownload.current.fileUri);
-
       const asset = await MediaLibrary.createAssetAsync(
         resumableDownload.current.fileUri
       );
-      console.log("====================================");
-      console.log(asset);
-      console.log("====================================");
       const album = await MediaLibrary.getAlbumAsync("Download");
       await MediaLibrary.migrateAlbumIfNeededAsync(album);
       // MediaLibr
@@ -96,7 +91,6 @@ function DownloadItem(props: any) {
     try {
       setIsPaused(true);
       await resumableDownload.current.pauseAsync();
-      console.log("Paused download operation, saving for future retrieval");
       AsyncStorage.setItem(
         "pausedDownload",
         JSON.stringify(resumableDownload.current.savable())
@@ -111,7 +105,6 @@ function DownloadItem(props: any) {
     try {
       setIsPaused(false);
       const { uri } = await resumableDownload.current.resumeAsync();
-      console.log("Finished downloading to ", uri);
     } catch (e) {
       console.error(e);
     }
@@ -158,13 +151,7 @@ function DownloadItem(props: any) {
             </Text>
           </View>
         </View>
-        {/* <View style={styles.saveButton}>
-          <Button
-            buttonStyle={styles.saveButton}
-            icon={{ name: "save", color: "white", type: "materialIcons" }}
-            onPress={saveFile}
-          />
-        </View> */}
+
       </View>
       {!isDowloaded ? (
         <View style={styles.bottomContainer}>
