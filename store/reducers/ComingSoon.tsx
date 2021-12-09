@@ -21,7 +21,6 @@ const ComingSoonReducer = (state = CInitialState, action: any) => {
       return { ...state, selectedComingSoon: action.comingSoon };
     case LOGOUT:
       return CInitialState;
-
     default:
       return CInitialState;
   }

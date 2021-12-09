@@ -67,7 +67,7 @@ export const logout = () => {
     const unToken = await AsyncStorage.removeItem("userData");
     const unUserId = await AsyncStorage.removeItem("userId");
     dispatch({ type: LOGOUT, unToken: unToken, unUserId: unUserId, });
-    dispatch({ type: SET_MOVIES, unToken: unToken, unUserId: unUserId, });
+    // dispatch({ type: SET_MOVIES, unToken: unToken, unUserId: unUserId, });
 
 
   };

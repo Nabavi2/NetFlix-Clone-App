@@ -28,14 +28,12 @@ function EpisodeItems(props: any) {
         <View style={styles.rowContainer}>
           <Text style={{ fontSize: 12, color: "#FFF" }}>{episode.title}</Text>
           <Text style={{ fontSize: 10, color: "#968d8c" }}>
-    
             {episode.duration}
           </Text>
         </View>
         <AntDesign name="download" size={24} color="#FFF" />
       </View>
       <Text style={{ marginHorizontal: 10, marginBottom: 10, color: "#FFF" }}>
-        {" "}
         {episode.plot}
       </Text>
     </Pressable>
