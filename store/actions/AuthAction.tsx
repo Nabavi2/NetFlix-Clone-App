@@ -16,21 +16,14 @@ export const loginUser = (email: string, password: string) => {
         password: password,
       }),
     });
-    if (!response.ok) {
-      const errorResData = await response.json();
-      const errorId = errorResData.error.message;
 
-      let message = "Some thing went wrong!";
-      if (response.status !== 200) {
-        message = "This email is or password is  incorrect!";
-      }
-      console.log("error message  ", message);
-      console.log("responsesssss Errroororor", errorId);
-      throw new Error(message);
+    if (!response.ok) {
+      if (response.status === 400)
+        throw new Error("Your email or password is not correct!");
+      throw new Error("Some thing went wrong!");
     }
 
     const resData = await response.json();
-    console.log("this is my resData ", resData);
     dispatch({ type: LOGIN, userId: resData.user.id, jwt: resData["jwt"] });
     saveUserData(resData.jwt, resData.user.id);
     console.log("this is token", resData.jwt);
@@ -52,16 +45,11 @@ export const signupUser = (email: string, password: string) => {
     });
 
     if (!response.ok) {
-      const errorResData = await response.json();
-      const errorId = errorResData.error.message;
-      let message = "Some thing went wrong!";
-      if (message === "") {
-        message = "This email exists already!";
-      }
-      throw new Error(message);
+      if (response.status === 400)
+        throw new Error("This email is already used by another user!");
+      throw new Error("Some thing went wrong!");
     }
     const resData = await response.json();
-    console.log("RESSSSSSSSSPPPPPPPPonse", resData);
     dispatch({ type: SIGNUP, jwt: resData["jwt"], userId: resData["user"].id });
     saveUserData(resData.jwt, resData["user"].id);
   };
