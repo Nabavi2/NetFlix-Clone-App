@@ -9,11 +9,8 @@ import {
 import { View, Text } from "./../components/Themed";
 import Navigation from "../navigation/index";
 import { useNavigation } from "@react-navigation/native";
-import movie from "../data/movie";
 import { Episode } from "../types";
-import MovieDetailScreen from "../screens/MovieDetailScreen";
 import { AntDesign } from "@expo/vector-icons";
-
 interface EpisodesItem {
   episode: Episode;
   onPress: (episode: Episode) => {};
@@ -31,8 +28,8 @@ function EpisodeItems(props: any) {
         <View style={styles.rowContainer}>
           <Text style={{ fontSize: 12, color: "#FFF" }}>{episode.title}</Text>
           <Text style={{ fontSize: 10, color: "#968d8c" }}>
-            {" "}
-            {episode.duration}{" "}
+    
+            {episode.duration}
           </Text>
         </View>
         <AntDesign name="download" size={24} color="#FFF" />
