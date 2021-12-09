@@ -6,6 +6,11 @@ export const LOGOUT = "LOGOUT";
 
 export const loginUser = (email: string, password: string) => {
   return async (dispatch: any) => {
+    const userToken = await AsyncStorage.removeItem("userData");
+    const userId = await AsyncStorage.removeItem("userId");
+
+    console.log('toppppppkkkkkkkkkkkkkkkkkkkkkk ', userId, userToken);
+
     const response = await fetch(`${url}/auth/local`, {
       method: "POST",
       headers: {
@@ -67,11 +72,12 @@ export const signupUser = (email: string, password: string) => {
   };
 };
 
-export const logout = async () => {
-  await AsyncStorage.removeItem("userData");
-  await AsyncStorage.removeItem("userId");
+export const logout = () => {
   return async (dispatch: any) => {
-    dispatch({ type: LOGOUT, nothing: "" });
+    const unToken = await AsyncStorage.removeItem("userData");
+    const unUserId = await AsyncStorage.removeItem("userId");
+    dispatch({ type: LOGOUT, unToken: unToken, unUserId: unUserId });
+
   };
 };
 

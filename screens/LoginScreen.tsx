@@ -47,6 +47,7 @@ function LoginScreen() {
     }
     try {
       action;
+      setIsLoading(false);
     } catch (error: any) {
       setIsLoading(false);
       setError(error);
