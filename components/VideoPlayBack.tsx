@@ -1,17 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Dimensions, StyleSheet, View } from "react-native";
-import { Episode } from "../types";
-import { Video, AVPlaybackStatus } from "expo-av";
+import { StyleSheet, View } from "react-native";
+import { Video } from "expo-av";
 import { Playback } from "expo-av/build/AV";
 import { Ionicons } from "@expo/vector-icons";
-// interface VideoPlayBackItems {
-//     episode: Episode
-// }
+
 function VideoPlayBack(props: any) {
   const { episode } = props;
 
-  // const [episodes, setEpisodes] = useState(episode);
-  console.log(" thsi si videos play back 000000000  ", episode.id);
   const [status, setStatus] = useState({});
   const video = useRef<Playback>(null);
 
