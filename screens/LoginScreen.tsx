@@ -42,9 +42,7 @@ function LoginScreen() {
     let action: Function;
     if (isSignup) {
       try {
-
         action = await dispatch(authActions.signupUser(email, password));
-
         navigation.navigate("Home");
         setIsLoading(false)
       } catch (error: any) {
@@ -109,7 +107,6 @@ function LoginScreen() {
           validationSchema={validationSchema}
           initialValues={{ email: "", password: "", confirmPassword: "" }}
           onSubmit={async (values) => {
-            const token = await AsyncStorage.getItem("userData");
             if (isSignup && values.password !== values.confirmPassword) {
               Alert.alert("Attention!", "Passwords don't match together!", [
                 { text: "Ok", style: "destructive" },
@@ -257,10 +254,6 @@ function LoginScreen() {
                       style={styles.button}
                       onPress={
                         submitForm.bind(values)
-
-                        //   async () => {
-                        //
-                        // }
                       }
                     >
                       <Text style={{ color: "#FFF" }}>
@@ -280,7 +273,6 @@ function LoginScreen() {
                       <Text
                         style={{
                           color: "#FFF",
-                          //   textDecorationLine: "underline",
                           borderBottomWidth: 1,
                           borderColor: "red",
                         }}
