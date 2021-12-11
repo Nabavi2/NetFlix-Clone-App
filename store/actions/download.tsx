@@ -93,7 +93,6 @@ export const fetchDownloads = () => {
     if (!response.ok) {
       throw new Error("could not fetch downloads!");
     }
-    console.log("sttttttttttaaaaaaaaaaatuuuuuuuuuuussssss", response.status);
 
     const resData = await response.json();
 
