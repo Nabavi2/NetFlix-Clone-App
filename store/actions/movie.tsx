@@ -12,12 +12,9 @@ import Movie from '../../models/Movie';
 
 
 export const fetchMovies = (start: number, categoryId: number) => {
-    console.log("QQQQQQQQQQQQ", categoryId);
-
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/movies?_start=${start}&_limit=5&category_id_eq=${categoryId}`,
                 {
@@ -84,7 +81,6 @@ export const fetchMovieById = (id: any) => {
             const resData = await response.json();
             console.log(resData);
             const loadedMoviesById = [];
-
             loadedMoviesById.push(
                 new Movie(
                     resData.id,
@@ -99,7 +95,6 @@ export const fetchMovieById = (id: any) => {
                     resData.duration,
                 )
             );
-
             dispatch({
                 type: SET_MOVIE_BY_ID,
                 movie: loadedMoviesById,

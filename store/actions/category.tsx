@@ -6,13 +6,10 @@ import Category from '../../models/Category';
 import { url } from "../../constants/links";
 
 
-
-
 export const fetchCategories = () => {
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/categories`,
                 {
@@ -35,7 +32,6 @@ export const fetchCategories = () => {
                     new Category(
                         resData[key].id,
                         resData[key].title,
-
                     )
                 );
             }
