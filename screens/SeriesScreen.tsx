@@ -28,7 +28,6 @@ function SeriesScreen() {
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message)
-
       alert(err.message);
       setIsLoading(false);
     }
@@ -37,7 +36,6 @@ function SeriesScreen() {
   useEffect(() => {
     movieAndSeriesHandler();
   }, [dispatch, movieAndSeriesHandler]);
-
 
   if (isLoading) {
     return (
