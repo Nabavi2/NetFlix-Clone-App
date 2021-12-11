@@ -4,8 +4,6 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  ScrollView,
-  Platform,
 } from "react-native";
 
 import { View, Text } from "./../components/Themed";

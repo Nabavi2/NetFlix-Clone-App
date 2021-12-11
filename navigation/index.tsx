@@ -1,6 +1,4 @@
 import {
-  FontAwesome,
-  AntDesign,
   Ionicons,
   MaterialIcons,
   SimpleLineIcons,
@@ -11,7 +9,6 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import {
   createDrawerNavigator,
@@ -34,7 +31,6 @@ import SearchScreen from "../screens/SearchScreen";
 import ComingSoonScreen from "../screens/ComingSoonScreen";
 import {
   HomeParamList,
-  RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from "../types";
@@ -43,7 +39,6 @@ import MovieDetailScreen from "../screens/MovieDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { useDispatch } from "react-redux";
 import * as authActions from "../store/actions/AuthAction";
-import TestScreen from "../screens/TestScreen";
 import MovieScreen from "../screens/MovieScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import Colors from "../constants/Colors";
@@ -333,19 +328,6 @@ export const AppDrawerNavigator = () => {
               name={
                 Platform.OS === "android" ? "video-library" : "video-library"
               }
-              size={23}
-              color={props.color}
-            />
-          ),
-        }}
-      />
-      <DrawerNavigator.Screen
-        name="TestScreen"
-        component={TestScreen}
-        options={{
-          drawerIcon: (props: any) => (
-            <Ionicons
-              name={Platform.OS === "android" ? "download" : "ios-download"}
               size={23}
               color={props.color}
             />

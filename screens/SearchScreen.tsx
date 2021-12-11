@@ -21,7 +21,7 @@ import { useIsFocused } from "@react-navigation/core";
 import { EmptyList } from "./../store/actions/movie";
 
 function SearchScreen() {
-  const searchedMovie = useSelector(
+  const searchedMovie: [] = useSelector(
     (state) => state.movies.searchedMovieByName
   );
 
@@ -29,6 +29,7 @@ function SearchScreen() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [notFoundMessage, setNotfoundMessage] = useState(null);
 
   const dispatch = useDispatch();
   const searchHandler = async (title: any) => {
@@ -36,15 +37,18 @@ function SearchScreen() {
       setError(null);
       setIsLoading(true);
       await dispatch(movieActions.searchMovieByName(title));
+
       setIsLoading(false);
+      if (searchedMovie.length === 0) {
+        setNotfoundMessage('not found!')
+      }
     } catch (err: any) {
       setError(err.message);
+      alert(err.message)
       setIsLoading(false);
       console.log(err.message);
     }
   };
-
-  const focused = useIsFocused();
 
   if (isLoading) {
     return (
@@ -53,17 +57,23 @@ function SearchScreen() {
       </View>
     );
   }
+  const searchNotfoundHandler = (text: any) => {
+    if (text.length === 0) {
+      setNotfoundMessage(null)
+    }
+    setSearch(text)
+  }
 
   const navigation = useNavigation();
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
       <SearchBar
         placeholder="Search..."
-        onChangeText={(text: string) => setSearch(text)}
+        onChangeText={(text: string) => searchNotfoundHandler(text)}
         value={search}
       />
       <Button title="Search" onPress={() => searchHandler(search)} />
-      <FlatList
+      {searchedMovie.length === 0 || search.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: '#FFF', fontSize: 25, }}>{notFoundMessage}</Text></View> : <FlatList
         data={searchedMovie}
         keyExtractor={(item, index) => item.title}
         renderItem={({ item }) => {
@@ -71,7 +81,9 @@ function SearchScreen() {
             <Pressable
               onPress={() => {
                 navigation.setParams("MovieDetailScreen", { movieId: item.id });
+
                 navigation.navigate("MovieDetailScreen", { movieId: item.id });
+                setNotfoundMessage(null)
               }}
               style={{
                 flexDirection: "row",
@@ -82,13 +94,12 @@ function SearchScreen() {
             >
               <Image style={styles.image} source={{ uri: item.poster }} />
               <View style={{ justifyContent: "center" }}>
-                <View style={{ flexDirection: "row", height: 35, width: 150 }}>
-                  {/* <Text style={{ color: Colors.secondary, fontSize: 17, marginRight: 10, marginLeft: 10, }}></Text> */}
+                <View style={{ flexDirection: "row", height: 35, width: 200 }}>
                   <Text style={{ color: "#FFF", fontSize: 18, marginLeft: 10 }}>
                     {item.title}
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row", height: 34, width: 150 }}>
+                <View style={{ flexDirection: "row", height: 44, width: 200 }}>
                   <Text
                     style={{
                       color: Colors.secondary,
@@ -118,7 +129,7 @@ function SearchScreen() {
             }}
           ></View>
         )}
-      />
+      />}
     </View>
   );
 }

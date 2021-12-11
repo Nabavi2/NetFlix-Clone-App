@@ -129,9 +129,15 @@ export const searchMovieByName = (title: any) => {
 
             );
             if (!response.ok) {
-                throw new Error("An error occured! in movies by id");
+                throw new Error('somthing went wrong');
+
             }
+
             const resData = await response.json();
+            if (resData.lenght === 0) {
+                throw new Error('not found!')
+            }
+
             const loadedMoviesByName = [];
 
             for (const key in resData) {
@@ -150,7 +156,6 @@ export const searchMovieByName = (title: any) => {
                     )
                 );
             }
-
             dispatch({
                 type: SET_SEARCH,
                 searchMovie: loadedMoviesByName,
