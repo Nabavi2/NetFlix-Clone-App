@@ -144,10 +144,10 @@ function DownloadItem(props: any) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.titleAndImage}>
-          <Image
+          {/* <Image
             source={{ uri: selectedDisplay.poster }}
             style={styles.image}
-          />
+          /> */}
 
           <View style={styles.titleCon}>
             <Text style={styles.title}>

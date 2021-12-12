@@ -13,9 +13,10 @@ import {
   ScrollView,
   Platform,
   Dimensions,
+  BackHandler,
 } from "react-native";
 import { Text } from "../components/Themed";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as authActions from "../store/actions/AuthAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -77,6 +78,7 @@ function LoginScreen() {
       ? Yup.string().trim().required("Please Reenter your password")
       : Yup.string(),
   });
+
   const navigation = useNavigation();
   if (isLoading) {
     return (
@@ -131,11 +133,11 @@ function LoginScreen() {
                 <View style={styles.cart}>
                   <View style={styles.container}>
                     <View style={{ flexDirection: "row" }}>
-                      <MaterialCommunityIcons
+                      <MaterialIcons
                         style={{
                           paddingTop: 10,
                           paddingBottom: 10,
-                          marginBottom: 5,
+                          marginRight: 10,
                         }}
                         name="email"
                         size={28}
@@ -175,10 +177,10 @@ function LoginScreen() {
                         style={{
                           paddingTop: 10,
                           paddingBottom: 10,
-                          marginBottom: 5,
+                          marginRight: 10,
                         }}
                         name="lock"
-                        size={26}
+                        size={28}
                         color="#FFF"
                       />
                       <TextInput
@@ -214,10 +216,10 @@ function LoginScreen() {
                             style={{
                               paddingTop: 10,
                               paddingBottom: 10,
-                              marginBottom: 5,
+                              marginRight: 10,
                             }}
                             name="lock"
-                            size={26}
+                            size={28}
                             color="#FFF"
                           />
                           <TextInput

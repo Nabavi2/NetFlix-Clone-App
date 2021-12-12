@@ -6,17 +6,23 @@ import {
   ActivityIndicator,
   ScrollView,
   Platform,
+  BackHandler,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 
-import { View, Text } from "./../components/Themed";
+import { View, Text } from "../components/Themed";
 import HomeCategories from "../components/HomeCategories";
 import * as movieActions from "../store/actions/movie";
 
 import * as categoryActions from "../store/actions/category";
 import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/core";
+import { useDoubleBackPressExit } from "../components/DoublePressBack";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
+  const [exitApp, setExitApp] = useState(false);
   const [error, setError] = useState(null);
   const [start, setStart] = useState(0);
   const [timer, setTimer] = useState(0);
@@ -38,12 +44,39 @@ function MovieScreen() {
       setIsLoading(false);
     }
   }, [dispatch]);
+
+  console.log("KKKKKKKKKK", exitApp);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        Alert.alert("Attention", "Are you sure if you want to exit?", [
+          { text: "No" },
+          { text: "Yes", onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [])
+  );
+
   useEffect(() => {
     movieAndSeriesHandler();
   }, [dispatch, movieAndSeriesHandler]);
   if (isLoading) {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "black",
+        }}
+      >
         <ActivityIndicator size="large" color="#c75a5f" />
       </View>
     );

@@ -58,6 +58,16 @@ export default function DownloadScreen() {
     );
   }
 
+  if (downloads.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ fontSize: 16, color: "lightgrey" }}>
+          No download added yet. Try adding some!
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       refreshing={isRefreshing}
@@ -81,6 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "black",
   },
   title: {
     fontSize: 20,
