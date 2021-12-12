@@ -132,7 +132,7 @@ function MovieDetailScreen(props: any) {
                   </Text>
                   <View
                     style={{
-                      flexDirection: "row-reverse",
+                      flexDirection: "row",
                       marginLeft: 10,
                       backgroundColor: "#000",
                     }}
@@ -156,15 +156,6 @@ function MovieDetailScreen(props: any) {
                     <Text style={styles.text2}>{item.id}</Text>
                     <MaterialIcons name="hd" size={24} color="white" />
                   </View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      return <Text>lsdjflsd</Text>;
-                    }}
-                    style={styles.playIcon}
-                  >
-                    <Ionicons name="play-sharp" size={24} color="black" />
-                    <Text style={{ color: "black", marginLeft: 5 }}>Play</Text>
-                  </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.downloadIcon}
                     onPress={async () => {

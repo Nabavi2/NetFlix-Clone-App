@@ -334,6 +334,19 @@ export const AppDrawerNavigator = () => {
           ),
         }}
       />
+      <DrawerNavigator.Screen
+        name="Download"
+        component={DownloadScreen}
+        options={{
+          drawerIcon: (props: any) => (
+            <Ionicons
+              name={Platform.OS === "android" ? "download" : "ios-download"}
+              size={23}
+              color={props.color}
+            />
+          ),
+        }}
+      />
     </DrawerNavigator.Navigator>
   );
 };

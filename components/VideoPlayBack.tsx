@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { Video } from "expo-av";
 import { Playback } from "expo-av/build/AV";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,7 +40,7 @@ function VideoPlayBack(props: any) {
               ? video.current.pauseAsync()
               : video.current.playAsync()
           }
-          style={{ position: "absolute", zIndex: 100, top: 70, left: 170 }}
+          style={{ position: "absolute", zIndex: 100, top: Dimensions.get("screen").height * 0.08, left: Dimensions.get("screen").width * 0.38 }}
           name="play"
           size={100}
           color="#FFF"
