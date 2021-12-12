@@ -132,9 +132,15 @@ function DownloadItem(props: any) {
   ) : (
     <MaterialCommunityIcons name="pause" size={24} color="lightgrey" />
   );
-
+  const size = Dimensions.get("screen");
   return (
-    <View style={styles.container}>
+    <View
+      style={
+        isDowloaded
+          ? styles.container
+          : { ...styles.container, height: size.height * 0.155 }
+      }
+    >
       <View style={styles.topContainer}>
         <View style={styles.titleAndImage}>
           <Image
@@ -187,6 +193,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("screen").width,
     height: Dimensions.get("screen").height * 0.124,
     paddingHorizontal: 20,
+    overflow: "hidden",
   },
   topContainer: {
     flexDirection: "row",
@@ -203,7 +210,11 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "visible",
   },
-  image: { width: 80, height: 80, borderRadius: 3 },
+  image: {
+    width: Dimensions.get("screen").width * 0.22,
+    height: Dimensions.get("screen").height * 0.1,
+    borderRadius: 3,
+  },
   titleAndImage: {
     flexDirection: "row",
     alignItems: "center",
