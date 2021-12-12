@@ -17,12 +17,11 @@ const ComingSoonReducer = (state = CInitialState, action: any) => {
         selectedComingSoon: action.comingSoonList[0],
       };
     case UPDATE_SELECTED_COMINGSOON:
-      console.log("lisssssssssssst", state.comingSoonList);
       return { ...state, selectedComingSoon: action.comingSoon };
     case LOGOUT:
       return CInitialState;
     default:
-      return CInitialState;
+      return { ...state };
   }
 };
 

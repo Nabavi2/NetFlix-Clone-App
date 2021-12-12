@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import movie from "../data/movie";
@@ -31,7 +32,6 @@ import Episode from "./../models/Episde";
 
 function MovieDetailScreen(props: any) {
   const dispatch = useDispatch();
-  //navigation variable is to navigate other page
   const navigation = useNavigation();
 
   let movieId = props.route.params.movieId;
@@ -57,7 +57,7 @@ function MovieDetailScreen(props: any) {
   let selectedSeries1 = episodeId
     ? series.find((item: any) => item.id === selectedSeason.series_id.id)
     : null;
-  //this variable is for those season that picker picked 
+  //this variable is for those season that picker picked
   let selectSeasonPicker = episodeId
     ? season.filter((item: any) => item.series_id.id === selectedSeries1.id)
     : null;
@@ -75,12 +75,13 @@ function MovieDetailScreen(props: any) {
   const [currentSeasone, setCurrentSeasone] = useState(firstSeasone);
   const [currentEpisode, setCurrentEpisode] = useState(selectedEpisodOb);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDLoading, setIsDLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-      return item.season_id.id === currentSeasone.id;
-    })
+        return item.season_id.id === currentSeasone.id;
+      })
     : null;
 
   //creating downloadResumable.
@@ -113,7 +114,6 @@ function MovieDetailScreen(props: any) {
     episodeAndSeasonHandler();
   }, [dispatch, episodeAndSeasonHandler]);
   return (
-
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
         <VideoPlayBack episode={movieId ? selecedMovieById : currentEpisode} />
@@ -125,7 +125,19 @@ function MovieDetailScreen(props: any) {
             key={movieId ? movieId : episodeId}
             data={movieId ? movieById : selectedSeries}
             renderItem={({ item }) => {
-              return (
+              return isLoading ? (
+                <View
+                  style={{
+                    marginTop: Dimensions.get("screen").height * 0.25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flex: 1,
+                    backgroundColor: "black",
+                  }}
+                >
+                  <ActivityIndicator size="large" color="red" />
+                </View>
+              ) : (
                 <View style={{ backgroundColor: "#000" }}>
                   <Text style={{ fontSize: 30, margin: 10, color: "#FFF" }}>
                     {item.title}
@@ -168,6 +180,7 @@ function MovieDetailScreen(props: any) {
                   <TouchableOpacity
                     style={styles.downloadIcon}
                     onPress={async () => {
+                      setIsDLoading(true);
                       await dispatch(
                         addDownload(
                           resumableDownload.current.savable(),
@@ -176,12 +189,20 @@ function MovieDetailScreen(props: any) {
                           false
                         )
                       );
+                      setIsDLoading(false);
+                      navigation.navigate("Download");
                     }}
                   >
-                    <AntDesign name="download" size={24} color="black" />
-                    <Text style={{ color: "#FFF", marginLeft: 5 }}>
-                      DownLoad
-                    </Text>
+                    {!isDLoading ? (
+                      <>
+                        <AntDesign name="download" size={24} color="black" />
+                        <Text style={{ color: "#FFF", marginLeft: 5 }}>
+                          DownLoad
+                        </Text>
+                      </>
+                    ) : (
+                      <ActivityIndicator size="small" color="lightgrey" />
+                    )}
                   </TouchableOpacity>
 
                   <Text
@@ -206,9 +227,7 @@ function MovieDetailScreen(props: any) {
                       marginLeft: 13,
                       marginTop: 5,
                     }}
-                  >
-
-                  </View>
+                  ></View>
                   <View
                     style={{
                       flexDirection: "row",
@@ -256,9 +275,7 @@ function MovieDetailScreen(props: any) {
                       marginLeft: 40,
                       marginTop: 5,
                     }}
-                  >
-
-                  </View>
+                  ></View>
 
                   <View
                     style={{
@@ -319,8 +336,7 @@ function MovieDetailScreen(props: any) {
                 );
               }}
             />
-          ) : null
-          }
+          ) : null}
         </View>
       </ScrollView>
     </View>

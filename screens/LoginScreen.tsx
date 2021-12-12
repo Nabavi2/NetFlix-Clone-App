@@ -84,7 +84,14 @@ function LoginScreen() {
   const navigation = useNavigation();
   if (isLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "black",
+        }}
+      >
         <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
@@ -252,9 +259,7 @@ function LoginScreen() {
                     ) : null}
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={
-                        submitForm.bind(values)
-                      }
+                      onPress={submitForm.bind(values)}
                     >
                       <Text style={{ color: "#FFF" }}>
                         {" "}

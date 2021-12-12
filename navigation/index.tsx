@@ -1,8 +1,4 @@
-import {
-  Ionicons,
-  MaterialIcons,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   NavigationContainer,
@@ -29,11 +25,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import DownloadScreen from "../screens/DownloadScreen";
 import SearchScreen from "../screens/SearchScreen";
 import ComingSoonScreen from "../screens/ComingSoonScreen";
-import {
-  HomeParamList,
-  RootTabParamList,
-  RootTabScreenProps,
-} from "../types";
+import { HomeParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import MovieDetailScreen from "../screens/MovieDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
@@ -42,7 +34,6 @@ import * as authActions from "../store/actions/AuthAction";
 import MovieScreen from "../screens/MovieScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import Colors from "../constants/Colors";
-
 
 export default function Navigation({
   colorScheme,
@@ -89,7 +80,7 @@ const TopTabNavigator = () => {
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor: Colors.secondary,
           tabBarIndicatorStyle: { backgroundColor: Colors.primary },
-          tabBarPressColor: '#FFF',
+          tabBarPressColor: "#FFF",
           tabBarPressOpacity: 0.1,
         }}
       />
@@ -110,6 +101,17 @@ const StackNavigator = () => {
         name="MovieDetailScreen"
         component={MovieDetailScreen}
         options={{ headerShown: false }}
+      />
+      <Stack1.Screen
+        name="Download"
+        component={DownloadScreen}
+        options={{
+          headerShown: true,
+          headerTitle: "Downloads",
+          headerTitleStyle: { color: "white" },
+          headerStyle: { backgroundColor: "black" },
+          headerTintColor: "white",
+        }}
       />
     </Stack1.Navigator>
   );

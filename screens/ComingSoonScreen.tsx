@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Image } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
+import HomeCategories from "../components/HomeCategories";
 import SeriesCategories from "../components/SeriesCategories";
 import { fetchComingSoons } from "../store/actions/Comingsoon";
 function ComingSoonScreen() {
@@ -21,7 +22,6 @@ function ComingSoonScreen() {
   const selectedComingSoon = useSelector(
     (state) => state.comingSoon.selectedComingSoon
   );
-
 
   const loadComingSoon = useCallback(async () => {
     setIsLoading(true);
@@ -83,7 +83,9 @@ function ComingSoonScreen() {
           />
         }
         data={category}
-        renderItem={({ item }) => <SeriesCategories category={item} />}
+        renderItem={({ item }) => (
+          <HomeCategories category={item} isComingSoon={true} />
+        )}
       />
     </View>
   );
