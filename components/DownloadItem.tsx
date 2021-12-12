@@ -211,15 +211,11 @@ const styles = StyleSheet.create({
     overflow: "visible",
     marginBottom: 10,
   },
-<<<<<<< HEAD
   image: {
     width: Dimensions.get("screen").width * 0.22,
     height: Dimensions.get("screen").height * 0.1,
     borderRadius: 3,
   },
-=======
-  image: { width: 80, height: 80, borderRadius: 3, },
->>>>>>> 9985a9e65d732578cc2c61cfe6eedb6f5b05a4d3
   titleAndImage: {
     flexDirection: "row",
     alignItems: "center",
