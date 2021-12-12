@@ -11,6 +11,7 @@ import Navigation from "../navigation/index";
 import { useNavigation } from "@react-navigation/native";
 import { Episode } from "../types";
 import { AntDesign } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 interface EpisodesItem {
   episode: Episode;
   onPress: (episode: Episode) => {};
@@ -26,12 +27,11 @@ function EpisodeItems(props: any) {
       <View style={styles.container}>
         <Image style={styles.imageView} source={{ uri: episode.poster }} />
         <View style={styles.rowContainer}>
-          <Text style={{ fontSize: 12, color: "#FFF" }}>{episode.title}</Text>
-          <Text style={{ fontSize: 10, color: "#968d8c" }}>
+          <Text style={{ fontSize: 15, color: "#FFF" }}>{episode.title}</Text>
+          <Text style={{ fontSize: 13, color: Colors.secondary }}>
             {episode.duration}
           </Text>
         </View>
-        <AntDesign name="download" size={24} color="#FFF" />
       </View>
       <Text style={{ marginHorizontal: 10, marginBottom: 10, color: "#FFF" }}>
         {episode.plot}
