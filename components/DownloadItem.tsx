@@ -202,8 +202,9 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     width: "100%",
     overflow: "visible",
+    marginBottom: 10,
   },
-  image: { width: 80, height: 80, borderRadius: 3 },
+  image: { width: 80, height: 80, borderRadius: 3, },
   titleAndImage: {
     flexDirection: "row",
     alignItems: "center",
