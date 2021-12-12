@@ -57,7 +57,6 @@ function ComingSoonScreen() {
   return (
     <View style={styles.container}>
       <Image
-        resizeMode="cover"
         source={{
           uri: selectedComingSoon!.poster ? selectedComingSoon.poster : "",
         }}
