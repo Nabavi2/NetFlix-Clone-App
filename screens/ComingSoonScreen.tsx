@@ -83,9 +83,7 @@ function ComingSoonScreen() {
           />
         }
         data={category}
-        renderItem={({ item }) => (
-          <SeriesCategories category={item} />
-        )}
+        renderItem={({ item }) => <SeriesCategories category={item} />}
       />
     </View>
   );

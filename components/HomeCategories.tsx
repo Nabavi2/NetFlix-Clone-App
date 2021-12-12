@@ -131,7 +131,12 @@ function HomeCategories(props: any) {
         />
       ) : (
         <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "black",
+          }}
         >
           <ActivityIndicator size="large" color="#c75a5f" />
         </View>

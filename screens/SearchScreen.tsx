@@ -13,12 +13,9 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native";
-import { SearchBar } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../constants/Colors";
 import * as movieActions from "../store/actions/movie";
-import { useIsFocused } from "@react-navigation/core";
-import { EmptyList } from "./../store/actions/movie";
 
 function SearchScreen() {
   const searchedMovie: [] = useSelector(
