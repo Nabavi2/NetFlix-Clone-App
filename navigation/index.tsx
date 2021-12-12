@@ -52,6 +52,7 @@ import TestScreen from "../screens/TestScreen";
 import MovieScreen from "../screens/MovieScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import Colors from "../constants/Colors";
+import { AnyObject } from 'yup/lib/object';
 
 export default function Navigation({
   colorScheme,
@@ -99,6 +100,8 @@ const TopTabNavigator = () => {
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor: Colors.secondary,
           tabBarIndicatorStyle: { backgroundColor: Colors.primary },
+          tabBarPressColor: '#FFF',
+          tabBarPressOpacity: 0.1,
         }}
       />
     </Tab.Navigator>
@@ -114,8 +117,6 @@ const StackNavigator = () => {
     >
       <Stack1.Screen name="Home" component={AppDrawerNavigator} />
       <Stack1.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack1.Screen name="Movies" component={MovieScreen} />
-      <Stack1.Screen name="Series" component={SeriesScreen} />
       <Stack1.Screen
         name="MovieDetailScreen"
         component={MovieDetailScreen}
@@ -278,8 +279,8 @@ export const AppDrawerNavigator = () => {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
-                onPress={() => {
-                  dispatch(authActions.logout());
+                onPress={async () => {
+                  await dispatch(authActions.logout());
                   props.navigation.navigate("LoginScreen");
                 }}
               >

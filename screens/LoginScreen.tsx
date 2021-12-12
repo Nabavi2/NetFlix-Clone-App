@@ -43,8 +43,11 @@ function LoginScreen() {
     let action: Function;
     if (isSignup) {
       try {
+
         action = await dispatch(authActions.signupUser(email, password));
+
         navigation.navigate("Home");
+        setIsLoading(false)
       } catch (error: any) {
         setIsLoading(false);
         setError(error);
@@ -54,6 +57,7 @@ function LoginScreen() {
       try {
         action = await dispatch(authActions.loginUser(email, password));
         navigation.navigate("Home");
+        setIsLoading(false)
       } catch (error: any) {
         setIsLoading(false);
         setError(error);
@@ -137,7 +141,12 @@ function LoginScreen() {
                         style={{
                           paddingTop: 10,
                           paddingBottom: 10,
+<<<<<<< HEAD
                           marginRight: 10,
+=======
+                          marginBottom: 5,
+                          marginRight: 6,
+>>>>>>> 78ffc2a20ea9080a6dadf98cf5bc878494c17a20
                         }}
                         name="email"
                         size={28}
@@ -177,7 +186,12 @@ function LoginScreen() {
                         style={{
                           paddingTop: 10,
                           paddingBottom: 10,
+<<<<<<< HEAD
                           marginRight: 10,
+=======
+                          marginBottom: 5,
+                          marginRight: 6,
+>>>>>>> 78ffc2a20ea9080a6dadf98cf5bc878494c17a20
                         }}
                         name="lock"
                         size={28}

@@ -1,3 +1,4 @@
+import { LOGOUT } from "../actions/AuthAction";
 import {
   FETCH_COMINGSOONS,
   UPDATE_SELECTED_COMINGSOON,
@@ -18,6 +19,9 @@ const ComingSoonReducer = (state = CInitialState, action: any) => {
     case UPDATE_SELECTED_COMINGSOON:
       console.log("lisssssssssssst", state.comingSoonList);
       return { ...state, selectedComingSoon: action.comingSoon };
+    case LOGOUT:
+      return CInitialState;
+
     default:
       return CInitialState;
   }

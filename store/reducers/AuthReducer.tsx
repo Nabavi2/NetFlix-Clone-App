@@ -17,9 +17,13 @@ const AuthReducer = (state = initialState, action: any) => {
                 ...state,
                 jwt: action.jwt,
             }
-        case LOGOUT: {
-            return initialState
-        }
+        case LOGOUT:
+            return {
+                ...state,
+                jwt: action.unToken,
+                userId: action.unUserId,
+            }
+
         default:
             return state;
     }

@@ -1,3 +1,4 @@
+import { LOGOUT } from '../actions/AuthAction';
 import { SET_EPISODE, SET_SEASON, SET_SERIES } from '../actions/series';
 const initialState = {
     availableSeries: [],
@@ -23,6 +24,8 @@ export default (state = initialState, action: any) => {
                 availableEpisode: action.episode,
 
             }
+        case LOGOUT:
+            return initialState;
     };
 
     return state;

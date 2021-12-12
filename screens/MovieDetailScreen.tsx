@@ -80,8 +80,8 @@ function MovieDetailScreen(props: any) {
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-        return item.season_id.id === currentSeasone.id;
-      })
+      return item.season_id.id === currentSeasone.id;
+    })
     : null;
 
   //creating downloadResumable.
@@ -100,7 +100,7 @@ function MovieDetailScreen(props: any) {
       {
         movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
       }
-      await dispatch(seriesActions.fetchSeries());
+      // await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
       await dispatch(seriesActions.fetchSeason());
       setIsLoading(false);

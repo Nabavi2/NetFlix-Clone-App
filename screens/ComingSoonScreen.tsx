@@ -13,6 +13,7 @@ import { Image } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import ComingSoonItem from "../components/ComingSoonItem";
 import HomeCategories from "../components/HomeCategories";
+import SeriesCategories from "../components/SeriesCategories";
 import { fetchCategories } from "../store/actions/category";
 import { fetchComingSoons } from "../store/actions/Comingsoon";
 function ComingSoonScreen() {
@@ -94,9 +95,7 @@ function ComingSoonScreen() {
           />
         }
         data={category}
-        renderItem={({ item }) => (
-          <HomeCategories category={item} isComingSoon={true} />
-        )}
+        renderItem={({ item }) => <SeriesCategories category={item} />}
       />
     </View>
   );
