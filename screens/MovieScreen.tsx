@@ -10,6 +10,7 @@ import { View, Text } from "./../components/Themed";
 import HomeCategories from "../components/HomeCategories";
 import * as categoryActions from "../store/actions/category";
 import { useDispatch, useSelector } from "react-redux";
+import DoubleTapToClose from "../components/OnBackPress";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ function MovieScreen() {
   const category = useSelector((state) => state.category.availableCategories);
 
   const dispatch = useDispatch();
-  const movieAndSeriesHandler = useCallback(async () => {
+  const moviesFetchHandler = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
@@ -33,8 +34,8 @@ function MovieScreen() {
     }
   }, [dispatch]);
   useEffect(() => {
-    movieAndSeriesHandler();
-  }, [dispatch, movieAndSeriesHandler]);
+    moviesFetchHandler();
+  }, [dispatch, moviesFetchHandler]);
   if (isLoading) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>

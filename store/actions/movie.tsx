@@ -3,6 +3,7 @@ export const SET_MOVIES = 'SET_MOVIES';
 export const SET_MOVIE_BY_ID = 'SET_MOVIE_BY_ID';
 export const SET_SEARCH = 'SET_SEARCH';
 export const EMPTY = "EMPTY";
+export const E_L_HANDLER = 'E_L_HANDLER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AnyObject } from 'yup/lib/object';
 import { url } from '../../constants/links';
@@ -104,6 +105,7 @@ export const fetchMovieById = (id: any) => {
         throw error;
     }
 };
+
 //mthode search movies by name 
 
 
@@ -160,7 +162,12 @@ export const searchMovieByName = (title: any) => {
         throw error;
     }
 };
-
+export const emptySearchHandler = () => {
+    console.log('EEEEEEEEEEEMMMMMMTTTTTTYYYYYYYYYYYY')
+    return async (dispatch: Function) => {
+        dispatch({ type: E_L_HANDLER, emptyList: [] })
+    }
+}
 
 export const EmptyList = () => {
     console.log("RRR@@@@@@@@@@@@@@22222");
