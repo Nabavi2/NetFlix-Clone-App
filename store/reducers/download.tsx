@@ -55,7 +55,7 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
       return { downloadList: doList };
     case LOGOUT:
       return DInitialState;
-
+      
     default:
       return { ...state };
   }

@@ -1,11 +1,4 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import {
-  FontAwesome,
-  AntDesign,
   Ionicons,
   MaterialIcons,
   SimpleLineIcons,
@@ -16,7 +9,6 @@ import {
   DefaultTheme,
   DarkTheme,
 } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import {
   createDrawerNavigator,
@@ -39,7 +31,6 @@ import SearchScreen from "../screens/SearchScreen";
 import ComingSoonScreen from "../screens/ComingSoonScreen";
 import {
   HomeParamList,
-  RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from "../types";
@@ -48,11 +39,10 @@ import MovieDetailScreen from "../screens/MovieDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { useDispatch } from "react-redux";
 import * as authActions from "../store/actions/AuthAction";
-import TestScreen from "../screens/TestScreen";
 import MovieScreen from "../screens/MovieScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import Colors from "../constants/Colors";
-import { AnyObject } from 'yup/lib/object';
+
 
 export default function Navigation({
   colorScheme,
@@ -70,7 +60,6 @@ export default function Navigation({
 }
 // This methode is for Top Tab Navigator
 const Tab = createMaterialTopTabNavigator();
-
 const TopTabNavigator = () => {
   return (
     <Tab.Navigator
@@ -107,7 +96,7 @@ const TopTabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
+//Stack Navigator for navigate to other page
 const Stack1 = createStackNavigator<HomeParamList>();
 const StackNavigator = () => {
   return (
@@ -126,8 +115,8 @@ const StackNavigator = () => {
   );
 };
 
+//Bottom Tab navigator for navigate to other home from page bottom
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
   return (
@@ -238,17 +227,7 @@ function BottomTabNavigator() {
   );
 }
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
-
-//Drawer Stack Navigator
+//Drawer Stack Navigator for show drawer and navigate
 const DrawerNavigator = createDrawerNavigator();
 export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
@@ -349,19 +328,6 @@ export const AppDrawerNavigator = () => {
               name={
                 Platform.OS === "android" ? "video-library" : "video-library"
               }
-              size={23}
-              color={props.color}
-            />
-          ),
-        }}
-      />
-      <DrawerNavigator.Screen
-        name="TestScreen"
-        component={TestScreen}
-        options={{
-          drawerIcon: (props: any) => (
-            <Ionicons
-              name={Platform.OS === "android" ? "download" : "ios-download"}
               size={23}
               color={props.color}
             />

@@ -7,17 +7,13 @@ import { useNavigation } from '@react-navigation/native';
 import MovieDetailScreen from '../screens/MovieDetailScreen';
 import { useSelector } from 'react-redux';
 
-
-
 function SeriesCategories(props: any) {
     const { category } = props;
     const episode = useSelector((state) => state.series.availableEpisode);
     const season = useSelector((state) => state.series.availableSeason);
 
     const navigation = useNavigation();
-    console.log('NNNNNNNNNNNNNNNNNNNNNNNNNNNNNDDDDDDDDDDD ,', episode.season_id)
 
-    let i = 0;
     return (
         <View style={styles.container}>
             <Text style={{ margin: 10, color: '#FFF', fontSize: 20 }}>
@@ -37,9 +33,7 @@ function SeriesCategories(props: any) {
                 }}
                 horizontal
             />
-
         </View>
-
     );
 }
 const styles = StyleSheet.create({

@@ -20,8 +20,6 @@ export const fetchComingSoons = () => {
       throw new Error("Could not fetch coming soons!");
     }
     const resData = await response.json();
-    console.log("resssssss", resData);
-
     dispatch({
       type: FETCH_COMINGSOONS,
       comingSoonList: resData,

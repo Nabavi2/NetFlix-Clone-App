@@ -11,10 +11,7 @@ import {
 } from "react-native";
 import { Image } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
-import ComingSoonItem from "../components/ComingSoonItem";
-import HomeCategories from "../components/HomeCategories";
 import SeriesCategories from "../components/SeriesCategories";
-import { fetchCategories } from "../store/actions/category";
 import { fetchComingSoons } from "../store/actions/Comingsoon";
 function ComingSoonScreen() {
   const dispatch = useDispatch();
@@ -24,7 +21,7 @@ function ComingSoonScreen() {
   const selectedComingSoon = useSelector(
     (state) => state.comingSoon.selectedComingSoon
   );
-  console.log("sssssssssss", selectedComingSoon);
+
 
   const loadComingSoon = useCallback(async () => {
     setIsLoading(true);
@@ -38,19 +35,10 @@ function ComingSoonScreen() {
     setIsRefreshing(false);
   }, [dispatch, setIsLoading]);
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener("focus", loadComingSoon);
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // });
-
   useEffect(() => {
     setIsLoading(true);
     loadComingSoon().then(() => setIsLoading(false));
   }, [dispatch, loadComingSoon]);
-  console.log("commmmmming");
-
   if (isLoading) {
     return (
       <View

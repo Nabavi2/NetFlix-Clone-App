@@ -47,7 +47,6 @@ function HomeCategories(props: any) {
 
   const getLength = async () => {
     const token = await AsyncStorage.getItem("userData");
-    //   const userId = getState().auth.userId;
     const response = await fetch(
       `${url}/movies/count?category_id_eq=${category.id}`,
       {
@@ -63,16 +62,12 @@ function HomeCategories(props: any) {
   };
 
   const movieHandler = useCallback(async () => {
-    console.log("eeeeeeENNNNNNNNNNNNNDDDDDDDDDDDDD", category.id);
-
     try {
       setError(null);
       setIsLoading(true);
 
       await dispatch(movieActions.fetchMovies(start, category.id));
       setStart(start + 5);
-      console.log("stststatsttststst", start);
-
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);

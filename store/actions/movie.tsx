@@ -3,6 +3,7 @@ export const SET_MOVIES = 'SET_MOVIES';
 export const SET_MOVIE_BY_ID = 'SET_MOVIE_BY_ID';
 export const SET_SEARCH = 'SET_SEARCH';
 export const EMPTY = "EMPTY";
+export const E_L_HANDLER = 'E_L_HANDLER'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AnyObject } from 'yup/lib/object';
 import { url } from '../../constants/links';
@@ -12,12 +13,9 @@ import Movie from '../../models/Movie';
 
 
 export const fetchMovies = (start: number, categoryId: number) => {
-    console.log("QQQQQQQQQQQQ", categoryId);
-
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/movies?_start=${start}&_limit=5&category_id_eq=${categoryId}`,
                 {
@@ -84,7 +82,6 @@ export const fetchMovieById = (id: any) => {
             const resData = await response.json();
             console.log(resData);
             const loadedMoviesById = [];
-
             loadedMoviesById.push(
                 new Movie(
                     resData.id,
@@ -99,7 +96,6 @@ export const fetchMovieById = (id: any) => {
                     resData.duration,
                 )
             );
-
             dispatch({
                 type: SET_MOVIE_BY_ID,
                 movie: loadedMoviesById,
@@ -109,6 +105,7 @@ export const fetchMovieById = (id: any) => {
         throw error;
     }
 };
+
 //mthode search movies by name 
 
 
@@ -129,9 +126,15 @@ export const searchMovieByName = (title: any) => {
 
             );
             if (!response.ok) {
-                throw new Error("An error occured! in movies by id");
+                throw new Error('somthing went wrong');
+
             }
+
             const resData = await response.json();
+            if (resData.lenght === 0) {
+                throw new Error('not found!')
+            }
+
             const loadedMoviesByName = [];
 
             for (const key in resData) {
@@ -150,7 +153,6 @@ export const searchMovieByName = (title: any) => {
                     )
                 );
             }
-
             dispatch({
                 type: SET_SEARCH,
                 searchMovie: loadedMoviesByName,
@@ -160,7 +162,12 @@ export const searchMovieByName = (title: any) => {
         throw error;
     }
 };
-
+export const emptySearchHandler = () => {
+    console.log('EEEEEEEEEEEMMMMMMTTTTTTYYYYYYYYYYYY')
+    return async (dispatch: Function) => {
+        dispatch({ type: E_L_HANDLER, emptyList: [] })
+    }
+}
 
 export const EmptyList = () => {
     console.log("RRR@@@@@@@@@@@@@@22222");

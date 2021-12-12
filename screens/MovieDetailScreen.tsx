@@ -31,7 +31,7 @@ import Episode from "./../models/Episde";
 
 function MovieDetailScreen(props: any) {
   const dispatch = useDispatch();
-
+  //navigation variable is to navigate other page
   const navigation = useNavigation();
 
   let movieId = props.route.params.movieId;
@@ -43,8 +43,6 @@ function MovieDetailScreen(props: any) {
 
   const series: [] = useSelector((state) => state.series.availableSeries);
 
-  console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM ", movieById);
-
   let selecedMovieById = movieId
     ? movie.find((item: any) => item.id === movieId)
     : null;
@@ -55,10 +53,11 @@ function MovieDetailScreen(props: any) {
   let selectedSeason = episodeId
     ? season.find((item: any) => item.id === selectedEpisodOb.season_id.id)
     : null;
+  //select tha series which com from series screen
   let selectedSeries1 = episodeId
     ? series.find((item: any) => item.id === selectedSeason.series_id.id)
     : null;
-
+  //this variable is for those season that picker picked 
   let selectSeasonPicker = episodeId
     ? season.filter((item: any) => item.series_id.id === selectedSeries1.id)
     : null;
@@ -114,6 +113,7 @@ function MovieDetailScreen(props: any) {
     episodeAndSeasonHandler();
   }, [dispatch, episodeAndSeasonHandler]);
   return (
+
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
         <VideoPlayBack episode={movieId ? selecedMovieById : currentEpisode} />
@@ -130,7 +130,6 @@ function MovieDetailScreen(props: any) {
                   <Text style={{ fontSize: 30, margin: 10, color: "#FFF" }}>
                     {item.title}
                   </Text>
-
                   <View
                     style={{
                       flexDirection: "row-reverse",
@@ -207,7 +206,9 @@ function MovieDetailScreen(props: any) {
                       marginLeft: 13,
                       marginTop: 5,
                     }}
-                  ></View>
+                  >
+
+                  </View>
                   <View
                     style={{
                       flexDirection: "row",
@@ -255,7 +256,9 @@ function MovieDetailScreen(props: any) {
                       marginLeft: 40,
                       marginTop: 5,
                     }}
-                  ></View>
+                  >
+
+                  </View>
 
                   <View
                     style={{
@@ -316,7 +319,8 @@ function MovieDetailScreen(props: any) {
                 );
               }}
             />
-          ) : null}
+          ) : null
+          }
         </View>
       </ScrollView>
     </View>
