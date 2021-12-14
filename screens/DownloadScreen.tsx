@@ -15,9 +15,8 @@ export default function DownloadScreen() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, SetIsRefreshing] = useState(false);
-  const navigation = useNavigation();
   const downloads = useSelector((state) => state.download.downloadList);
- 
+
 
   console.log(downloads);
 

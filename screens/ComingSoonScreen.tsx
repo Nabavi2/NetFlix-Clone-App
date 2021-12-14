@@ -1,4 +1,3 @@
-import { useIsFocused, useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,

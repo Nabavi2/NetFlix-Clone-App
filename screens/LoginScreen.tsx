@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import {
   Alert,
   TextInput,
@@ -11,15 +11,12 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   ScrollView,
-  Platform,
   Dimensions,
-  BackHandler,
 } from "react-native";
 import { Text } from "../components/Themed";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as authActions from "../store/actions/AuthAction";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 
 function LoginScreen() {

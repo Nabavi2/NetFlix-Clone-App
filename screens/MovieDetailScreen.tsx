@@ -7,13 +7,11 @@ import {
   Dimensions,
 } from "react-native";
 import { Text, View } from "../components/Themed";
-import movie from "../data/movie";
 import { ScrollView } from "react-native";
 import {
   AntDesign,
   Feather,
   FontAwesome,
-  Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
@@ -36,10 +34,11 @@ function MovieDetailScreen(props: any) {
   const movie: [] = useSelector((state) => state.movies.availableMovies);
 
   const series: [] = useSelector((state) => state.series.availableSeries);
-
+  //this variable have one object of movie for this single page
   let selecedMovieById = movieId
     ? movie.find((item: any) => item.id === movieId)
     : null;
+  //this variable have one array with one object for flatlist of this single page
   let selectedMovieByID = movieId ? movie.filter((item: any) => item.id === movieId) : null;
 
   let selectedEpisodOb = episodeId
