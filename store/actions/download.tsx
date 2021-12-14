@@ -78,7 +78,6 @@ export const updateDownload = (downloadId: any) => {
 
 export const fetchDownloads = () => {
   return async (dispatch: any) => {
-    // await AsyncStorage.setItem("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8");
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8";
 

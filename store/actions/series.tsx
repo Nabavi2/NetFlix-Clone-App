@@ -4,7 +4,6 @@ export const SET_EPISODE = 'SET_EPISODE';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { url } from '../../constants/links';
 import Episode from '../../models/Episde';
-import Movie from '../../models/Movie';
 import Season from '../../models/Season';
 import Series from '../../models/Series';
 
@@ -13,7 +12,6 @@ export const fetchSeries = () => {
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/serieses`,
                 {
@@ -57,7 +55,6 @@ export const fetchSeason = () => {
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/seasons`,
                 {
@@ -99,7 +96,6 @@ export const fetchEpisode = () => {
     try {
         return async (dispatch: Function) => {
             const token = await AsyncStorage.getItem("userData");
-            //   const userId = getState().auth.userId;
             const response = await fetch(
                 `${url}/episodes`,
                 {
@@ -114,9 +110,6 @@ export const fetchEpisode = () => {
                 throw new Error("An error occured in episode");
             }
             const resData = await response.json();
-            console.log("eppppppppppppiiiiiiiiisssssssssssssode");
-
-            console.log(resData);
             const loadedEpisode = [];
             for (const key in resData) {
                 loadedEpisode.push(

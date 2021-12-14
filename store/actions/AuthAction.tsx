@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "../../constants/links";
-import { SET_MOVIES } from '../actions/movie'
 export const SIGNUP = "SIGNUP";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
