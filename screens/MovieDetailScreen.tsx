@@ -17,13 +17,8 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-// import Picker from 'react-native-picker-select';
-// import SelectPicker from 'react-native-select-picker';
 import * as FileSystem from "expo-file-system";
 import { addDownload } from "../store/actions/download";
-import * as movieActions from "../store/actions/movie";
-import * as seriesActions from "../store/actions/series";
-import series from "../store/reducers/series";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import VideoPlayBack from "../components/VideoPlayBack";
@@ -46,6 +41,7 @@ function MovieDetailScreen(props: any) {
   let selecedMovieById = movieId
     ? movie.find((item: any) => item.id === movieId)
     : null;
+  let selectedMovieByID = movieId ? movie.filter((item: any) => item.id === movieId) : null;
 
   let selectedEpisodOb = episodeId
     ? episodes.find((item: any) => item.id === episodeId)
@@ -80,8 +76,8 @@ function MovieDetailScreen(props: any) {
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-        return item.season_id.id === currentSeasone.id;
-      })
+      return item.season_id.id === currentSeasone.id;
+    })
     : null;
 
   //creating downloadResumable.
@@ -92,22 +88,6 @@ function MovieDetailScreen(props: any) {
       {}
     )
   );
-
-  const episodeAndSeasonHandler = useCallback(async () => {
-    try {
-      setError(null);
-      setIsLoading(true);
-        movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
-      setIsLoading(false);
-    } catch (err: any) {
-      setError(err.message);
-      setIsLoading(false);
-      console.log(err.message);
-    }
-  }, [dispatch]);
-  useEffect(() => {
-    episodeAndSeasonHandler();
-  }, [dispatch, episodeAndSeasonHandler]);
   return (
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
@@ -118,7 +98,7 @@ function MovieDetailScreen(props: any) {
         <View style={{ backgroundColor: "#000" }}>
           <FlatList
             key={movieId ? movieId : episodeId}
-            data={movieId ? movieById : selectedSeries}
+            data={movieId ? selectedMovieByID : selectedSeries}
             renderItem={({ item }) => {
               return isLoading ? (
                 <View
