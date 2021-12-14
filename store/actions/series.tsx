@@ -21,6 +21,7 @@ export const fetchSeries = () => {
         throw new Error("An error occured! in series");
       }
       const resData = await response.json();
+      console.log(resData);
       const loadedSeries = [];
       for (const key in resData) {
         loadedSeries.push(

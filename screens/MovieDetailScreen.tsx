@@ -84,22 +84,6 @@ function MovieDetailScreen(props: any) {
     )
   );
 
-  const episodeAndSeasonHandler = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      {
-        movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
-      }
-      await dispatch(seriesActions.fetchEpisode());
-      await dispatch(seriesActions.fetchSeason());
-      setIsLoading(false);
-    } catch (err: any) {
-      setIsLoading(false);
-    }
-  }, [dispatch]);
-  useEffect(() => {
-    episodeAndSeasonHandler();
-  }, [dispatch, episodeAndSeasonHandler]);
   return (
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
