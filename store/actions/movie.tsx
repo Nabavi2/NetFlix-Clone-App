@@ -60,55 +60,7 @@ export const fetchMovies = (start: number, categoryId: number) => {
     }
 };
 
-// this methode fetch movie by on id
-export const fetchMovieById = (id: any) => {
-    try {
-        return async (dispatch: Function) => {
-            const token = await AsyncStorage.getItem("userData");
-            const response = await fetch(
-                `${url}/movies/${id}`,
-                {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": 'application/json'
-                    },
-                }
-
-            );
-            if (!response.ok) {
-                throw new Error("An error occured! in movies by id");
-            }
-            const resData = await response.json();
-            console.log(resData);
-            const loadedMoviesById = [];
-            loadedMoviesById.push(
-                new Movie(
-                    resData.id,
-                    resData.category_id,
-                    resData.title,
-                    resData.video,
-                    resData.poster,
-                    resData.creator_name,
-                    resData.cast,
-                    resData.year,
-                    resData.plot,
-                    resData.duration,
-                )
-            );
-            dispatch({
-                type: SET_MOVIE_BY_ID,
-                movie: loadedMoviesById,
-            });
-        };
-    } catch (error) {
-        throw error;
-    }
-};
-
 //mthode search movies by name 
-
-
 
 export const searchMovieByName = (title: any) => {
     try {
