@@ -33,7 +33,6 @@ function MovieDetailScreen(props: any) {
   let episodeId = props.route.params.episodeId;
   const episodes: [] = useSelector((state) => state.series.availableEpisode);
   const season: [] = useSelector((state) => state.series.availableSeason);
-  const movieById: [] = useSelector((state) => state.movies.availableMovieById);
   const movie: [] = useSelector((state) => state.movies.availableMovies);
 
   const series: [] = useSelector((state) => state.series.availableSeries);
@@ -72,7 +71,7 @@ function MovieDetailScreen(props: any) {
   const [currentEpisode, setCurrentEpisode] = useState(selectedEpisodOb);
   const [isLoading, setIsLoading] = useState(false);
   const [isDLoading, setIsDLoading] = useState(false);
-  const [error, setError] = useState(null);
+
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {

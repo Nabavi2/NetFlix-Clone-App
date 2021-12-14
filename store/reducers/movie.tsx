@@ -14,13 +14,6 @@ export default (state = initialState, action: any) => {
         ...state,
         availableMovies: [...state.availableMovies, ...action.movies],
       }
-
-
-    case SET_MOVIE_BY_ID:
-      return {
-        ...state,
-        availableMovieById: action.movie,
-      };
     case SET_SEARCH:
       return {
         ...state,
