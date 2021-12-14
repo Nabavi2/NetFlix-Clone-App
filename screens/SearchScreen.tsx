@@ -30,8 +30,6 @@ function SearchScreen() {
 
   const dispatch = useDispatch();
   const emp = async () => {
-    console.log('the length is zero now!')
-    console.log(search)
     await dispatch(movieActions.emptySearchHandler());
   }
   useEffect(() => {
@@ -70,12 +68,7 @@ function SearchScreen() {
   }
 
   const searchNotfoundHandler = (text: string) => {
-    console.log(text);
-
     setSearch(text);
-    console.log('====================================');
-    console.log(search);
-    console.log('====================================');
     if (text.length === 0) {
       setNotfoundMessage(null)
     }

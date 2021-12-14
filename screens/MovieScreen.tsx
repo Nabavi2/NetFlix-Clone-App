@@ -16,7 +16,6 @@ import HomeCategories from "../components/HomeCategories";
 import * as categoryActions from "../store/actions/category";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/core";
-import { useDoubleBackPressExit } from "../components/DoublePressBack";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +39,6 @@ function MovieScreen() {
       setIsLoading(false);
     }
   }, [dispatch]);
-
-  console.log("KKKKKKKKKK", exitApp);
 
   useFocusEffect(
     React.useCallback(() => {
