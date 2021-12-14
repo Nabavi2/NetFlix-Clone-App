@@ -4,14 +4,11 @@ import {
   Image,
   FlatList,
   Pressable,
-  TouchableOpacity,
-  ScrollView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
 
 import { View, Text } from "./../components/Themed";
-import Navigation from "../navigation/index";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSelectedComingSoon } from "../store/actions/Comingsoon";
@@ -24,7 +21,6 @@ function HomeCategories(props: any) {
 
   const [arrLength, setArrLength] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [start, setStart] = useState(0);
   const first = useRef(true);
   const dispatch = useDispatch();
@@ -34,7 +30,6 @@ function HomeCategories(props: any) {
   const comingSoons: [] = isComingSoon
     ? useSelector((state) => state.comingSoon.comingSoonList)
     : null;
-  console.log(category.id);
 
   const filteredMovies = movie.filter(
     (item: any) => item.category_id["id"] === category.id
@@ -63,15 +58,12 @@ function HomeCategories(props: any) {
 
   const movieHandler = useCallback(async () => {
     try {
-      setError(null);
       setIsLoading(true);
 
       await dispatch(movieActions.fetchMovies(start, category.id));
       setStart(start + 5);
       setIsLoading(false);
     } catch (err: any) {
-      setError(err.message);
-
       alert(err.message);
       setIsLoading(false);
     }
@@ -102,7 +94,11 @@ function HomeCategories(props: any) {
           initialScrollIndex={start === 0 || start === 5 ? 0 : start - 3}
           decelerationRate={0.85}
           onEndReached={
-            arrLength === filteredMovies.length ? null : () => movieHandler()
+            arrLength === filteredMovies.length
+              ? null
+              : arrLength < 4
+              ? null
+              : () => movieHandler()
           }
           onEndReachedThreshold={0}
           data={isComingSoon ? filteredComings : filteredMovies}

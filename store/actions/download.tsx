@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DownloadPauseState, DownloadResumable } from "expo-file-system";
+import { DownloadPauseState } from "expo-file-system";
 import { url } from "../../constants/links";
 
 export const ADD_DOWNLOAD = "ADD_DOWNLOAD";
@@ -13,8 +13,7 @@ export const addDownload = (
   isDownloaded: boolean
 ) => {
   return async (dispatch: any) => {
-    //async code man!!!
-    const token = await AsyncStorage.getItem("jwt");
+    const token = await AsyncStorage.getItem("userData");
     const userId = await AsyncStorage.getItem("userId");
     const response = await fetch(`${url}/downloads`, {
       method: "POST",
@@ -29,17 +28,11 @@ export const addDownload = (
         episode: episodeId,
       }),
     });
-    console.log(response);
 
     if (!response.ok) {
       throw new Error("Something went wrong!");
-    } else {
-      console.log("download add correctly!!!");
     }
     const resData = await response.json();
-
-    console.log("this is resData ", resData);
-
     dispatch({
       type: ADD_DOWNLOAD,
       download,
@@ -66,8 +59,6 @@ export const updateDownload = (downloadId: any) => {
     });
     if (!response.ok) {
       throw new Error("could not app date downlaod!");
-    } else {
-      console.log("download updated correctly");
     }
     dispatch({
       type: UPDATE_DOWNLOAD,
@@ -78,10 +69,7 @@ export const updateDownload = (downloadId: any) => {
 
 export const fetchDownloads = () => {
   return async (dispatch: any) => {
-    // await AsyncStorage.setItem("jwt","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8");
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8";
-
+    const token = await AsyncStorage.getItem("userData");
     const response = await fetch(`${url}/downloads`, {
       method: "GET",
       headers: {

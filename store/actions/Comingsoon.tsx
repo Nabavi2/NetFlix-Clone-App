@@ -1,21 +1,18 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "../../constants/links";
 
 export const FETCH_COMINGSOONS = "FETCH_COMINGSOONS";
 export const UPDATE_SELECTED_COMINGSOON = "UPATE_SELECTED_COMINGSOON";
 export const fetchComingSoons = () => {
   return async (dispatch: any) => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3ODIxNDcxLCJleHAiOjE2NDA0MTM0NzF9.EeYZ52w2Q2UYc0njevC3Q3aIwwWLsApSvaHPeTmwp4g";
-    const response = await fetch(
-      `${url}/coming-soons`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const token = await AsyncStorage.getItem("userData");
+    const response = await fetch(`${url}/coming-soons`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) {
       throw new Error("Could not fetch coming soons!");
     }

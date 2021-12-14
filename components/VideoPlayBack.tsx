@@ -40,7 +40,12 @@ function VideoPlayBack(props: any) {
               ? video.current.pauseAsync()
               : video.current.playAsync()
           }
-          style={{ position: "absolute", zIndex: 100, top: Dimensions.get("screen").height * 0.08, left: Dimensions.get("screen").width * 0.38 }}
+          style={{
+            position: "absolute",
+            zIndex: 100,
+            top: Dimensions.get("screen").height * 0.08,
+            left: Dimensions.get("screen").width * 0.38,
+          }}
           name="play"
           size={100}
           color="#FFF"

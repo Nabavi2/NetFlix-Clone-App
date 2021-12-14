@@ -1,21 +1,8 @@
 import React from "react";
-import {
-  StyleSheet,
-  Image,
-  FlatList,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Image, Pressable } from "react-native";
 import { View, Text } from "./../components/Themed";
-import Navigation from "../navigation/index";
-import { useNavigation } from "@react-navigation/native";
-import { Episode } from "../types";
-import { AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
-interface EpisodesItem {
-  episode: Episode;
-  onPress: (episode: Episode) => {};
-}
+
 function EpisodeItems(props: any) {
   const { episode, onPress } = props;
 

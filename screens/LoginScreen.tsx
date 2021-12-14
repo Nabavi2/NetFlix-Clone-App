@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import {
   Alert,
   TextInput,
@@ -11,20 +11,16 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   ScrollView,
-  Platform,
   Dimensions,
-  BackHandler,
 } from "react-native";
 import { Text } from "../components/Themed";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as authActions from "../store/actions/AuthAction";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 
 function LoginScreen() {
   const [isSignup, setIsSignup] = useState(false);
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
@@ -38,7 +34,6 @@ function LoginScreen() {
 
   const dispatch = useDispatch();
   const authHandler = async (email: string, password: string) => {
-    setError(null);
     setIsLoading(true);
     let action: Function;
     if (isSignup) {
@@ -48,7 +43,6 @@ function LoginScreen() {
         setIsLoading(false);
       } catch (error: any) {
         setIsLoading(false);
-        setError(error);
         alert(error.message);
       }
     } else {
@@ -58,15 +52,11 @@ function LoginScreen() {
         setIsLoading(false);
       } catch (error: any) {
         setIsLoading(false);
-        setError(error);
         alert(error.message);
       }
     }
     action;
   };
-
-  let validate =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{5r,}$/;
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .required("Email is Required")
@@ -135,7 +125,6 @@ function LoginScreen() {
             submitForm,
           }) => {
             const { email, password } = values;
-            console.log("My values object", values);
             return (
               <>
                 <View style={styles.cart}>

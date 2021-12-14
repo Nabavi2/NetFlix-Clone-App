@@ -1,6 +1,11 @@
 import { LOGOUT } from "../actions/AuthAction";
-import { EMPTY, E_L_HANDLER, SET_MOVIES, SET_MOVIE_BY_ID, SET_SEARCH } from "../actions/movie";
-import { searchMovieByName } from './../actions/movie';
+import {
+  EMPTY,
+  E_L_HANDLER,
+  SET_MOVIES,
+  SET_MOVIE_BY_ID,
+  SET_SEARCH,
+} from "../actions/movie";
 const initialState = {
   availableMovies: [],
   availableMovieById: {},
@@ -13,8 +18,7 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         availableMovies: [...state.availableMovies, ...action.movies],
-      }
-
+      };
 
     case SET_MOVIE_BY_ID:
       return {
@@ -25,17 +29,17 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         searchedMovieByName: action.searchMovie,
-      }
+      };
     case EMPTY:
       return {
         ...state,
         searchMovieByName: action.arr,
-      }
+      };
     case E_L_HANDLER:
       return {
         ...state,
         searchedMovieByName: [],
-      }
+      };
     case LOGOUT:
       return initialState;
     default:

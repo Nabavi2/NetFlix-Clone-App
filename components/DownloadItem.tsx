@@ -1,8 +1,4 @@
-import {
-  Feather,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
@@ -11,16 +7,13 @@ import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDownload } from "../store/actions/download";
-import Movie from "../models/Movie";
 import { useIsFocused } from "@react-navigation/core";
-
 import moment from "moment";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
 
   const [progress, setProgress] = useState(0);
-  const [isloading, setIsLoading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
 
@@ -33,35 +26,31 @@ function DownloadItem(props: any) {
     ? downloadItem.movieId
     : downloadItem.episodeId;
 
-  const selectedDisplay: any = displays.find(
-    (item, index, obj) => item.id === displayId
-  )!;
+  const selectedDisplay: any = displays.find((item) => item.id === displayId)!;
 
-  const saveFile = async () => {
-    try {
-      const asset = await MediaLibrary.createAssetAsync(
-        resumableDownload.current.fileUri
-      );
-      const album = await MediaLibrary.getAlbumAsync("Download");
-      await MediaLibrary.migrateAlbumIfNeededAsync(album);
-      // MediaLibr
-      if (album == null) {
-        await MediaLibrary.createAlbumAsync("Download", asset, true);
-      } else {
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
-      }
-      alert("Your item is downloaded!!!");
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const saveFile = async () => {
+  //   try {
+  //     const asset = await MediaLibrary.createAssetAsync(
+  //       resumableDownload.current.fileUri
+  //     );
+  //     const album = await MediaLibrary.getAlbumAsync("Download");
+  //     await MediaLibrary.migrateAlbumIfNeededAsync(album);
+  //     // MediaLibr
+  //     if (album == null) {
+  //       await MediaLibrary.createAlbumAsync("Download", asset, true);
+  //     } else {
+  //       await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
+  //     }
+  //     alert("Your item is downloaded!!!");
+  //   } catch (e) {
+  //   }
+  // };
 
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
     const progress =
       downloadProgress.totalBytesWritten /
       downloadProgress.totalBytesExpectedToWrite;
-    console.log("progress: ", progress);
     setProgress(progress);
   };
 
@@ -73,11 +62,8 @@ function DownloadItem(props: any) {
       downloadData.fileUri,
       downloadData.options,
       callback
-      // downloadData.resumData,
     )
   );
-
-  //starting download
   const startDownload = async () => {
     try {
       await resumableDownload.current.downloadAsync();
@@ -86,7 +72,6 @@ function DownloadItem(props: any) {
     }
   };
 
-  //pausing donwload
   const pauseDownload = async () => {
     try {
       setIsPaused(true);
@@ -95,19 +80,14 @@ function DownloadItem(props: any) {
         "pausedDownload",
         JSON.stringify(resumableDownload.current.savable())
       );
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) {}
   };
 
-  // resuming download
   const resumDownload = async () => {
     try {
       setIsPaused(false);
-      const { uri } = await resumableDownload.current.resumeAsync();
-    } catch (e) {
-      console.error(e);
-    }
+      await resumableDownload.current.resumeAsync();
+    } catch (e) {}
   };
   const focused = useIsFocused();
   useEffect(() => {

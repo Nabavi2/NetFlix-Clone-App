@@ -1,5 +1,4 @@
-import { useIsFocused, useNavigation } from "@react-navigation/core";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -12,7 +11,6 @@ import {
 import { Image } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import HomeCategories from "../components/HomeCategories";
-import SeriesCategories from "../components/SeriesCategories";
 import { fetchComingSoons } from "../store/actions/Comingsoon";
 function ComingSoonScreen() {
   const dispatch = useDispatch();
@@ -58,7 +56,7 @@ function ComingSoonScreen() {
     <View style={styles.container}>
       <Image
         source={{
-          uri: selectedComingSoon!.poster ? selectedComingSoon.poster : "",
+          uri: selectedComingSoon!.poster ? selectedComingSoon.poster : null,
         }}
         style={styles.image}
       />

@@ -7,23 +7,18 @@ import {
   Dimensions,
 } from "react-native";
 import { Text, View } from "../components/Themed";
-import movie from "../data/movie";
 import { ScrollView } from "react-native";
 import {
   AntDesign,
   Feather,
   FontAwesome,
-  Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-// import Picker from 'react-native-picker-select';
-// import SelectPicker from 'react-native-select-picker';
 import * as FileSystem from "expo-file-system";
 import { addDownload } from "../store/actions/download";
 import * as movieActions from "../store/actions/movie";
 import * as seriesActions from "../store/actions/series";
-import series from "../store/reducers/series";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import VideoPlayBack from "../components/VideoPlayBack";
@@ -53,11 +48,9 @@ function MovieDetailScreen(props: any) {
   let selectedSeason = episodeId
     ? season.find((item: any) => item.id === selectedEpisodOb.season_id.id)
     : null;
-  //select tha series which com from series screen
   let selectedSeries1 = episodeId
     ? series.find((item: any) => item.id === selectedSeason.series_id.id)
     : null;
-  //this variable is for those season that picker picked
   let selectSeasonPicker = episodeId
     ? season.filter((item: any) => item.series_id.id === selectedSeries1.id)
     : null;
@@ -76,7 +69,6 @@ function MovieDetailScreen(props: any) {
   const [currentEpisode, setCurrentEpisode] = useState(selectedEpisodOb);
   const [isLoading, setIsLoading] = useState(false);
   const [isDLoading, setIsDLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
@@ -84,7 +76,6 @@ function MovieDetailScreen(props: any) {
       })
     : null;
 
-  //creating downloadResumable.
   const resumableDownload = useRef(
     FileSystem.createDownloadResumable(
       "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
@@ -95,19 +86,15 @@ function MovieDetailScreen(props: any) {
 
   const episodeAndSeasonHandler = useCallback(async () => {
     try {
-      setError(null);
       setIsLoading(true);
       {
         movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
       }
-      // await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
       await dispatch(seriesActions.fetchSeason());
       setIsLoading(false);
     } catch (err: any) {
-      setError(err.message);
       setIsLoading(false);
-      console.log(err.message);
     }
   }, [dispatch]);
   useEffect(() => {
@@ -129,6 +116,7 @@ function MovieDetailScreen(props: any) {
                 <View
                   style={{
                     marginTop: Dimensions.get("screen").height * 0.25,
+                    marginBottom: 100,
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
@@ -294,7 +282,7 @@ function MovieDetailScreen(props: any) {
                       style={{
                         width: 220,
                         color: "#FFF",
-                        backgroundColor: "#FFF",
+                        backgroundColor: "#000",
                       }}
                       selectedValue={currentSeasone.name}
                       onValueChange={(itemValue, itemIndex) =>
