@@ -97,12 +97,7 @@ function MovieDetailScreen(props: any) {
     try {
       setError(null);
       setIsLoading(true);
-      {
         movieId ? await dispatch(movieActions.fetchMovieById(movieId)) : null;
-      }
-      // await dispatch(seriesActions.fetchSeries());
-      await dispatch(seriesActions.fetchEpisode());
-      await dispatch(seriesActions.fetchSeason());
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);
