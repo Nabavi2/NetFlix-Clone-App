@@ -3,7 +3,6 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
-
 } from "react-native";
 import { View } from "./../components/Themed";
 import * as seriesActions from "../store/actions/series";

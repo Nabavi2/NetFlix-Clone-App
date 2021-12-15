@@ -21,7 +21,6 @@ function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [exitApp, setExitApp] = useState(false);
   const [error, setError] = useState(null);
-  const [start, setStart] = useState(0);
 
   const category = useSelector((state) => state.category.availableCategories);
 
@@ -31,7 +30,6 @@ function MovieScreen() {
       setError(null);
       setIsLoading(true);
       await dispatch(categoryActions.fetchCategories());
-
       setIsLoading(false);
     } catch (err: any) {
       setError(err.message);
