@@ -98,8 +98,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get("screen").width,
     height: Dimensions.get("screen").height * 0.3,
     resizeMode: "cover",
-    aspectRatio: 16 / 9,
+    aspectRatio: 11 / 9,
     alignSelf: "center",
+
+
   },
   texts: {
     width: "100%",
