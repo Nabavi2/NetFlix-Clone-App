@@ -106,7 +106,6 @@ function LoginScreen() {
           source={require("../assets/images/nt.png")}
         />
         <Text style={{ color: "#FFF", fontSize: 20, marginBottom: "15%" }}>
-          {" "}
           Start your free three days trial
         </Text>
         <Formik

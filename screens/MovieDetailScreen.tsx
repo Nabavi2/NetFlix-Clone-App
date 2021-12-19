@@ -98,19 +98,7 @@ function MovieDetailScreen(props: any) {
             key={movieId ? movieId : episodeId}
             data={movieId ? selectedMovieByID : selectedSeries}
             renderItem={({ item }) => {
-              return isLoading ? (
-                <View
-                  style={{
-                    marginTop: Dimensions.get("screen").height * 0.25,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flex: 1,
-                    backgroundColor: "black",
-                  }}
-                >
-                  <ActivityIndicator size="large" color="red" />
-                </View>
-              ) : (
+              return (
                 <View style={{ backgroundColor: "#000" }}>
                   <Text style={{ fontSize: 30, margin: 10, color: "#FFF" }}>
                     {item.title}
@@ -148,7 +136,7 @@ function MovieDetailScreen(props: any) {
                       await dispatch(
                         addDownload(
                           resumableDownload.current.savable(),
-                          movieId ? movieById[0].id : null,
+                          movieId ? selectedMovieByID[0].id : null,
                           selectedEpisodOb,
                           false
                         )
@@ -172,16 +160,14 @@ function MovieDetailScreen(props: any) {
                   <Text
                     style={{ margin: 15, alignItems: "center", color: "#FFF" }}
                   >
-                    {" "}
-                    {item.plot}{" "}
+
+                    {item.plot}
                   </Text>
                   <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
-                    {" "}
-                    Cast: {item.cast}{" "}
+                    Cast: {item.cast}
                   </Text>
                   <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
-                    {" "}
-                    Creator: {item.creator_name}{" "}
+                    Creator: {item.creator_name}
                   </Text>
                   <View
                     style={{
@@ -251,13 +237,13 @@ function MovieDetailScreen(props: any) {
                   >
                     {episodeId ? (
                       <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-                        {" "}
-                        EPISODES{" "}
+
+                        EPISODES
                       </Text>
                     ) : (
                       <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-                        {" "}
-                        MOVIE{" "}
+
+                        MOVIE
                       </Text>
                     )}
                     <Text style={{ color: "#8e96a3" }}>MORE LIKE THIS</Text>
