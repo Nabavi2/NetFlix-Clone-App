@@ -100,7 +100,7 @@ const StackNavigator = () => {
         component={MovieDetailScreen}
         options={{ headerShown: false }}
       />
-      <Stack1.Screen
+      {/* <Stack1.Screen
         name="Download"
         component={DownloadScreen}
         options={{
@@ -110,7 +110,7 @@ const StackNavigator = () => {
           headerStyle: { backgroundColor: "black" },
           headerTintColor: "white",
         }}
-      />
+      /> */}
     </Stack1.Navigator>
   );
 };
@@ -333,7 +333,7 @@ export const AppDrawerNavigator = () => {
           ),
         }}
       />
-      <DrawerNavigator.Screen
+      {/* <DrawerNavigator.Screen
         name="Download"
         component={DownloadScreen}
         options={{
@@ -345,7 +345,7 @@ export const AppDrawerNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
     </DrawerNavigator.Navigator>
   );
 };

@@ -11,11 +11,14 @@ import DownloadItem from "../components/DownloadItem";
 import { Text, View } from "../components/Themed";
 import { fetchDownloads } from "../store/actions/download";
 
-export default function DownloadScreen() {
+export default function DownloadScreen(props: any) {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, SetIsRefreshing] = useState(false);
-  const downloads = useSelector((state) => state.download.downloadList);
+  const downloads: [] = useSelector((state) => state.download.downloadList);
+
+  // const isDetail = props.route.params.isDetail;
+  // console.log(isDetail);
 
   const loadDownloads = useCallback(async () => {
     SetIsRefreshing(true);
@@ -23,15 +26,17 @@ export default function DownloadScreen() {
     try {
       await dispatch(fetchDownloads());
     } catch (err) {
-      alert(err);
+      alert(err + "kakaka");
     }
     setIsLoading(false);
     SetIsRefreshing(false);
   }, [dispatch]);
 
   useEffect(() => {
-    loadDownloads();
-  }, [dispatch, loadDownloads]);
+    if (downloads.length === 0 || downloads.length === 1) {
+      loadDownloads();
+    }
+  }, [dispatch]);
 
   if (isLoading) {
     return (

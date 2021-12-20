@@ -1,32 +1,31 @@
-import { LOGOUT } from '../actions/AuthAction';
-import { SET_EPISODE, SET_SEASON, SET_SERIES } from '../actions/series';
+import { LOGOUT } from "../actions/AuthAction";
+import { SET_EPISODE, SET_SEASON, SET_SERIES } from "../actions/series";
 const initialState = {
-    availableSeries: [],
-    availableSeason: [],
-    availableEpisode: {},
+  availableSeries: [],
+  availableSeason: [],
+  availableEpisode: {},
 };
 
 export default (state = initialState, action: any) => {
-    switch (action.type) {
-        case SET_SERIES:
-            return {
-                ...state,
-                availableSeries: action.series,
-            };
-        case SET_SEASON:
-            return {
-                ...state,
-                availableSeason: action.season,
-            }
-        case SET_EPISODE:
-            return {
-                ...state,
-                availableEpisode: action.episode,
+  switch (action.type) {
+    case SET_SERIES:
+      return {
+        ...state,
+        availableSeries: action.series,
+      };
+    case SET_SEASON:
+      return {
+        ...state,
+        availableSeason: action.season,
+      };
+    case SET_EPISODE:
+      return {
+        ...state,
+        availableEpisode: action.episode,
+      };
+    case LOGOUT:
+      return initialState;
+  }
 
-            }
-        case LOGOUT:
-            return initialState;
-    };
-
-    return state;
+  return state;
 };

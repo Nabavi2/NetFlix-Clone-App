@@ -10,7 +10,8 @@ export const addDownload = (
   download: DownloadPauseState,
   movieId: any,
   episodeId: any,
-  isDownloaded: boolean
+  isDownloaded: boolean,
+  progress: number
 ) => {
   return async (dispatch: any) => {
     const token = await AsyncStorage.getItem("userData");
@@ -22,10 +23,12 @@ export const addDownload = (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        resumData: JSON.stringify(download),
         downloaded: isDownloaded,
         user_id: userId,
         movie: movieId,
         episode: episodeId,
+        progress,
       }),
     });
 
@@ -39,14 +42,40 @@ export const addDownload = (
       downloadId: resData.id,
       movieId,
       episodeId,
+      progress,
       created_at: resData.created_at,
     });
   };
 };
 
+export const sendPauseDownload = (
+  downloadId: any,
+  pauseData: any,
+  progress: any
+) => {
+  //pauseData is already stringyfied in download Item.
+  return async (dispatch: Function) => {
+    const token = await AsyncStorage.getItem("userData");
+    const response = await fetch(`${url}/downloads/${downloadId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        resumData: pauseData,
+        progress,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("could not save pause of downlaod!");
+    }
+  };
+};
+
 export const updateDownload = (downloadId: any) => {
   return async (dispatch: any) => {
-    const token = await AsyncStorage.getItem("jwt");
+    const token = await AsyncStorage.getItem("userData");
     const response = await fetch(`${url}/downloads/${downloadId}`, {
       method: "PUT",
       headers: {
@@ -58,7 +87,7 @@ export const updateDownload = (downloadId: any) => {
       }),
     });
     if (!response.ok) {
-      throw new Error("could not app date downlaod!");
+      throw new Error("could not update downlaod!");
     }
     dispatch({
       type: UPDATE_DOWNLOAD,

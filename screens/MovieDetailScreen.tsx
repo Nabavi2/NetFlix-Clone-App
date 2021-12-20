@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
+  ToastAndroid,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native";
@@ -17,8 +18,6 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import * as FileSystem from "expo-file-system";
 import { addDownload } from "../store/actions/download";
-import * as movieActions from "../store/actions/movie";
-import * as seriesActions from "../store/actions/series";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
 import VideoPlayBack from "../components/VideoPlayBack";
@@ -33,13 +32,16 @@ function MovieDetailScreen(props: any) {
   let episodeId = props.route.params.episodeId;
   const episodes: [] = useSelector((state) => state.series.availableEpisode);
   const season: [] = useSelector((state) => state.series.availableSeason);
-  const movieById: [] = useSelector((state) => state.movies.availableMovieById);
   const movie: [] = useSelector((state) => state.movies.availableMovies);
 
   const series: [] = useSelector((state) => state.series.availableSeries);
-
+  //this variable have one object of movie for this single page
   let selecedMovieById = movieId
     ? movie.find((item: any) => item.id === movieId)
+    : null;
+  //this variable have one array with one object for flatlist of this single page
+  let selectedMovieByID = movieId
+    ? movie.filter((item: any) => item.id === movieId)
     : null;
 
   let selectedEpisodOb = episodeId
@@ -48,9 +50,11 @@ function MovieDetailScreen(props: any) {
   let selectedSeason = episodeId
     ? season.find((item: any) => item.id === selectedEpisodOb.season_id.id)
     : null;
+  //select tha series which com from series screen
   let selectedSeries1 = episodeId
     ? series.find((item: any) => item.id === selectedSeason.series_id.id)
     : null;
+  //this variable is for those season that picker picked
   let selectSeasonPicker = episodeId
     ? season.filter((item: any) => item.series_id.id === selectedSeries1.id)
     : null;
@@ -76,6 +80,7 @@ function MovieDetailScreen(props: any) {
       })
     : null;
 
+  //creating downloadResumable.
   const resumableDownload = useRef(
     FileSystem.createDownloadResumable(
       "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
@@ -83,7 +88,6 @@ function MovieDetailScreen(props: any) {
       {}
     )
   );
-
   return (
     <View style={{ flex: 1, backgroundColor: "#000", paddingTop: 20 }}>
       <View>
@@ -94,13 +98,12 @@ function MovieDetailScreen(props: any) {
         <View style={{ backgroundColor: "#000" }}>
           <FlatList
             key={movieId ? movieId : episodeId}
-            data={movieId ? movieById : selectedSeries}
+            data={movieId ? selectedMovieByID : selectedSeries}
             renderItem={({ item }) => {
               return isLoading ? (
                 <View
                   style={{
                     marginTop: Dimensions.get("screen").height * 0.25,
-                    marginBottom: 100,
                     alignItems: "center",
                     justifyContent: "center",
                     flex: 1,
@@ -147,13 +150,16 @@ function MovieDetailScreen(props: any) {
                       await dispatch(
                         addDownload(
                           resumableDownload.current.savable(),
-                          movieId ? movieById[0].id : null,
+                          movieId ? selectedMovieByID[0].id : null,
                           selectedEpisodOb,
                           false
                         )
                       );
                       setIsDLoading(false);
-                      navigation.navigate("Download");
+                      ToastAndroid.show(
+                        "Download started and added to the list of donwloads!",
+                        2
+                      );
                     }}
                   >
                     {!isDLoading ? (

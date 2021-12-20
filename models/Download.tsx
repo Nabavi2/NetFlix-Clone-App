@@ -6,6 +6,7 @@ export class Download {
   movieId: any;
   episodeId: any;
   downloaded: boolean;
+  progress: number;
   created_at: Date;
   constructor(
     downloadId: string,
@@ -13,6 +14,7 @@ export class Download {
     movieId: any,
     episodeId: any,
     downloaded: boolean,
+    progress: number,
     created_at: Date
   ) {
     this.downloadId = downloadId;
@@ -20,6 +22,7 @@ export class Download {
     this.movieId = movieId;
     this.episodeId = episodeId;
     this.downloaded = downloaded;
+    this.progress = progress;
     this.created_at = created_at;
   }
 }

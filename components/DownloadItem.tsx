@@ -6,15 +6,21 @@ import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDownload } from "../store/actions/download";
+import { sendPauseDownload, updateDownload } from "../store/actions/download";
 import { useIsFocused } from "@react-navigation/core";
 import moment from "moment";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(
+    downloadItem.progress ? downloadItem.progress : 0
+  );
   const [isPaused, setIsPaused] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const bytesWritten = useRef(null);
+  const isInit = useRef(true);
+
   const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
 
   // finding display item for rendering of name.
@@ -51,19 +57,25 @@ function DownloadItem(props: any) {
     const progress =
       downloadProgress.totalBytesWritten /
       downloadProgress.totalBytesExpectedToWrite;
+
+    bytesWritten.current = downloadProgress.totalBytesWritten;
+
     setProgress(progress);
   };
 
   const downloadData = downloadItem.download;
+
   //creating downloadResumable.
   const resumableDownload = useRef(
     FileSystem.createDownloadResumable(
       downloadData.url,
       downloadData.fileUri,
       downloadData.options,
-      callback
+      callback,
+      downloadData.resumeData ? downloadData.resumeData : null
     )
   );
+
   const startDownload = async () => {
     try {
       await resumableDownload.current.downloadAsync();
@@ -74,38 +86,48 @@ function DownloadItem(props: any) {
 
   const pauseDownload = async () => {
     try {
-      setIsPaused(true);
-      await resumableDownload.current.pauseAsync();
-      AsyncStorage.setItem(
-        "pausedDownload",
-        JSON.stringify(resumableDownload.current.savable())
+      setIsLoading(true);
+      const saveData = await resumableDownload.current.pauseAsync();
+
+      await dispatch(
+        sendPauseDownload(
+          downloadItem.downloadId,
+          JSON.stringify(saveData),
+          progress
+        )
       );
-    } catch (e) {}
+
+      setIsLoading(false);
+      setIsPaused(true);
+    } catch (e) {
+      alert(e.message);
+    }
   };
 
   const resumDownload = async () => {
     try {
       setIsPaused(false);
       await resumableDownload.current.resumeAsync();
-    } catch (e) {}
-  };
-  const focused = useIsFocused();
-  useEffect(() => {
-    if (!focused) {
-      pauseDownload();
+    } catch (e) {
+      alert(e.message);
     }
-  }, [useIsFocused]);
+  };
 
   useEffect(() => {
+    if (downloadData.resumeData && isInit.current) {
+      isInit.current = false;
+      setIsPaused(true);
+      return;
+    }
     if (progress === 0 && !downloadItem.downloaded) {
       startDownload();
-    } else if (progress === 1) {
+    } else if (progress === 1 || downloadItem.downloaded) {
       setIsDownlaoded(true);
       const update = async () =>
         await dispatch(updateDownload(downloadItem.downloadId));
       update();
     }
-  }, [startDownload, dispatch, updateDownload]);
+  }, [dispatch, updateDownload, progress]);
 
   const pauseOrResume = isPaused ? (
     <MaterialCommunityIcons name="play" size={24} color="lightgrey" />
@@ -153,6 +175,7 @@ function DownloadItem(props: any) {
           </View>
           <View style={{ ...styles.button, marginLeft: 10 }}>
             <Button
+              loading={isLoading}
               buttonStyle={{ ...styles.button }}
               icon={pauseOrResume}
               onPress={isPaused ? resumDownload : pauseDownload}
