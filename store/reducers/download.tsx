@@ -4,7 +4,6 @@ import {
   UPDATE_DOWNLOAD,
 } from "../actions/download";
 import * as fileSystem from "expo-file-system";
-import { useState } from "react";
 import { Download } from "../../models/Download";
 import { LOGOUT } from "../actions/AuthAction";
 const DInitialState = {
@@ -20,6 +19,7 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
         action.movieId,
         action.episodeId,
         false,
+        action.progress,
         action.created_at
       );
       const newList = [...state.downloadList!, downloadItem];
@@ -31,16 +31,16 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
         {}
       );
       const list: [] = action.downloadList;
+
       const dList = list.map(
         (item: any, index) =>
           new Download(
             item.id,
-            resumableDownload.savable(),
-            // null,
+            item.resumData,
             item.movie ? item.movie.id : null,
             item.episode ? item.episode.id : null,
-            // null,
             item.downloaded,
+            item.progress,
             item.created_at
           )
       );

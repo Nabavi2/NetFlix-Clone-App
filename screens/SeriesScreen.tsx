@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
+<<<<<<< HEAD
 import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
 } from "react-native";
+=======
+import { StyleSheet, FlatList, ActivityIndicator } from "react-native";
+>>>>>>> ad137d27c14ce7c62a3ce7ee14c710cfbc530724
 import { View } from "./../components/Themed";
 import * as seriesActions from "../store/actions/series";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,26 +16,21 @@ import Colors from "../constants/Colors";
 
 function SeriesScreen() {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const category = useSelector((state) => state.category.availableCategories);
 
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const movieAndSeriesHandler = useCallback(async () => {
     try {
-      setError(null)
       setIsLoading(true);
       await dispatch(seriesActions.fetchSeason());
       await dispatch(seriesActions.fetchSeries());
       await dispatch(seriesActions.fetchEpisode());
       setIsLoading(false);
     } catch (err: any) {
-      setError(err.message)
       alert(err.message);
       setIsLoading(false);
     }
-
-  }, [dispatch])
+  }, [dispatch]);
   useEffect(() => {
     movieAndSeriesHandler();
   }, [dispatch, movieAndSeriesHandler]);

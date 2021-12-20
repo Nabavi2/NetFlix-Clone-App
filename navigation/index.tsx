@@ -26,7 +26,6 @@ import DownloadScreen from "../screens/DownloadScreen";
 import SearchScreen from "../screens/SearchScreen";
 import ComingSoonScreen from "../screens/ComingSoonScreen";
 import { HomeParamList, RootTabParamList, RootTabScreenProps } from "../types";
-import LinkingConfiguration from "./LinkingConfiguration";
 import MovieDetailScreen from "../screens/MovieDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { useDispatch } from "react-redux";
@@ -42,7 +41,6 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <StackNavigator />
@@ -102,7 +100,7 @@ const StackNavigator = () => {
         component={MovieDetailScreen}
         options={{ headerShown: false }}
       />
-      <Stack1.Screen
+      {/* <Stack1.Screen
         name="Download"
         component={DownloadScreen}
         options={{
@@ -112,7 +110,7 @@ const StackNavigator = () => {
           headerStyle: { backgroundColor: "black" },
           headerTintColor: "white",
         }}
-      />
+      /> */}
     </Stack1.Navigator>
   );
 };
@@ -120,7 +118,6 @@ const StackNavigator = () => {
 //Bottom Tab navigator for navigate to other home from page bottom
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -248,7 +245,7 @@ export const AppDrawerNavigator = () => {
                   marginTop: 30,
                   borderRadius: 100,
                 }}
-                source={require("../assets/images/netflix.jpg")}
+                source={require("../assets/images/netflixx.png")}
               />
               <DrawerItemList {...props} />
               <Pressable
@@ -336,7 +333,7 @@ export const AppDrawerNavigator = () => {
           ),
         }}
       />
-      <DrawerNavigator.Screen
+      {/* <DrawerNavigator.Screen
         name="Download"
         component={DownloadScreen}
         options={{
@@ -348,7 +345,7 @@ export const AppDrawerNavigator = () => {
             />
           ),
         }}
-      />
+      /> */}
     </DrawerNavigator.Navigator>
   );
 };

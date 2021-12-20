@@ -1,17 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
-  Image,
   FlatList,
   ActivityIndicator,
-  ScrollView,
-  Platform,
   BackHandler,
-  ToastAndroid,
   Alert,
 } from "react-native";
 
-import { View, Text } from "../components/Themed";
+import { View } from "../components/Themed";
 import HomeCategories from "../components/HomeCategories";
 import * as categoryActions from "../store/actions/category";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,20 +15,21 @@ import { useFocusEffect } from "@react-navigation/core";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
+<<<<<<< HEAD
   const [exitApp, setExitApp] = useState(false);
   const [error, setError] = useState(null);
 
+=======
+>>>>>>> ad137d27c14ce7c62a3ce7ee14c710cfbc530724
   const category = useSelector((state) => state.category.availableCategories);
 
   const dispatch = useDispatch();
   const moviesFetchHandler = useCallback(async () => {
     try {
-      setError(null);
       setIsLoading(true);
       await dispatch(categoryActions.fetchCategories());
       setIsLoading(false);
     } catch (err: any) {
-      setError(err.message);
       alert(err.message);
       setIsLoading(false);
     }

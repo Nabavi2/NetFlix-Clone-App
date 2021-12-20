@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Dimensions,
+  ToastAndroid,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { ScrollView } from "react-native";
@@ -39,7 +40,9 @@ function MovieDetailScreen(props: any) {
     ? movie.find((item: any) => item.id === movieId)
     : null;
   //this variable have one array with one object for flatlist of this single page
-  let selectedMovieByID = movieId ? movie.filter((item: any) => item.id === movieId) : null;
+  let selectedMovieByID = movieId
+    ? movie.filter((item: any) => item.id === movieId)
+    : null;
 
   let selectedEpisodOb = episodeId
     ? episodes.find((item: any) => item.id === episodeId)
@@ -70,7 +73,6 @@ function MovieDetailScreen(props: any) {
   const [currentEpisode, setCurrentEpisode] = useState(selectedEpisodOb);
   const [isLoading, setIsLoading] = useState(false);
   const [isDLoading, setIsDLoading] = useState(false);
-
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
@@ -138,11 +140,15 @@ function MovieDetailScreen(props: any) {
                           resumableDownload.current.savable(),
                           movieId ? selectedMovieByID[0].id : null,
                           selectedEpisodOb,
-                          false
+                          false,
+                          0
                         )
                       );
                       setIsDLoading(false);
-                      navigation.navigate("Download");
+                      ToastAndroid.show(
+                        "Download started and added to the list of donwloads!",
+                        2
+                      );
                     }}
                   >
                     {!isDLoading ? (
@@ -253,7 +259,7 @@ function MovieDetailScreen(props: any) {
                       style={{
                         width: 220,
                         color: "#FFF",
-                        backgroundColor: "#FFF",
+                        backgroundColor: "#000",
                       }}
                       selectedValue={currentSeasone.name}
                       onValueChange={(itemValue, itemIndex) =>

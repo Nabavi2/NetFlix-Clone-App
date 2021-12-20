@@ -6,7 +6,6 @@ export const LOGOUT = "LOGOUT";
 
 export const loginUser = (email: string, password: string) => {
   return async (dispatch: any) => {
-   
     const response = await fetch(`${url}/auth/local`, {
       method: "POST",
       headers: {
@@ -27,7 +26,6 @@ export const loginUser = (email: string, password: string) => {
     const resData = await response.json();
     dispatch({ type: LOGIN, userId: resData.user.id, jwt: resData["jwt"] });
     saveUserData(resData.jwt, resData.user.id);
-    
   };
 };
 
@@ -58,11 +56,9 @@ export const signupUser = (email: string, password: string) => {
 
 export const logout = () => {
   return async (dispatch: any) => {
-    const emptyMAndSArray = []
     const unToken = await AsyncStorage.removeItem("userData");
     const unUserId = await AsyncStorage.removeItem("userId");
-    dispatch({ type: LOGOUT, unToken: unToken, unUserId: unUserId, });
-
+    dispatch({ type: LOGOUT, unToken: unToken, unUserId: unUserId });
   };
 };
 

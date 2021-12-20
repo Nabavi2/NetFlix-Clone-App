@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DownloadPauseState, DownloadResumable } from "expo-file-system";
+import { DownloadPauseState } from "expo-file-system";
 import { url } from "../../constants/links";
 
 export const ADD_DOWNLOAD = "ADD_DOWNLOAD";
@@ -10,11 +10,11 @@ export const addDownload = (
   download: DownloadPauseState,
   movieId: any,
   episodeId: any,
-  isDownloaded: boolean
+  isDownloaded: boolean,
+  progress: number
 ) => {
   return async (dispatch: any) => {
-    //async code man!!!
-    const token = await AsyncStorage.getItem("jwt");
+    const token = await AsyncStorage.getItem("userData");
     const userId = await AsyncStorage.getItem("userId");
     const response = await fetch(`${url}/downloads`, {
       method: "POST",
@@ -23,37 +23,59 @@ export const addDownload = (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        resumData: JSON.stringify(download),
         downloaded: isDownloaded,
         user_id: userId,
         movie: movieId,
         episode: episodeId,
+        progress,
       }),
     });
-    console.log(response);
 
     if (!response.ok) {
       throw new Error("Something went wrong!");
-    } else {
-      console.log("download add correctly!!!");
     }
     const resData = await response.json();
-
-    console.log("this is resData ", resData);
-
     dispatch({
       type: ADD_DOWNLOAD,
       download,
       downloadId: resData.id,
       movieId,
       episodeId,
+      progress,
       created_at: resData.created_at,
     });
   };
 };
 
+export const sendPauseDownload = (
+  downloadId: any,
+  pauseData: any,
+  progress: any
+) => {
+  //pauseData is already stringyfied in download Item.
+  return async (dispatch: Function) => {
+    const token = await AsyncStorage.getItem("userData");
+    const response = await fetch(`${url}/downloads/${downloadId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        resumData: pauseData,
+        progress,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("could not save pause of downlaod!");
+    }
+  };
+};
+
 export const updateDownload = (downloadId: any) => {
   return async (dispatch: any) => {
-    const token = await AsyncStorage.getItem("jwt");
+    const token = await AsyncStorage.getItem("userData");
     const response = await fetch(`${url}/downloads/${downloadId}`, {
       method: "PUT",
       headers: {
@@ -65,9 +87,7 @@ export const updateDownload = (downloadId: any) => {
       }),
     });
     if (!response.ok) {
-      throw new Error("could not app date downlaod!");
-    } else {
-      console.log("download updated correctly");
+      throw new Error("could not update downlaod!");
     }
     dispatch({
       type: UPDATE_DOWNLOAD,
@@ -78,9 +98,7 @@ export const updateDownload = (downloadId: any) => {
 
 export const fetchDownloads = () => {
   return async (dispatch: any) => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NDg5ODA1LCJleHAiOjE2NDAwODE4MDV9._5zhHD_pncHZ53mwN1lrKRgfx-fbEHEVtW9iHLfe6Z8";
-
+    const token = await AsyncStorage.getItem("userData");
     const response = await fetch(`${url}/downloads`, {
       method: "GET",
       headers: {
