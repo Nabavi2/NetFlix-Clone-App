@@ -15,12 +15,11 @@ import { useFocusEffect } from "@react-navigation/core";
 
 function MovieScreen() {
   const [isLoading, setIsLoading] = useState(false);
-<<<<<<< HEAD
+
   const [exitApp, setExitApp] = useState(false);
   const [error, setError] = useState(null);
 
-=======
->>>>>>> ad137d27c14ce7c62a3ce7ee14c710cfbc530724
+
   const category = useSelector((state) => state.category.availableCategories);
 
   const dispatch = useDispatch();

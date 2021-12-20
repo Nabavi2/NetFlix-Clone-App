@@ -1,5 +1,4 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
@@ -32,7 +31,7 @@ function DownloadItem(props: any) {
     ? downloadItem.movieId
     : downloadItem.episodeId;
 
-  const selectedDisplay: any = displays.find((item) => item.id === displayId)!;
+  const selectedDisplay = displays.find((item) => item.id === displayId);
 
   // const saveFile = async () => {
   //   try {

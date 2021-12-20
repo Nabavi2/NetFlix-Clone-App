@@ -1,13 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-<<<<<<< HEAD
+
 import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
 } from "react-native";
-=======
-import { StyleSheet, FlatList, ActivityIndicator } from "react-native";
->>>>>>> ad137d27c14ce7c62a3ce7ee14c710cfbc530724
 import { View } from "./../components/Themed";
 import * as seriesActions from "../store/actions/series";
 import { useDispatch, useSelector } from "react-redux";

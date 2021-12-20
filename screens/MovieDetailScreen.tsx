@@ -76,8 +76,8 @@ function MovieDetailScreen(props: any) {
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-      return item.season_id.id === currentSeasone.id;
-    })
+        return item.season_id.id === currentSeasone.id;
+      })
     : null;
 
   //creating downloadResumable.
