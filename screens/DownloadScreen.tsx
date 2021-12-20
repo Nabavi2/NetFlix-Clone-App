@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,9 +15,6 @@ export default function DownloadScreen(props: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, SetIsRefreshing] = useState(false);
   const downloads: [] = useSelector((state) => state.download.downloadList);
-
-  // const isDetail = props.route.params.isDetail;
-  // console.log(isDetail);
 
   const loadDownloads = useCallback(async () => {
     SetIsRefreshing(true);

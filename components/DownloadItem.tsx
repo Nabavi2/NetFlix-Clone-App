@@ -32,25 +32,6 @@ function DownloadItem(props: any) {
     : downloadItem.episodeId;
 
   const selectedDisplay = displays.find((item) => item.id === displayId);
-
-  // const saveFile = async () => {
-  //   try {
-  //     const asset = await MediaLibrary.createAssetAsync(
-  //       resumableDownload.current.fileUri
-  //     );
-  //     const album = await MediaLibrary.getAlbumAsync("Download");
-  //     await MediaLibrary.migrateAlbumIfNeededAsync(album);
-  //     // MediaLibr
-  //     if (album == null) {
-  //       await MediaLibrary.createAlbumAsync("Download", asset, true);
-  //     } else {
-  //       await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
-  //     }
-  //     alert("Your item is downloaded!!!");
-  //   } catch (e) {
-  //   }
-  // };
-
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
     const progress =

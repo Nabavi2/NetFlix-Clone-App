@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  Dimensions,
   ToastAndroid,
 } from "react-native";
 import { Text, View } from "../components/Themed";
@@ -76,8 +75,8 @@ function MovieDetailScreen(props: any) {
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-        return item.season_id.id === currentSeasone.id;
-      })
+      return item.season_id.id === currentSeasone.id;
+    })
     : null;
 
   //creating downloadResumable.
