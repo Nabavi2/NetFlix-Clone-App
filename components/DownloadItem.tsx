@@ -26,20 +26,12 @@ function DownloadItem(props: any) {
   const bytesWritten = useRef(null);
   const isInit = useRef(true);
 
-  const displayId = downloadItem.movieId
-    ? downloadItem.movieId
-    : downloadItem.episodeId["id"]
-    ? null
-    : downloadItem.episodeId;
-
-  const route = downloadItem.movieId ? "movies" : "serieses";
-
-  const getDisplayItem = async () => {
-    if (downloadItem.movieId) {
+  const getDisplayItem = () => {
+    const fetchItem = async (route: string, id: any) => {
       setMLoading(true);
       const token = await AsyncStorage.getItem("userData");
 
-      const response = await fetch(`${url}/movies/${downloadItem.movieId}`, {
+      const response = await fetch(`${url}/${route}/${id}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,29 +44,15 @@ function DownloadItem(props: any) {
       setMLoading(false);
       const dis = await response.json();
       setSelectedDisplay(dis);
+    };
+
+    if (downloadItem.movieId) {
+      fetchItem("movies", downloadItem.movieId);
     } else {
       if (downloadItem.episodeId.title) {
         setSelectedDisplay(downloadItem.episodeId);
       } else {
-        setMLoading(true);
-        const token = await AsyncStorage.getItem("userData");
-
-        const response = await fetch(
-          `${url}/episodes/${downloadItem.episodeId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          alert(response.status);
-        }
-        setMLoading(false);
-        const dis = await response.json();
-        setSelectedDisplay(dis);
+        fetchItem("episodes", downloadItem.episodeId);
       }
     }
   };
