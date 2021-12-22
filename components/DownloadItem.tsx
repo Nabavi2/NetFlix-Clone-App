@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, Image, StyleSheet } from "react-native";
+import { ActivityIndicator, Dimensions, Image, StyleSheet } from "react-native";
 import { Button, LinearProgress } from "react-native-elements";
 import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendPauseDownload, updateDownload } from "../store/actions/download";
 import { useIsFocused } from "@react-navigation/core";
 import moment from "moment";
+import { url } from "../constants/links";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function DownloadItem(props: any) {
   const { downloadItem } = props;
@@ -17,21 +19,72 @@ function DownloadItem(props: any) {
   );
   const [isPaused, setIsPaused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [mLoading, setMLoading] = useState(false);
+  const [selectedDisplay, setSelectedDisplay] = useState(null);
+  const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
+
   const bytesWritten = useRef(null);
   const isInit = useRef(true);
 
-  const [isDowloaded, setIsDownlaoded] = useState(downloadItem.downloaded);
-
-  // finding display item for rendering of name.
-  const displays: [] = downloadItem.movieId
-    ? useSelector((state) => state.movies.availableMovies)
-    : useSelector((state) => state.series.availableEpisode);
-
   const displayId = downloadItem.movieId
     ? downloadItem.movieId
+    : downloadItem.episodeId["id"]
+    ? null
     : downloadItem.episodeId;
 
-  const selectedDisplay = displays.find((item) => item.id === displayId);
+  const route = downloadItem.movieId ? "movies" : "serieses";
+
+  const getDisplayItem = async () => {
+    if (downloadItem.movieId) {
+      setMLoading(true);
+      const token = await AsyncStorage.getItem("userData");
+
+      const response = await fetch(`${url}/movies/${downloadItem.movieId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        alert("Some thing went wrong!");
+      }
+      setMLoading(false);
+      const dis = await response.json();
+      setSelectedDisplay(dis);
+    } else {
+      if (downloadItem.episodeId.title) {
+        setSelectedDisplay(downloadItem.episodeId);
+      } else {
+        setMLoading(true);
+        const token = await AsyncStorage.getItem("userData");
+
+        const response = await fetch(
+          `${url}/episodes/${downloadItem.episodeId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          alert(response.status);
+        }
+        setMLoading(false);
+        const dis = await response.json();
+        setSelectedDisplay(dis);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getDisplayItem();
+  }, []);
+
+  // finding display item for rendering of name.
+
   const dispatch = useDispatch();
   const callback = (downloadProgress: any) => {
     const progress =
@@ -120,19 +173,23 @@ function DownloadItem(props: any) {
       style={
         isDowloaded
           ? styles.container
-          : { ...styles.container, height: size.height * 0.155 }
+          : { ...styles.container, height: size.height * 0.16 }
       }
     >
       <View style={styles.topContainer}>
         <View style={styles.titleAndImage}>
-          <Image
-            source={{ uri: selectedDisplay.poster }}
-            style={styles.image}
-          />
+          {mLoading ? (
+            <ActivityIndicator size="small" color="red" />
+          ) : (
+            <Image
+              source={{ uri: selectedDisplay ? selectedDisplay.poster : null }}
+              style={styles.image}
+            />
+          )}
 
           <View style={styles.titleCon}>
             <Text style={styles.title}>
-              {selectedDisplay ? selectedDisplay.title : "...."}
+              {selectedDisplay ? selectedDisplay.title : "    "}
             </Text>
             <Text style={{ color: "lightgrey" }}>
               {moment(downloadItem.created_at).format("YYYY/DD/MM HH:mm")}
@@ -170,6 +227,7 @@ function DownloadItem(props: any) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
+    // marginTop: 10,
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "flex-start",
@@ -179,6 +237,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   topContainer: {
+    paddingTop: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

@@ -22,17 +22,15 @@ export default function DownloadScreen(props: any) {
     try {
       await dispatch(fetchDownloads());
     } catch (err) {
-      alert(err + "kakaka");
+      alert(err);
     }
     setIsLoading(false);
     SetIsRefreshing(false);
   }, [dispatch]);
 
   useEffect(() => {
-    if (downloads.length === 0 || downloads.length === 1) {
-      loadDownloads();
-    }
-  }, [dispatch]);
+    if (downloads.length < 2) loadDownloads();
+  }, []);
 
   if (isLoading) {
     return (
@@ -71,7 +69,7 @@ export default function DownloadScreen(props: any) {
         />
       }
       style={{ backgroundColor: "black" }}
-      data={downloads}
+      data={downloads.sort((a, b) => a.created_at - b.created_at)}
       keyExtractor={(item: any) => item.downloadId}
       renderItem={({ item }) => <DownloadItem downloadItem={item} />}
     />
