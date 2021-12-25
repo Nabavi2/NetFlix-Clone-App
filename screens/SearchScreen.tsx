@@ -7,11 +7,11 @@ import {
   FlatList,
   TextInput,
   Image,
-  Button,
   StyleSheet,
   Dimensions,
   ActivityIndicator,
 } from "react-native";
+import { Button } from 'react-native-elements'
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../constants/Colors";
 import * as movieActions from "../store/actions/movie";
@@ -87,9 +87,11 @@ function SearchScreen() {
         <Button
           title="Search"
           onPress={() => searchHandler(search)}
-          disabled={search.length === 0 }
-          color={search.length === 0 ? Colors.secondary : Colors.primary}
+          disabledStyle={{ backgroundColor: Colors.secondary2 }}
+          buttonStyle={{ backgroundColor: Colors.primary }}
+          disabled={search.length === 0}
         />
+
       </View>
       {searchedMovie.length === 0 || search.length === 0 ? (
         <View
@@ -186,7 +188,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.secondary,
     borderWidth: 1,
     backgroundColor: "#FFF",
-    paddingLeft: 5,
+    paddingLeft: 10,
     borderRadius: 5,
   },
 });
