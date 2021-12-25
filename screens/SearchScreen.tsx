@@ -87,8 +87,8 @@ function SearchScreen() {
         <Button
           title="Search"
           onPress={() => searchHandler(search)}
-          disabled={search.length === 0 && color: "red"?true:false}
-        color={search.length === 0 ? Colors.secondary : Colors.primary}
+          disabled={search.length === 0 }
+          color={search.length === 0 ? Colors.secondary : Colors.primary}
         />
       </View>
       {searchedMovie.length === 0 || search.length === 0 ? (
