@@ -205,7 +205,6 @@ function DownloadItem(props: any) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "black",
-    // marginTop: 10,
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "flex-start",
