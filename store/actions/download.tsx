@@ -95,6 +95,21 @@ export const updateDownload = (downloadId: any) => {
     });
   };
 };
+export const deleteDownloadItem = (downloadId: any) => {
+  return async (dispatch: any) => {
+    const token = await AsyncStorage.getItem("userData");
+    const response = await fetch(`${url}/downloads/${downloadId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("could not delete downlaod!");
+    }
+  };
+};
 
 export const fetchDownloads = () => {
   return async (dispatch: any) => {

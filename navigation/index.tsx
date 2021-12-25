@@ -19,6 +19,8 @@ import {
   Image,
   Pressable,
   ColorSchemeName,
+  TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import useColorScheme from "../hooks/useColorScheme";
@@ -28,11 +30,12 @@ import ComingSoonScreen from "../screens/ComingSoonScreen";
 import { HomeParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import MovieDetailScreen from "../screens/MovieDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as authActions from "../store/actions/AuthAction";
 import MovieScreen from "../screens/MovieScreen";
 import SeriesScreen from "../screens/SeriesScreen";
 import Colors from "../constants/Colors";
+import { deleteDownloadItem } from "../store/actions/download";
 
 export default function Navigation({
   colorScheme,
@@ -230,6 +233,8 @@ function BottomTabNavigator() {
 const DrawerNavigator = createDrawerNavigator();
 export const AppDrawerNavigator = () => {
   const dispatch = useDispatch();
+  // const [isLoading, setIsLoading] = React.useState(false);
+  // const downloads: [] = useSelector((state) => state.download.downloadList);
   return (
     <DrawerNavigator.Navigator
       drawerContent={(props: any) => {
@@ -248,7 +253,7 @@ export const AppDrawerNavigator = () => {
                 source={require("../assets/images/netflixx.png")}
               />
               <DrawerItemList {...props} />
-              <Pressable
+              <TouchableOpacity
                 style={{
                   width: "55%",
                   height: 35,
@@ -258,27 +263,40 @@ export const AppDrawerNavigator = () => {
                   justifyContent: "center",
                 }}
                 onPress={async () => {
+                  // setIsLoading(true);
+                  // for (const item of downloads) {
+                  //   console.log(item.downloadId);
+
+                  //   dispatch(deleteDownloadItem(item.downloadId));
+                  // }
                   await dispatch(authActions.logout());
+                  // setIsLoading(false);
                   props.navigation.navigate("LoginScreen");
                 }}
               >
-                <SimpleLineIcons
-                  name="logout"
-                  size={24}
-                  color="#c4c7cc"
-                  style={{ marginLeft: 15, marginRight: 10 }}
-                />
-                <Text
-                  style={{
-                    color: "#c4c7cc",
-                    fontSize: 20,
-                    fontWeight: "500",
-                    marginLeft: 25,
-                  }}
-                >
-                  Logout
-                </Text>
-              </Pressable>
+                {/* {isLoading ? ( */}
+                {/* <ActivityIndicator size="small" color="red" />
+                ) : ( */}
+                <>
+                  <SimpleLineIcons
+                    name="logout"
+                    size={24}
+                    color="#c4c7cc"
+                    style={{ marginLeft: 15, marginRight: 10 }}
+                  />
+                  <Text
+                    style={{
+                      color: "#c4c7cc",
+                      fontSize: 20,
+                      fontWeight: "500",
+                      marginLeft: 25,
+                    }}
+                  >
+                    Logout
+                  </Text>
+                </>
+                {/* )} */}
+              </TouchableOpacity>
             </SafeAreaView>
           </View>
         );
