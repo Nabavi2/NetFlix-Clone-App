@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
+import { I18nManager } from 'react-native'
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   comingSoon: ComingSoonReducer,
   category: CategoryReducer,
 });
+I18nManager.allowRTL(false);
 const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {
   const isLoadingComplete = useCachedResources();
