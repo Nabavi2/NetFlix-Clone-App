@@ -40,6 +40,7 @@ export const addDownload = (
       type: ADD_DOWNLOAD,
       download,
       downloadId: resData.id,
+      userId,
       movieId,
       episodeId,
       progress,
@@ -114,7 +115,8 @@ export const deleteDownloadItem = (downloadId: any) => {
 export const fetchDownloads = () => {
   return async (dispatch: any) => {
     const token = await AsyncStorage.getItem("userData");
-    const response = await fetch(`${url}/downloads`, {
+    const userId = await AsyncStorage.getItem("userId");
+    const response = await fetch(`${url}/downloads?user_id_eq=${userId}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

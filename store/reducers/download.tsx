@@ -3,7 +3,6 @@ import {
   FETCH_DOWNLOADS,
   UPDATE_DOWNLOAD,
 } from "../actions/download";
-import * as fileSystem from "expo-file-system";
 import { Download } from "../../models/Download";
 import { LOGOUT } from "../actions/AuthAction";
 const DInitialState = {
@@ -15,6 +14,7 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
     case ADD_DOWNLOAD:
       const downloadItem = new Download(
         action.downloadId,
+        action.userId,
         action.download,
         action.movieId,
         action.episodeId,
@@ -25,17 +25,13 @@ export const DownloadReducer = (state = DInitialState, action: any) => {
       const newList = [...state.downloadList!, downloadItem];
       return { downloadList: newList };
     case FETCH_DOWNLOADS:
-      const resumableDownload = fileSystem.createDownloadResumable(
-        "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-        fileSystem.documentDirectory + "small.mp4",
-        {}
-      );
       const list: [] = action.downloadList;
 
       const dList = list.map(
         (item: any, index) =>
           new Download(
             item.id,
+            item.user_id,
             item.resumData,
             item.movie ? item.movie.id : null,
             item.episode ? item.episode.id : null,

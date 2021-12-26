@@ -6,7 +6,6 @@ import { Text, View } from "./Themed";
 import * as FileSystem from "expo-file-system";
 import { useDispatch, useSelector } from "react-redux";
 import { sendPauseDownload, updateDownload } from "../store/actions/download";
-import { useIsFocused } from "@react-navigation/core";
 import moment from "moment";
 import { url } from "../constants/links";
 import AsyncStorage from "@react-native-async-storage/async-storage";
