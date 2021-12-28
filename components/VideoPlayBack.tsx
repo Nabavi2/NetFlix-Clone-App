@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, ActivityIndicator } from "react-native";
 import { Video } from "expo-av";
 import { Playback } from "expo-av/build/AV";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from '../constants/Colors';
 
 function VideoPlayBack(props: any) {
   const { episode } = props;
 
   const [status, setStatus] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+
   const video = useRef<Playback>(null);
 
   useEffect(() => {
@@ -17,22 +21,44 @@ function VideoPlayBack(props: any) {
     (async () => {
       await video?.current?.unloadAsync();
       await video?.current?.loadAsync({ uri: episode.video }, {}, false);
+
     })();
-  }, [episode]);
+  }, [episode, setIsLoading]);
+
   return (
     <View>
+
       <Video
         ref={video}
         style={styles.video}
         source={{ uri: episode.video }}
         posterSource={{ uri: episode.poster }}
-        useNativeControls
         usePoster={true}
-        isLooping={true}
+        controls={true}
+        onLoadStart={() => setIsLoading(true)}
+        useNativeControls
+        onReadyForDisplay={() => setIsLoading(false)}
+        progressUpdateIntervalMillis={2}
+        onResponderStart={() => setStatus(status)}
+        onLoad={() => setIsLoading(true)}
         posterStyle={{ resizeMode: "cover" }}
-        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        onPlaybackStatusUpdate={(status) => {
+          setStatus(() => status)
+
+        }}
         resizeMode="contain"
+
       />
+      {isLoading &&
+        <ActivityIndicator
+          animating
+          color={Colors.primary}
+          size="large"
+          style={{ flex: 1, position: "absolute", top: "50%", left: "45%" }}
+        />
+      }
+
+      {/* 
       {!status.isPlaying && (
         <Ionicons
           onPress={() =>
@@ -50,7 +76,7 @@ function VideoPlayBack(props: any) {
           size={100}
           color="#FFF"
         />
-      )}
+      )} */}
     </View>
   );
 }
