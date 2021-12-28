@@ -5,6 +5,7 @@ import { Playback } from "expo-av/build/AV";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from '../constants/Colors';
 
+
 function VideoPlayBack(props: any) {
   const { episode } = props;
 
@@ -38,13 +39,12 @@ function VideoPlayBack(props: any) {
         onLoadStart={() => setIsLoading(true)}
         useNativeControls
         onReadyForDisplay={() => setIsLoading(false)}
-        progressUpdateIntervalMillis={2}
+        progressUpdateIntervalMillis={2000}
         onResponderStart={() => setStatus(status)}
         onLoad={() => setIsLoading(true)}
         posterStyle={{ resizeMode: "cover" }}
         onPlaybackStatusUpdate={(status) => {
           setStatus(() => status)
-
         }}
         resizeMode="contain"
 
@@ -58,8 +58,8 @@ function VideoPlayBack(props: any) {
         />
       }
 
-      {/* 
-      {!status.isPlaying && (
+
+      {!status.isPlaying && !isLoading && (
         <Ionicons
           onPress={() =>
             status.isPlaying
@@ -76,7 +76,7 @@ function VideoPlayBack(props: any) {
           size={100}
           color="#FFF"
         />
-      )} */}
+      )}
     </View>
   );
 }
