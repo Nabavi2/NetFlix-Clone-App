@@ -12,9 +12,7 @@ function VideoPlayBack(props: any) {
   const [status, setStatus] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-
   const video = useRef<Playback>(null);
-
   useEffect(() => {
     if (!video) {
       return;
@@ -28,7 +26,6 @@ function VideoPlayBack(props: any) {
 
   return (
     <View>
-
       <Video
         ref={video}
         style={styles.video}
@@ -47,7 +44,6 @@ function VideoPlayBack(props: any) {
           setStatus(() => status)
         }}
         resizeMode="contain"
-
       />
       {isLoading &&
         <ActivityIndicator
@@ -57,8 +53,6 @@ function VideoPlayBack(props: any) {
           style={{ flex: 1, position: "absolute", top: "50%", left: "45%" }}
         />
       }
-
-
       {!status.isPlaying && !isLoading && (
         <Ionicons
           onPress={() =>
