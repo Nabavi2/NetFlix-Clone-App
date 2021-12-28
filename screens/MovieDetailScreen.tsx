@@ -75,8 +75,8 @@ function MovieDetailScreen(props: any) {
 
   const filteredEpies = episodeId
     ? episodes.filter((item: Episode) => {
-      return item.season_id.id === currentSeasone.id;
-    })
+        return item.season_id.id === currentSeasone.id;
+      })
     : null;
 
   //creating downloadResumable.
@@ -165,7 +165,6 @@ function MovieDetailScreen(props: any) {
                   <Text
                     style={{ margin: 15, alignItems: "center", color: "#FFF" }}
                   >
-
                     {item.plot}
                   </Text>
                   <Text style={{ marginHorizontal: 10, color: "#4e5450" }}>
@@ -242,12 +241,10 @@ function MovieDetailScreen(props: any) {
                   >
                     {episodeId ? (
                       <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-
                         EPISODES
                       </Text>
                     ) : (
                       <Text style={{ marginHorizontal: 14, color: "#8e96a3" }}>
-
                         MOVIE
                       </Text>
                     )}
