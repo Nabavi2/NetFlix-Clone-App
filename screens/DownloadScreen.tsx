@@ -57,7 +57,6 @@ export default function DownloadScreen(props: any) {
       </View>
     );
   }
-
   return (
     <FlatList
       refreshing={isRefreshing}
