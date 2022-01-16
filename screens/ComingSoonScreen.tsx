@@ -99,13 +99,11 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     aspectRatio: 11 / 9,
     alignSelf: "center",
-
-
   },
   texts: {
     width: "100%",
     marginVertical: 10,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
   },
   title: {
     fontSize: 22,
