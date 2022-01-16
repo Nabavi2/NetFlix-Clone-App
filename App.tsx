@@ -14,6 +14,8 @@ import { DownloadReducer } from "./store/reducers/download";
 import ComingSoonReducer from "./store/reducers/ComingSoon";
 import CategoryReducer from "./store/reducers/category";
 
+I18nManager.forceRTL(false);
+I18nManager.allowRTL(false);
 const rootReducer = combineReducers({
   auth: AuthReducer,
   movies: movieReducer,
@@ -25,8 +27,6 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {
-  I18nManager.forceRTL(false);
-  I18nManager.allowRTL(false);
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
