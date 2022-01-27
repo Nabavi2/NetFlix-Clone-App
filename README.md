@@ -1,7 +1,8 @@
 # NetFlix-Clone-App
-This repository is for Netflix UI and Backend App.
-I developed it with React Native, Typescript and React Native element
-and it's back end is Strapi .
+
+This application developed for upload movie and series for everyone.(everyone can use this application and it is for free).
+These technology and framework, CMS and etc... used for developed this app : React Native(framework), React Native Elements(library), Strapi (CMS).
+
 
 
 
