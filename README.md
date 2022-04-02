@@ -1,7 +1,7 @@
 # NetFlix-Clone-App
 
 This application developed for upload movie and series for everyone.(everyone can use this application and it is for free).
-These technologies and framework used for developed this app : React Native(framework), React Native Elements(library), Strapi (CMS).
+These technologies and framework used for development of this app : React Native(framework), React Native Elements(library), Strapi (CMS).
 
 
 
